@@ -4,7 +4,6 @@ const app = express();
 app.use(express.json());
 
 let transporter = nodemailer.createTransport({
-  // Example with Gmail; for other services, you'll need different settings
   service: 'gmail',
   auth: {
     user: 'your-email@gmail.com',
