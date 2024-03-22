@@ -1,0 +1,18 @@
+@import url('https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&family=Righteous&family=Russo+One&display=swap');
+
+.screen {
+    font-family: "Pixelify Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-style: normal;
+}
+
+.nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    background-color: #00eeff;
+    font-size: clamp(1.5rem, 2vw, 1.5rem);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
