@@ -1,18 +1,292 @@
 @import url('https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&family=Righteous&family=Russo+One&display=swap');
 
+.computer-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    cursor: none;
+}
+
 .screen {
+    flex-grow: 1;
     font-family: "Pixelify Sans", sans-serif;
     font-optical-sizing: auto;
     font-weight: 500;
     font-style: normal;
+    background-color: silver;
+    margin: 5px 5px 0 5px;
+    border-radius: 10px;
+    padding: 5px;
+    border: 1px solid black;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    min-height: 75vh;
+
 }
 
-.nav {
+.bezel {
+    background-color: black;
+    border: 5px solid black;
+    border-radius: 10px;
+    min-height: 75vh;
+    padding: 10px;
+}
+
+.taskbar-container {
+    position: relative;
+    width: 100%;
+}
+.app-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    cursor: default;
+    min-height: 75vh;
+    background: url("../assets/desktop_background.png");
+    background-size: cover;
+    overflow: hidden;
+}
+
+.app-container::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(230, 230, 230, 0.342);
+    z-index: 0;
+}
+
+.desktop-internet, .desktop-contract, .desktop-chat {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    text-align: center;
+    margin: 10px;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 4px rgb(0, 0, 0);
+    width: 90px;
+}
+
+.desktop-internet a, .desktop-contract a, .desktop-chat a {
+    color: rgb(255, 167, 3)
+}
+
+.desktop-internet:hover, .desktop-contract:hover, .desktop-chat:hover {
+    background-color: rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+}
+
+
+
+.overlay-component {
+    top: 0;
+    left: 0;
+    right: 0;
+
+    position: absolute;
+    z-index: 2;
+
+}
+
+.internet-logo-desktop {
+    height: 50px;
+    width: auto;
+
+}
+
+.internet-logo-desktop-taskbar {
+    height: 20px;
+    width: auto;
+}
+
+.folder-logo-desktop-taskbar {
+    height: 20px;
+    width: auto;
+
+}
+
+.dan-logo-desktop-taskbar {
+    height: 20px;
+    width: auto;
+
+}
+
+
+.taskbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1rem 2rem;
-    background-color: #00eeff;
-    font-size: clamp(1.5rem, 2vw, 1.5rem);
+    background-color: rgb(0, 183, 255);
+    cursor: default;
+    height: 30px;
+    border-top: 2px solid black;
+}
+
+.start-button {
+    background-color: rgb(132, 0, 255);
+    color: white;
+    padding-left:5px;
+    padding-right:5px;
+    height: 30px;
+    cursor: pointer;
+    font-weight: bolder;
+    font-size: 20px;
+    font-family: "Pixelify Sans", sans-serif;
+}
+
+.start-button:hover {
+    background-color: fuchsia;
+}
+
+.start-button:active {
+    background-color: rgb(110, 1, 110);
+    color: cyan
+}
+
+.taskbar-menu {
+    z-index: 3;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+
+    position: absolute;
+    bottom: 32px;
+    left: 0;
+    width: 110px;
+    background: #00b7ff;
+    color: white;
+    border: 2px solid black;
+    padding-top: 20px;
+    padding-bottom: 10px;
+    padding-left: 5px;
+  }
+
+.taskbar-menu a {
+z-index:3
+}
+
+.taskbar-menu a:hover {
+    background-color: rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+    padding-left: 4px;
+}
+
+.computer-clock {
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    background-color: rgb(132, 0, 255);
+    color: white;
+    padding-left: 5px;
+    padding-right: 5px;
+    text-align: center;
+    height: 30px;
+}
+
+.computer-clock, p {
+    height: 30px;
+    margin-top: 0;
+
+    font-weight: bold;
+    font-size: 12px;
+}
+
+.keyboard {
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.747), silver) ;
+    margin: 0 5px 0 5px;
+    border-radius: 10px 10px 0 0;
+    border: 1px solid black;
+    min-height: 10vh;
+    padding-top:15px;
+}
+
+
+
+.keys {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    border-radius: 10px;
+    padding: 10px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.key {
+    background-color: black;
+    color: white;
+    padding: 5px;
+    padding-left: 15px;
+    padding-right: 15px;
+    border-radius: 5px;
+    font-size: clamp(.6rem, 2vw, 1rem);
+}
+
+.key2 {
+    background-color: black;
+    color: white;
+    padding: 5px;
+    padding-left: 15px;
+    padding-right: 15px;
+    border-radius: 5px;
+    font-size: clamp(.6rem, 2vw, 1rem);
+}
+
+.key3 {
+    background-color: black;
+    color: white;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    padding-left: 15px;
+    padding-right: 15px;
+    border-radius: 5px;
+    font-size: clamp(.6rem, 2vw, 1rem);
+}
+
+@media screen and (max-width: 877px) {
+    .keys {
+        padding: 5px;
+    }
+    .key {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+    .key2 {
+        padding-left: 10px;
+        padding-right: 10px;
+    
+    }
+    
+}
+
+@media screen and (max-width: 648px) {
+    .keys {
+        padding: 2px;
+    }
+    .key {
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+
+    .key3 {
+        padding: 10px;
+    }
+    .keyboard:last-child {
+        margin-bottom: -10px;
+    }
+}
+
+@media screen and (max-width: 460px) {
+    .key {
+        padding-left: 1px;
+        padding-right: 1px;
+    }
+    .key2 {
+        padding-left: 3px;
+        padding-right: 3px;
+    }
 }
