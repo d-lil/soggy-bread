@@ -1,0 +1,96 @@
+.contract-container {
+    display: flex;
+    flex-direction: column;;
+    width: 60vw;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10%;
+    background-color: white;
+    border: 4px solid #0077ff;
+    border-radius: 10px;
+    height: calc(50vh - 4px);
+    overflow: hidden;
+}
+
+.contract-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px;
+    background-color: rgb(43, 4, 116);
+    color: white;
+    height: 30px;
+    border-radius: 5px 5px 0 0;
+}
+
+.contract-title {
+    display: flex;
+    align-items: center;
+}
+
+.folder-logo {
+    height: 20px;
+    width: auto;
+    margin-right: 5px;
+    box-shadow: 2px 2px 4px rgb(0, 0, 0);
+}
+
+.contract-close {
+    cursor: pointer;
+    background-color: rgb(196, 3, 255);
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.contract-close, a {
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+  }
+
+.contract-close:hover {
+    background-color: rgb(129, 125, 128);
+
+}
+
+/* .contract-content {
+    padding: 10px;
+    background-color: #f5f5f5;
+    height: calc(50vh - 64px);
+    overflow: auto;
+} */
+
+.contract-body {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    padding: 10px;
+    background-color: #f5f5f5;
+    height: calc(50vh - 64px);
+    overflow: auto;
+
+}
+
+.contract-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 5px;
+    text-align: center;
+    width: 55px;
+    margin: 15px;
+
+}
+
+.contract-item a {
+    color:black;
+    font-size: 12px;
+}
+
+.contract-item a:hover {
+    background-color: rgb(197, 196, 196);
+
+}

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./css/ChatComponent.css";
 import { useRef, useEffect } from "react";
+import danLogo from "./assets/dan_logo.png";
 
 const TypingIndicator = () => {
   return (
@@ -102,7 +103,9 @@ const ChatComponent = () => {
   return (
     <div className="chat-container">
       <div className="chat-header">
-        <h2>DAN.I.M.</h2>
+        <div className="chat-title">
+        <h2>DAN.I.M.</h2><img src={danLogo} alt="logo" className="dan-logo" />
+        </div>
         <div className="chat-close">
           <a href="/computer">X</a>
         </div>
