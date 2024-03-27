@@ -1,10 +1,18 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect } from "react";
 import "./css/ContractText.css";
 
-const ContractText = () => {
-  return (
-    <div className="unite-container">
+const ContractText = ({ handleOpenComponent, handleCloseComponent }) => {
+    useEffect(() => {
+        handleOpenComponent('contract_projects', true); // or 'ContractText', true
+      
+        return () => {
+            handleCloseComponent('contract_projects');
+        };
+      }, [handleOpenComponent, handleCloseComponent]);
+
+    return (
+    <div className="contract_projects-container">
 
       <div className="whatever">
         <h1>LOL</h1>

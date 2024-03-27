@@ -13,7 +13,7 @@ const TypingIndicator = () => {
   );
 };
 
-const ChatComponent = () => {
+const ChatComponent = ({ handleMinimizeComponent, isMinimized }) => {
   const [messages, setMessages] = useState(
     JSON.parse(localStorage.getItem("chatMessages")) || []
   );
@@ -22,6 +22,7 @@ const ChatComponent = () => {
   const messagesEndRef = useRef(null);
   const [showDeletePopup, setShowDeletePopup] = useState(false);
   const [messageToDelete, setMessageToDelete] = useState(null);
+
 
   useEffect(() => {
     const messagesDisplay = document.querySelector(".messages-display");
@@ -101,13 +102,16 @@ const ChatComponent = () => {
   };
 
   return (
-    <div className="chat-container">
+    <div className={`chat-container ${isMinimized ? 'hidden' : ''}`}>
       <div className="chat-header">
         <div className="chat-title">
         <h2>DAN.I.M.</h2><img src={danLogo} alt="logo" className="dan-logo" />
         </div>
+        <div className="right-buttons">
+        <button className="minimize-button" onClick={() => handleMinimizeComponent('chat')}>_</button>
         <div className="chat-close">
           <a href="/computer">X</a>
+        </div>
         </div>
       </div>
       <div className="messages-display">

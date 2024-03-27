@@ -3,8 +3,14 @@ import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import "./css/Unite.css";
 
-const Unite = () => {
-
+const Unite = ({ handleOpenComponent, handleCloseComponent }) => {
+    useEffect(() => {
+        handleOpenComponent('Unite', true); // or 'ContractText', true
+      
+        return () => {
+            handleCloseComponent('Unite');
+        };
+      }, [handleOpenComponent, handleCloseComponent]);
   return (
     <div className="unite-container">
         <div className="video">

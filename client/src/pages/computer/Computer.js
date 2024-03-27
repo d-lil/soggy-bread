@@ -1,6 +1,6 @@
 import React from "react";
 import { Route, Routes, Link, useLocation } from "react-router-dom";
-import { useRef } from "react";
+import { useRef, useCallback } from "react";
 import { useState, useEffect } from "react";
 import "./css/Computer.css";
 import Home from "../Home";
@@ -69,11 +69,13 @@ const TaskbarMenu = React.forwardRef((props, ref) => {
 });
 
 const Computer = () => {
-  //   const location = useLocation();
-  //   const isHome = location.pathname === "/computer";
-
   const [isTaskbarVisible, setIsTaskbarVisible] = useState(false);
+  const [openComponents, setOpenComponents] = useState([]);
+  const location = useLocation();
   const taskbarMenuRef = useRef();
+  const [activeComponent, setActiveComponent] = useState("");
+const [minimizedComponents, setMinimizedComponents] = useState([]);
+
 
   const closeTaskbar = () => {
     setIsTaskbarVisible(false);
@@ -103,14 +105,89 @@ const Computer = () => {
     };
   }, [isTaskbarVisible])
 
+  useEffect(() => {
+    const path = location.pathname.split("/")[2];
+    setOpenComponents(prevComponents => {
+      if (path && !prevComponents.includes(path)) {
+        return [...prevComponents, path];
+      }
+      return prevComponents;
+    });
+  }, [location]);
+  
+
+  const handleOpenComponent = useCallback((componentName, isNested = false) => {
+    setOpenComponents(prevComponents => {
+        const componentIndex = prevComponents.findIndex(c => c.name === componentName);
+        if (componentIndex === -1) {
+            return [...prevComponents, { name: componentName, isNested, isVisible: true }];
+        } else {
+            const newComponents = [...prevComponents];
+            newComponents[componentIndex].isVisible = true;
+            return newComponents;
+        }
+    });
+    setActiveComponent(componentName); // Set the component as active
+}, []);
+
+const handleMinimizeComponent = useCallback((componentName) => {
+
+    setMinimizedComponents(prev => {
+        const isMinimized = prev.includes(componentName);
+        const updated = isMinimized ? prev.filter(name => name !== componentName) : [...prev, componentName];
+
+        return updated;
+    });
+}, []);
+
+
+
+// New logic for handleCloseComponent
+const handleCloseComponent = useCallback((componentName) => {
+    
+    setOpenComponents(prevComponents =>
+        prevComponents.map(component =>
+            component.name === componentName ? { ...component, isVisible: false } : component
+        )
+    );
+}, []);
+
+// Adjusted useEffect to remove dependency on openComponents
+useEffect(() => {
+    const path = location.pathname.split("/")[2];
+    if (path) {
+        handleOpenComponent(path);
+    }
+}, [location, handleOpenComponent]);
+
+const renderTaskbarTabs = () => {
+    return openComponents.map((component, index) => (
+        component.isVisible && (
+            <div
+                key={index}
+                className={`taskbar-tab ${component.isNested ? 'nested-tab' : ''}`}
+                onClick={() => {
+                    setActiveComponent(component.name); // Bring to front
+                    if (minimizedComponents.includes(component.name)) {
+                        handleMinimizeComponent(component.name); // Restore if minimized
+                    }
+                }}
+            >
+                {component.name}
+            </div>
+        )
+    ));
+};
+
+  
+
   return (
     <div className="computer-container">
       <div className="screen">
         <div className="bezel">
           <div className="taskbar-container">
             <div className="app-container">
-              {/* {isHome && (
-              <> */}
+
               <div className="desktop-internet">
               <Link to="internet">       
               <img src={internetLogo} alt="internet" className="internet-logo-desktop"/><br/>
@@ -133,16 +210,18 @@ const Computer = () => {
               {/* </>
             )} */}
               <Routes>
-                <Route path="internet/*" element={<div className="overlay-component"><Internet /></div>} />
+                <Route path="internet/*" element={<div className="overlay-component"><Internet handleOpenComponent={handleOpenComponent} handleCloseComponent={handleCloseComponent} handleMinimizeComponent={handleMinimizeComponent}  isMinimized={minimizedComponents.includes('internet')} /></div>} />
                 {/* <Route path="home" element={<Home />} /> */}
-                <Route path="contract/*" element={<div className="overlay-component"><Contract /></div>} />
-                <Route path="chat/*" element={<div className="overlay-component"><ChatComponent /></div>} />
+                <Route path="contract/*" element={<div className="overlay-component"><Contract handleOpenComponent={handleOpenComponent} handleCloseComponent={handleCloseComponent} handleMinimizeComponent={handleMinimizeComponent}  isMinimized={minimizedComponents.includes('contract')} minimizedComponents={minimizedComponents}/></div>} />
+                <Route path="chat/*" element={<div className="overlay-component"><ChatComponent handleOpenComponent={handleOpenComponent} handleCloseComponent={handleCloseComponent} handleMinimizeComponent={handleMinimizeComponent}  isMinimized={minimizedComponents.includes('chat')}  /></div>} />
               </Routes>
             </div>
             <div className="taskbar">
+                <div className="start-tabs-container">
             <button onMouseDown={toggleTaskbarOnMouseDown} className="start-button">Start</button>
-
+            {renderTaskbarTabs()}
               {isTaskbarVisible && <TaskbarMenu ref={taskbarMenuRef} />}
+            </div>
               <Clock />
             </div>
           </div>

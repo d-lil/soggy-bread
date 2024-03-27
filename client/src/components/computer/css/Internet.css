@@ -69,6 +69,11 @@
     color: rgb(170, 255, 0)
 }
 
+.hidden {
+    display: none;
+
+}
+
 .internet-close a {
     cursor: pointer;
     font-size: 1.5rem;

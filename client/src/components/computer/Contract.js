@@ -3,27 +3,33 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import "./css/Contract.css";
 import folderLogo from "./assets/folder.png";
 import webLogo from "./assets/web_logo.png";
-import documentLogo from "./assets/document_logo.png";
+import mp4Logo from "./assets/mp4_logo.png";
 import textLogo from "./assets/text_logo.png";
 import { Route, Routes } from "react-router-dom";
 import Unite from "./Unite";
 import ContractText from "./ContractText";
-import characterImage from "./assets/web_logo.png";
+import characterImage from "./assets/character.png";
 
-const Contract = () => {
+const Contract = ({
+  handleOpenComponent,
+  handleMinimizeComponent,
+  handleCloseComponent,
+  isMinimized,
+  minimizedComponents
+}) => {
+
   const [activeComponent, setActiveComponent] = useState({
     title: "",
     isOpen: false,
   });
+  const [isContractVisible, setIsContractVisible] = useState(false);
+  const [characterVisible, setCharacterVisible] = useState(true);
 
   const navigate = useNavigate();
   const location = useLocation();
 
-  const [isContractVisible, setIsContractVisible] = useState(false);
 
   useEffect(() => {
-    // Set isContractVisible based on the location
-    // For instance, if the Contract component becomes visible at a certain path
     const isVisible = location.pathname.startsWith("/computer/contract");
     setIsContractVisible(isVisible);
   }, [location]);
@@ -38,15 +44,28 @@ const Contract = () => {
     : "";
 
   return (
-    <div
-      className="contract-container">
+    <div className={`contract-container ${isMinimized ? 'hidden' : ''}`}>
       <div className="contract-header">
         <div className="contract-title">
           <img src={folderLogo} alt="folder" className="folder-logo" />
           <h2>Contract</h2>
         </div>
+        {!characterVisible && (
+          <img
+            src={characterImage} // You might want a different, smaller image or icon here
+            alt="Show Character"
+            className="character-minimized-icon"
+            onClick={() => setCharacterVisible(true)}
+          />
+        )}
+ <div className="right-buttons">
+        <button  className="minimize-button" onClick={() => handleMinimizeComponent("contract")}>
+          _
+        </button>
+
         <div className="contract-close">
           <a href="/computer">X</a>
+        </div>
         </div>
       </div>
       <div className="contract-body">
@@ -64,11 +83,7 @@ const Contract = () => {
             state={{ title: "unite" }}
             onClick={() => setActiveComponent({ title: "unite", isOpen: true })}
           >
-            <img
-              src={documentLogo}
-              alt="unite logo"
-              className="contract-item-icon"
-            />
+            <img src={mp4Logo} alt="mp4 icon" className="contract-item-icon" />
             <br />
             unite.mp4
           </Link>
@@ -94,30 +109,69 @@ const Contract = () => {
           </Link>
         </div>
       </div>
-      <div
+      <div  
         className={`contract-content ${
           activeComponent.isOpen ? "visible" : "hidden"
-        }`}
+        }${isMinimized ? 'hidden' : ''}`}
       >
         <div className={`contract-content-header ${headerClassName}`}>
           <div className="contract-content-title">
             <h2>{activeComponent.title}</h2>
           </div>
+          <div className="right-buttons">
+          <button className="minimize-button" onClick={() => handleMinimizeComponent("contract")}>
+          _
+        </button>
           <div className="contract-content-close">
             <button onClick={closeComponent}>X</button>
+          </div>
           </div>
         </div>
 
         <Routes>
-          <Route path="contract-text" element={<ContractText />} />
-          <Route path="unite" element={<Unite />} />
+          <Route
+            path="contract-text"
+            element={
+              <ContractText
+                handleOpenComponent={handleOpenComponent}
+                handleCloseComponent={handleCloseComponent}
+                handleMinimizeComponent={handleMinimizeComponent}
+                
+              />
+            }
+          />
+          <Route
+            path="unite"
+            element={
+              <Unite
+                handleOpenComponent={handleOpenComponent}
+                handleCloseComponent={handleCloseComponent}
+                handleMinimizeComponent={handleMinimizeComponent}  
+                isMinimized={minimizedComponents.includes('unite')}
+              />
+            }
+          />
         </Routes>
       </div>
 
-      {isContractVisible && (
-        <div className="character-container">
-          <img src={characterImage} alt="Helpful Character" className="character" />
-          <div className="character-tooltip">Hi! Please read the contract_projects text file to better understand the content in this folder! </div>
+      {isContractVisible && characterVisible && (
+        <div
+          className="character-container"
+          onClick={() => setCharacterVisible(false)}
+        >
+          {" "}
+          {/* Clicking on the character will hide it */}
+          <img
+            src={characterImage}
+            alt="Helpful Character"
+            className="character"
+          />
+          <div className="character-tooltip">
+            Hi! <br />
+            Please read the contract_projects text file to better understand the
+            content in this folder!
+          </div>
+          <span className="character-text">Click to hide</span>
         </div>
       )}
     </div>

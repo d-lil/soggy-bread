@@ -54,6 +54,10 @@ a {
   background-color: rgb(129, 125, 128);
 }
 
+.hidden {
+  display: none;
+}
+
 .typing-indicator {
   display: flex;
   justify-content: center;
