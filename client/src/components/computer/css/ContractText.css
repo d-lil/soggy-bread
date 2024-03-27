@@ -1,0 +1,9 @@
+.contract_projects-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    
+    height: 40px;
+    width: 100%;
+    background: linear-gradient(90deg, rgb(9, 255, 1), rgb(0, 0, 0));
+  }
