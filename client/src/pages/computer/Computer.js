@@ -7,9 +7,12 @@ import Home from "../Home";
 import Contract from "../../components/computer/Contract";
 import Internet from "../../components/computer/Internet";
 import ChatComponent from "../../components/computer/ChatComponent";
+import Resume from "../../components/computer/Resume";
 import internetLogo from "./assets/internet_logo.png";
 import folderLogo from "./assets/folder.png";
 import danLogo from "./assets/dan_logo.png";
+import signoutLogo from "./assets/signout_logo.png";
+import documentLogo from "./assets/document_logo.png";
 
 function Clock() {
   const [currentTime, setCurrentTime] = useState(new Date());
@@ -63,6 +66,17 @@ const TaskbarMenu = React.forwardRef((props, ref) => {
         <img src={danLogo} alt="dan" className="dan-logo-desktop-taskbar"/>
         DAN.I.M.
         </Link>
+        <br />
+        <Link to="/computer/resume">
+        <img src={documentLogo} alt="dan" className="docu-logo-desktop-taskbar"/>
+        Resume
+        </Link>
+        <br />
+        <br />
+        <Link to="/">
+        <img src={signoutLogo} alt="signout icon" className="signout-logo-desktop-taskbar"/>
+        Sign Out
+        </Link>
 
     </div>
   );
@@ -107,52 +121,41 @@ const [minimizedComponents, setMinimizedComponents] = useState([]);
 
   useEffect(() => {
     const path = location.pathname.split("/")[2];
-    setOpenComponents(prevComponents => {
-      if (path && !prevComponents.includes(path)) {
-        return [...prevComponents, path];
-      }
-      return prevComponents;
-    });
-  }, [location]);
+    if (path && !openComponents.includes(path)) {
+        setOpenComponents([...openComponents, path]);
+    }
+}, [location, openComponents]);
   
-
-  const handleOpenComponent = useCallback((componentName, isNested = false) => {
+const handleOpenComponent = useCallback((componentName, isNested = false) => {
     setOpenComponents(prevComponents => {
-        const componentIndex = prevComponents.findIndex(c => c.name === componentName);
-        if (componentIndex === -1) {
-            return [...prevComponents, { name: componentName, isNested, isVisible: true }];
+        const existingComponentIndex = prevComponents.findIndex(c => c.name === componentName);
+        if (existingComponentIndex === -1) {
+            return [...prevComponents, { name: componentName, isVisible: true }];
         } else {
             const newComponents = [...prevComponents];
-            newComponents[componentIndex].isVisible = true;
+            newComponents[existingComponentIndex].isVisible = true;
             return newComponents;
         }
     });
-    setActiveComponent(componentName); // Set the component as active
 }, []);
 
-const handleMinimizeComponent = useCallback((componentName) => {
 
+const handleMinimizeComponent = useCallback((componentName) => {
     setMinimizedComponents(prev => {
         const isMinimized = prev.includes(componentName);
-        const updated = isMinimized ? prev.filter(name => name !== componentName) : [...prev, componentName];
-
-        return updated;
+        return isMinimized ? prev.filter(name => name !== componentName) : [...prev, componentName];
     });
 }, []);
 
 
 
-// New logic for handleCloseComponent
+
 const handleCloseComponent = useCallback((componentName) => {
-    
     setOpenComponents(prevComponents =>
-        prevComponents.map(component =>
-            component.name === componentName ? { ...component, isVisible: false } : component
-        )
+        prevComponents.filter(component => component.name !== componentName)
     );
 }, []);
 
-// Adjusted useEffect to remove dependency on openComponents
 useEffect(() => {
     const path = location.pathname.split("/")[2];
     if (path) {
@@ -167,9 +170,9 @@ const renderTaskbarTabs = () => {
                 key={index}
                 className={`taskbar-tab ${component.isNested ? 'nested-tab' : ''}`}
                 onClick={() => {
-                    setActiveComponent(component.name); // Bring to front
+                    setActiveComponent(component.name);
                     if (minimizedComponents.includes(component.name)) {
-                        handleMinimizeComponent(component.name); // Restore if minimized
+                        handleMinimizeComponent(component.name);
                     }
                 }}
             >
@@ -178,6 +181,7 @@ const renderTaskbarTabs = () => {
         )
     ));
 };
+
 
   
 
@@ -207,6 +211,13 @@ const renderTaskbarTabs = () => {
                 DAN<br/>Instant <br/>Messenger
                 </Link>
                 </div>
+                <div className="desktop-resume">
+                <Link to="resume">
+                <img src={documentLogo} alt="dan" className="docu-logo-desktop"/>
+                <br/>
+                Resume
+                </Link>
+                </div>
               {/* </>
             )} */}
               <Routes>
@@ -214,6 +225,7 @@ const renderTaskbarTabs = () => {
                 {/* <Route path="home" element={<Home />} /> */}
                 <Route path="contract/*" element={<div className="overlay-component"><Contract handleOpenComponent={handleOpenComponent} handleCloseComponent={handleCloseComponent} handleMinimizeComponent={handleMinimizeComponent}  isMinimized={minimizedComponents.includes('contract')} minimizedComponents={minimizedComponents}/></div>} />
                 <Route path="chat/*" element={<div className="overlay-component"><ChatComponent handleOpenComponent={handleOpenComponent} handleCloseComponent={handleCloseComponent} handleMinimizeComponent={handleMinimizeComponent}  isMinimized={minimizedComponents.includes('chat')}  /></div>} />
+                <Route path="resume/*" element={<div className="overlay-component"><Resume handleOpenComponent={handleOpenComponent} handleCloseComponent={handleCloseComponent} handleMinimizeComponent={handleMinimizeComponent}  isMinimized={minimizedComponents.includes('resume')}  /></div>} />
               </Routes>
             </div>
             <div className="taskbar">

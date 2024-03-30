@@ -1,0 +1,9 @@
+.computer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 20vh;
+    background: linear-gradient(to right, rgb(42, 2, 117), rgb(247, 0, 255));
+    color: white;
+    font-family: "Righteous", cursive;
+}

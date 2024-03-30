@@ -7,8 +7,16 @@ import { useState, useEffect } from "react";
 
 const Home = () => {
   return (
+    <div>
     <div className="computer">
       <Link to="computer">👽Computer</Link>
+    </div>
+    <div className="game">
+    </div>
+    <div className="phone">
+    </div>
+    <div className="mirror">
+    </div>
     </div>
   );
 };

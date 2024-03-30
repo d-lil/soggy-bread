@@ -57,12 +57,12 @@
     z-index: 0;
 }
 
-.desktop-internet, .desktop-contract, .desktop-chat {
+.desktop-internet, .desktop-contract, .desktop-chat, .desktop-resume {
     position: relative;
     z-index: 1;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
     justify-content: center;
     text-align: center;
     margin: 10px;
@@ -76,11 +76,11 @@
 
 }
 
-.desktop-internet a, .desktop-contract a, .desktop-chat a {
+.desktop-internet a, .desktop-contract a, .desktop-chat a, .desktop-resume a {
     color: rgb(255, 167, 3)
 }
 
-.desktop-internet:hover, .desktop-contract:hover, .desktop-chat:hover {
+.desktop-internet:hover, .desktop-contract:hover, .desktop-chat:hover, .desktop-resume:hover {
     background-color: rgba(255, 255, 255, 0.5);
     cursor: pointer;
 }
@@ -156,6 +156,18 @@
 }
 
 .dan-logo-desktop-taskbar {
+    height: 20px;
+    width: auto;
+
+}
+
+.docu-logo-desktop-taskbar {
+    height: 20px;
+    width: auto;
+
+}
+
+.signout-logo-desktop-taskbar {
     height: 20px;
     width: auto;
 
@@ -252,6 +264,7 @@ z-index:3
     background-color: rgba(255, 255, 255, 0.5);
     cursor: pointer;
     padding-left: 4px;
+    margin-right: 4px;
 }
 
 .computer-clock {

@@ -20,7 +20,7 @@ const InternetHome = () => {
 
 
 
-const Internet = ({ handleMinimizeComponent, isMinimized }) => {
+const Internet = ({ handleMinimizeComponent, isMinimized, handleCloseComponent }) => {
 
   
   return (
@@ -36,7 +36,7 @@ const Internet = ({ handleMinimizeComponent, isMinimized }) => {
         <div className="right-buttons">
         <button  className="minimize-button-internet" onClick={() => handleMinimizeComponent('internet')}>_</button>
         <div className="internet-close">
-            <Link to="/computer">X</Link>
+            <Link to="/computer" onClick={() => handleCloseComponent('internet')}>X</Link>
         </div>
         </div>
         </div>

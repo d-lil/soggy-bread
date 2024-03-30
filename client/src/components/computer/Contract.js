@@ -17,6 +17,8 @@ const Contract = ({
   isMinimized,
   minimizedComponents
 }) => {
+// In Contract component
+
 
   const [activeComponent, setActiveComponent] = useState({
     title: "",
@@ -70,7 +72,7 @@ const Contract = ({
       </div>
       <div className="contract-body">
         <div className="contract-item">
-          <Link to="/computer/internet/website">
+          <Link to="/computer/internet/website"  onClick={() => handleCloseComponent("contract")}>
             <img src={webLogo} alt="web logo" className="contract-item-icon" />
             <br />
             LetzChat Website Redesign
@@ -119,9 +121,7 @@ const Contract = ({
             <h2>{activeComponent.title}</h2>
           </div>
           <div className="right-buttons">
-          <button className="minimize-button" onClick={() => handleMinimizeComponent("contract")}>
-          _
-        </button>
+
           <div className="contract-content-close">
             <button onClick={closeComponent}>X</button>
           </div>
@@ -135,7 +135,7 @@ const Contract = ({
               <ContractText
                 handleOpenComponent={handleOpenComponent}
                 handleCloseComponent={handleCloseComponent}
-                handleMinimizeComponent={handleMinimizeComponent}
+
                 
               />
             }
@@ -146,8 +146,7 @@ const Contract = ({
               <Unite
                 handleOpenComponent={handleOpenComponent}
                 handleCloseComponent={handleCloseComponent}
-                handleMinimizeComponent={handleMinimizeComponent}  
-                isMinimized={minimizedComponents.includes('unite')}
+
               />
             }
           />
