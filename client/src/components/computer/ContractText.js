@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useEffect } from "react";
 import "./css/ContractText.css";
+import TextToolbar from "./TextToolbar";
+import ContractProjectsBody from "./ContractProjectsBody";
 
 const ContractText = ({ handleOpenComponent, handleCloseComponent }) => {
     useEffect(() => {
@@ -13,11 +15,7 @@ const ContractText = ({ handleOpenComponent, handleCloseComponent }) => {
 
     return (
     <div className="contract_projects-container">
-
-      <div className="whatever">
-        <h1>LOL</h1>
-        </div>
-
+      <ContractProjectsBody />
     </div>
   );
 };

@@ -8,7 +8,9 @@ import textLogo from "./assets/text_logo.png";
 import { Route, Routes } from "react-router-dom";
 import Unite from "./Unite";
 import ContractText from "./ContractText";
+import Screenshot from "./Screenshot";
 import characterImage from "./assets/character.png";
+import imageLogo from "./assets/image_logo.png";
 
 const Contract = ({
   handleOpenComponent,
@@ -93,6 +95,25 @@ const Contract = ({
 
         <div className="contract-item">
           <Link
+            to="/computer/contract/screenshot"
+            state={{ title: "screenshot" }}
+            onClick={() =>
+              setActiveComponent({ title: "screenshot", isOpen: true })
+            }
+          >
+            <img
+              src={imageLogo}
+              alt="web logo"
+              className="contract-item-icon"
+            />
+            <br />
+            website_
+            <br/>screenshot.jpg
+          </Link>
+        </div>
+
+        <div className="contract-item">
+          <Link
             to="/computer/contract/contract-text"
             state={{ title: "contract_projects" }}
             onClick={() =>
@@ -137,6 +158,15 @@ const Contract = ({
                 handleCloseComponent={handleCloseComponent}
 
                 
+              />
+            }
+          />
+          <Route
+            path="screenshot"
+            element={
+              <Screenshot
+                handleOpenComponent={handleOpenComponent}
+                handleCloseComponent={handleCloseComponent}
               />
             }
           />

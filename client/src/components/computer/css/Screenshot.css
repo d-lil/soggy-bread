@@ -1,0 +1,26 @@
+.screenshot-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+    height: 40px;
+    width: 100%;
+    background: linear-gradient(90deg, rgb(255, 1, 255), rgb(18, 0, 119));
+  }
+
+.screenshot-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 100%;
+  height: auto;
+  max-height: 500px;
+  overflow: auto;
+}
+
+.screenshot-container img {
+  width: 100%;
+  min-width: 500px;
+  height: auto;
+}
