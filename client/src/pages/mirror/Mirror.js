@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
-import { loadModels } from './utils/faceApiUtils';
-import MyFaceOverlayComponent from './MyFaceOverlayComponent'; // Assuming you have this component
+import { loadModels } from '../../utils/faceApiUtils';
+import MyFaceOverlayComponent from '../../components/mirror/MyFaceOverlay'; // Assuming you have this component
 
 function Mirror() {
   useEffect(() => {

@@ -69,8 +69,9 @@
   overflow: auto;
   padding: 5px;
  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-  font-weight: 100;
+ 
 }
+
 
 .blue-title {
   color: blue;
@@ -83,3 +84,6 @@
 .contract_projects-footer {
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
+
+
+

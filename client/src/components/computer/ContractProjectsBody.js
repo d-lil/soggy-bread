@@ -3,17 +3,20 @@ import TextToolbar from './TextToolbar';
 
 const ContractProjectsBody = () => {
   const [style, setStyle] = useState({
-    fontWeight: '100',
+    fontWeight: 'normal',
     fontStyle: 'normal',
     textDecoration: 'none',
     textAlign: 'left',
     fontSize: '14px'
   });
 
-  const handleStyleChange = (format) => {
-    switch (format) {
+  const [fontWeight, setFontWeight] = useState('normal');
+
+  const handleStyleChange = (styleKey, value) => {
+    // value will be the new state for the styleKey, either true or false
+    switch (styleKey) {
       case 'bold':
-        setStyle({ ...style, fontWeight: style.fontWeight === '900' ? '100' : '900' });
+        setFontWeight(prevWeight => prevWeight === 'bold' ? 'normal' : 'bold');
         break;
       case 'italic':
         setStyle({ ...style, fontStyle: style.fontStyle === 'italic' ? 'normal' : 'italic' });
@@ -42,8 +45,8 @@ const ContractProjectsBody = () => {
   return (
     <div className="contract_projects-body">
       <TextToolbar onStyleChange={handleStyleChange} onFontSizeChange={handleFontSizeChange} />
-      <div style={style} className='contract_projects-body-text'>
-        <p>
+      <div style={style} className="contract_projects-body-text">
+      <p style={{ fontWeight: fontWeight }}>
             <span className='red-text'>This folder contains some of the projects that I have worked on under contract, but does not include all of them.</span>
             <br />
             <br />

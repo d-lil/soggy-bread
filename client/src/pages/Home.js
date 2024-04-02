@@ -14,8 +14,10 @@ const Home = () => {
     <div className="game">
     </div>
     <div className="phone">
+      <Link to="phone">📞Phone</Link>
     </div>
     <div className="mirror">
+      <Link to="mirror">🪞Mirror</Link>
     </div>
     </div>
   );

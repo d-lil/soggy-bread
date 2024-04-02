@@ -1,0 +1,56 @@
+.computer-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+
+}
+
+.screen {
+    flex-grow: 1;
+    font-family: "Pixelify Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-style: normal;
+    background-color: silver;
+    margin: 5px 5px 0 5px;
+    border-radius: 10px;
+    padding: 5px;
+    border: 1px solid black;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    min-height: 75vh;
+
+}
+
+.bezel {
+    background-color: black;
+    border: 5px solid black;
+    border-radius: 10px;
+    min-height: 75vh;
+    padding: 10px;
+}
+
+
+
+.app-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    cursor: default;
+    min-height: 75vh;
+    background: url("../assets/desktop_background.png");
+    background-size: cover;
+    overflow: hidden;
+}
+
+.app-container::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(230, 230, 230, 0.342);
+    z-index: 0;
+}
