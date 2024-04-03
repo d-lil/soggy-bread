@@ -15,6 +15,7 @@ import threeBars from "./assets/3_bars.png";
 import twoBars from "./assets/2_bars.png";
 import oneBar from "./assets/1_bar.png";
 import phoneCamera from "./assets/phone_camera.png";
+import Gallery from "../../components/phone/Gallery";
 
 function PhoneClock() {
   const [currentTime, setCurrentTime] = useState(new Date());
@@ -68,6 +69,30 @@ const RandomImage = () => {
 };
 
 const Phone = () => {
+    const [photos, setPhotos] = useState([]);
+
+    const handleDeletePhoto = (index) => {
+        setPhotos((currentPhotos) => currentPhotos.filter((_, i) => i !== index));
+      };
+
+        // Example function to simulate photo addition
+  const addPhoto = (newPhoto) => {
+    setPhotos((prevPhotos) => [...prevPhotos, newPhoto]);
+  };
+
+  // Load photos from localStorage when component mounts
+  useEffect(() => {
+    const savedPhotos = localStorage.getItem('photos');
+    if (savedPhotos) {
+      setPhotos(JSON.parse(savedPhotos));
+    }
+  }, []);
+
+  // Save photos to localStorage whenever photos state changes
+  useEffect(() => {
+    localStorage.setItem('photos', JSON.stringify(photos));
+  }, [photos]);
+
   return (
     <div className="phone-page">
     <div className="phone-container">
@@ -95,6 +120,12 @@ const Phone = () => {
               <Link to="camera">
                 <img src="" alt="folder" className="camera-logo-phone" />
                 Camera
+              </Link>
+            </div>
+            <div className="phone-gallery-app">
+              <Link to="gallery">
+                <img src="" alt="folder" className="gallery-logo-phone" />
+                Gallery
               </Link>
             </div>
             <div className="phone-game-app">
@@ -126,10 +157,19 @@ const Phone = () => {
                 path="camera/*"
                 element={
                   <div className="overlay-component">
-                    <Camera />
+                    <Camera setPhotos={setPhotos} onDelete={handleDeletePhoto} photos={photos} />
+
                   </div>
                 }
               />
+              <Route
+                path="gallery/*"
+                element={
+                    <div className="overlay-component">
+                        <Gallery photos={photos} onDelete={handleDeletePhoto} setPhotos={setPhotos} />
+                    </div>
+                }
+                />
               <Route
                 path="game/*"
                 element={

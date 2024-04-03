@@ -1,0 +1,73 @@
+.camera-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    background-color: white;
+    height: 90vh;
+    overflow: hidden;
+}
+
+.local-photos-display {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    overflow-x: auto;
+    width: 100%;
+    -webkit-overflow-scrolling: touch; /* Smooth scrolling on touch devices */
+    scroll-behavior: smooth; 
+}
+
+.local-photo-item {
+  flex: 0 0 auto;
+  position: relative;
+  width: 100px;
+  height: 100px;
+  margin: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.local-photo-item img {
+  width: auto;
+  height: 100px;
+  border-radius: 5px;
+}
+
+.local-photo-delete-confirmation {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.75);
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  height: 100px;
+  width: 126.66px;
+  z-index: 4;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.confirmation-buttons button {
+  cursor: pointer;
+}
+
+.yes-pic-delete:hover {
+  background-color: rgb(15, 119, 93);
+  color: white;
+}
+
+.no-pic-delete:hover {
+  background-color: rgb(139, 9, 9);
+  color: white;
+}

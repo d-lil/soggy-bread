@@ -125,7 +125,7 @@
 
 
 
-.phone-weather-app, .phone-camera-app, .phone-game-app, .phone-email-app {
+.phone-weather-app, .phone-camera-app, .phone-gallery-app, .phone-game-app, .phone-email-app {
     z-index: 2;
     display: flex;
     justify-content: center;
@@ -139,18 +139,18 @@
     text-align: center;
 }
 
-.phone-weather-app a, .phone-camera-app a, .phone-game-app a, .phone-email-app a {
+.phone-weather-app a, .phone-camera-app a, .phone-gallery-app a, .phone-game-app a, .phone-email-app a {
     color: rgb(43, 43, 43);
     text-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
 
 }
 
-.phone-weather-app:hover, .phone-camera-app:hover, .phone-game-app:hover, .phone-email-app:hover {
+.phone-weather-app:hover, .phone-camera-app:hover, .phone-gallery-app:hover, .phone-game-app:hover, .phone-email-app:hover {
     background-color: rgba(0, 0, 0, 0.329);
     border-radius: 5px;
 }
 
-.phone-weather-app:hover a, .phone-camera-app:hover a, .phone-game-app:hover a, .phone-email-app:hover a {
+.phone-weather-app:hover a, .phone-camera-app:hover a, .phone-gallery-app:hover a, .phone-game-app:hover a, .phone-email-app:hover a {
     color: white;
 }
 
