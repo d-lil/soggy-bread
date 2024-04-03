@@ -1,50 +1,112 @@
-.computer-container {
+.phone-page {
+    display: flex;
+    justify-content: center;
+    flex-grow: 1;
+    width: 100%;
+    background-color: rgb(33, 33, 41);
+}
+
+.phone-container {
     position: relative;
     display: flex;
     flex-direction: column;
-    min-height: 100vh;
-
+    min-height: 80vh;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    margin: 5px;
+    border-radius: 10px;
+    background-color: #00f7ff;
+    width: 100%;
+    max-width: 440px;
+    padding: 5px;
 }
 
-.screen {
+.phone-bezel {
+    background-color: black;
+    border: 2px solid black;
+    border-radius: 10px;
+    min-height: 80vh;
+    padding: 2px;
+}
+
+.phone-screen {
+    display: flex;
+    flex-direction: column;
     flex-grow: 1;
-    font-family: "Pixelify Sans", sans-serif;
     font-optical-sizing: auto;
     font-weight: 500;
     font-style: normal;
     background-color: silver;
-    margin: 5px 5px 0 5px;
+    margin: 5px 5px 5px 5px;
     border-radius: 10px;
-    padding: 5px;
     border: 1px solid black;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    min-height: 75vh;
+    min-height: 80vh;
+    overflow: hidden;
 
 }
 
-.bezel {
-    background-color: black;
-    border: 5px solid black;
-    border-radius: 10px;
-    min-height: 75vh;
-    padding: 10px;
+.phone-header {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items:center;
+    background-color: #1eff00;
+    width: 100%;
+    height: 20px;
+    position: relative;
+}
+
+.phone-header-right {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items:center;
+
+}
+
+
+.phone-header-left p, .phone-header-right p{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5px;
+    height: 20px;
+    margin-top: 10px;
+}
+
+.bars-img {
+    width: 20px;
+    height: 15px;
+    margin: 0 5px 0 5px;
+
+}
+
+
+.phone-camera {
+    width: 20px;
+    height: 15px;
+    position: absolute; /* Absolutely position the camera div */
+    left: 50%; /* Set left to 50% of the parent container */
+    transform: translateX(-50%);
+
 }
 
 
 
-.app-container {
+.phone-app-container {
     position: relative;
     display: flex;
     flex-direction: column;
     flex-grow: 1;
     cursor: default;
-    min-height: 75vh;
-    background: url("../assets/desktop_background.png");
+    min-height: 90vh;
+    background: url("../assets/apothecary_diaries.jpg");
     background-size: cover;
-    overflow: hidden;
+    overflow: auto;
 }
 
-.app-container::before {
+.phone-app-container::before {
     content: "";
     position: absolute;
     top: 0;
@@ -53,4 +115,25 @@
     bottom: 0;
     background: rgba(230, 230, 230, 0.342);
     z-index: 0;
+}
+
+.phone-footer {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #00ff37;
+    padding: 10px;
+    border-top: 1px solid black;
+    border-radius: 0 0 10px 10px;
+    bottom: 0;
+    margin-top: auto;
+    width: 100%;
+}
+
+.phone-footer a {
+    color: black;
+    border: 1px solid black;
+    border-radius: 50px;
+    padding: 5px;
 }

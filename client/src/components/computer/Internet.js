@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { Route, Routes } from "react-router-dom";
 import { useEffect } from "react";
 import internetLogo from "./assets/internet_logo.png";
-
+import Github from "./Github";
 
 import Email from "./Email";
 import EmbeddedWebsite from "./Website";
@@ -31,6 +31,7 @@ const Internet = ({ handleMinimizeComponent, isMinimized, handleCloseComponent }
         <div className="nav-links">
           <Link to="">Home</Link>
           <Link to="email">Email</Link>
+          <Link to="github">GitHub</Link>
           {/* <Link to="/call">Call</Link> */}
         </div>
         <div className="right-buttons">
@@ -49,6 +50,7 @@ const Internet = ({ handleMinimizeComponent, isMinimized, handleCloseComponent }
           <Route index element={<InternetHome />} />
           <Route path="email" element={<Email />} />
           <Route path="website" element={<EmbeddedWebsite src="https://gravel-sandwich-cdd2ca40b2a9.herokuapp.com/" height="100%" width="100%" />} />
+          <Route path="github" element={<Github />} />
         </Routes>
       </div>
     </div>
