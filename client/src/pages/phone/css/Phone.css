@@ -1,7 +1,8 @@
 .phone-page {
     display: flex;
     justify-content: center;
-    flex-grow: 1;
+    align-items: center;
+    height: 100vh;
     width: 100%;
     background-color: rgb(33, 33, 41);
 }
@@ -10,13 +11,12 @@
     position: relative;
     display: flex;
     flex-direction: column;
-    min-height: 80vh;
+    height: 620px;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     margin: 5px;
     border-radius: 10px;
     background-color: #00f7ff;
-    width: 100%;
-    max-width: 440px;
+    width: 380px;
     padding: 5px;
 }
 
@@ -24,8 +24,9 @@
     background-color: black;
     border: 2px solid black;
     border-radius: 10px;
-    min-height: 80vh;
+    height: 615px;
     padding: 2px;
+    overflow: hidden;
 }
 
 .phone-screen {
@@ -37,10 +38,10 @@
     font-style: normal;
     background-color: silver;
     margin: 5px 5px 5px 5px;
-    border-radius: 10px;
+    border-radius: 5px;
     border: 1px solid black;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    min-height: 80vh;
+    height: 602px;
     overflow: hidden;
 
 }
@@ -51,7 +52,7 @@
     flex-wrap: nowrap;
     justify-content: space-between;
     align-items:center;
-    background-color: #1eff00;
+    background-color: #ded2f3;
     width: 100%;
     height: 20px;
     position: relative;
@@ -84,7 +85,7 @@
 
 
 .phone-camera {
-    width: 20px;
+    width: 18px;
     height: 15px;
     position: absolute; /* Absolutely position the camera div */
     left: 50%; /* Set left to 50% of the parent container */
@@ -96,14 +97,18 @@
 
 .phone-app-container {
     position: relative;
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Creates a 2-column grid */
+    grid-gap: 10px; 
     flex-direction: column;
     flex-grow: 1;
     cursor: default;
-    min-height: 90vh;
-    background: url("../assets/apothecary_diaries.jpg");
+    background: url("../assets/apothecary_diaries.jpg") no-repeat center center;
     background-size: cover;
     overflow: auto;
+    margin-bottom: auto;
+    z-index: 1;
+    
 }
 
 .phone-app-container::before {
@@ -113,8 +118,40 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(230, 230, 230, 0.342);
-    z-index: 0;
+    background: rgba(255, 255, 255, 0.582);
+    z-index: 2;
+
+}
+
+
+
+.phone-weather-app, .phone-camera-app, .phone-game-app, .phone-email-app {
+    z-index: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    cursor: pointer;
+    margin-left: 30px;
+    margin-right: 30px;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    text-align: center;
+}
+
+.phone-weather-app a, .phone-camera-app a, .phone-game-app a, .phone-email-app a {
+    color: rgb(43, 43, 43);
+    text-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
+
+}
+
+.phone-weather-app:hover, .phone-camera-app:hover, .phone-game-app:hover, .phone-email-app:hover {
+    background-color: rgba(0, 0, 0, 0.329);
+    border-radius: 5px;
+}
+
+.phone-weather-app:hover a, .phone-camera-app:hover a, .phone-game-app:hover a, .phone-email-app:hover a {
+    color: white;
 }
 
 .phone-footer {
@@ -122,18 +159,19 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #00ff37;
+    background-color: #ded2f3;
     padding: 10px;
     border-top: 1px solid black;
     border-radius: 0 0 10px 10px;
     bottom: 0;
     margin-top: auto;
     width: 100%;
+    height: 10px;
 }
 
 .phone-footer a {
     color: black;
     border: 1px solid black;
     border-radius: 50px;
-    padding: 5px;
+    padding: 0 5px 0 5px;
 }

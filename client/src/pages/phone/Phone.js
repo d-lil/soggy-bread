@@ -84,35 +84,34 @@ const Phone = () => {
           </div>
 
           <div className="phone-app-container">
-            <div className="desktop-internet">
+            <div className="phone-weather-app">
               <Link to="weather">
-                <img src="" alt="internet" className="internet-logo-desktop" />
+                <img src="" alt="weather app" className="weather-logo-phone" />
                 <br />
                 Weather
               </Link>
             </div>
-            <div className="desktop-contract">
+            <div className="phone-camera-app">
               <Link to="camera">
-                <img src="" alt="folder" className="folder-logo-desktop" />
+                <img src="" alt="folder" className="camera-logo-phone" />
                 Camera
               </Link>
             </div>
-            <div className="desktop-chat">
+            <div className="phone-game-app">
               <Link to="game">
-                <img src="" alt="dan" className="dan-logo-desktop" />
+                <img src="" alt="game logo" className="game-logo-phone" />
                 <br />
                 Game
               </Link>
             </div>
-            <div className="desktop-resume">
+            <div className="phone-email-app">
               <Link to="emailphone">
-                <img src="" alt="dan" className="docu-logo-desktop" />
+                <img src="" alt="email logo" className="email-logo-phone" />
                 <br />
                 Email
               </Link>
             </div>
-            {/* </>
-            )} */}
+
             <Routes>
               <Route
                 path="weather/*"
@@ -166,7 +165,7 @@ const Phone = () => {
             </Routes>
           </div>
           <div className="phone-footer">
-            <Link to="">X</Link>
+            <Link to="">□</Link>
           </div>
         </div>
       </div>

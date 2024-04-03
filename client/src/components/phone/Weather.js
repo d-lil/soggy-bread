@@ -2,8 +2,51 @@ import React, { useState, useEffect } from 'react';
 import dayjs from 'dayjs';
 import './css/Weather.css';
 import cloudVideo from './assets/clouds.mp4';
+import rain from './assets/rain.png';
+import snow from './assets/snow.png';
+import wind from './assets/wind.png';
+import sun from './assets/sun.png';
+import cloudy from './assets/cloudy.png';
+import lightning from './assets/lightning.png';
 
 const APIKey = '5d745a3ade61e4675aff85b5370d16a9';
+const WeatherHeader = () => {
+    const icons = [rain, snow, wind, sun, cloudy, lightning];
+    const [currentIcon, setCurrentIcon] = useState(0);
+  
+    useEffect(() => {
+      // This function will be called every time the currentIcon changes
+      const intervalId = setInterval(() => {
+        // Increment the current icon index after the interval
+        setCurrentIcon((prevIcon) => (prevIcon + 1) % icons.length);
+      }, 2000); // The interval is the time each icon is fully visible plus fade time
+  
+      // Clear the interval when the component is unmounted or before setting a new one
+      return () => clearInterval(intervalId);
+    }, [currentIcon]);
+  
+    return (
+      <div className='weather-header'>
+        <h1>Weather Wizard 🧙‍♂️<hr /></h1>
+
+        <div className='weather-icons'>
+          {icons.map((icon, index) => (
+            <img
+              key={icon}
+              src={icon}
+              className={`weather-header-icon ${currentIcon === index ? 'visible' : ''}`}
+              alt=""
+              style={{
+                opacity: currentIcon === index ? 1 : 0,
+              }}
+            />
+          ))}
+        </div>
+      </div>
+    );
+  };
+  
+  
 
 const WeatherCard = ({ date, icon, temp, wind, humidity }) => (
   <div className="weather-card">
@@ -78,15 +121,14 @@ const Weather = () => {
   };
 
   //Background video by João  Pavese: https://www.pexels.com/video/time-lapse-of-cloud-formations-6707366/
+  //Icons from icons8
   return (
     <div className='weather-container'>
       <video autoPlay loop muted className="weather-background-video">
         <source src={cloudVideo} type="video/mp4" />
       </video> 
-      <div className='weather-header'>
-        <h1>Weather🧙‍♂️Wizard</h1>
-      </div>
-      <div>
+        <WeatherHeader />
+      <div className='weather-search'>
         <h3>Search for a City:</h3>
         <input
           type="text"
@@ -99,7 +141,7 @@ const Weather = () => {
             }
           }}
         />
-        <button onClick={handleSearch}>Search</button>
+        <button onClick={handleSearch} className='weather-search-btn'>Search</button>
       </div>
       <br />
       <hr />
