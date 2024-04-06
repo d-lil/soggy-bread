@@ -8,6 +8,7 @@ import wind from './assets/wind.png';
 import sun from './assets/sun.png';
 import cloudy from './assets/cloudy.png';
 import lightning from './assets/lightning.png';
+import weatherLogo from './assets/weather_logo.png';
 
 const APIKey = '5d745a3ade61e4675aff85b5370d16a9';
 const WeatherHeader = () => {
@@ -27,7 +28,7 @@ const WeatherHeader = () => {
   
     return (
       <div className='weather-header'>
-        <h1>Weather Wizard 🧙‍♂️<hr /></h1>
+        <h1>Weather Wizard <img src={weatherLogo} alt="weather app logo" className='weather-app-logo' /><hr /></h1>
 
         <div className='weather-icons'>
           {icons.map((icon, index) => (

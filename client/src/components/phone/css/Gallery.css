@@ -2,17 +2,31 @@
     background-color: white;
     min-height: 550px;
     margin-top: -22px;
+    overflow: hidden;
+}
+
+.gallery-h1 {
+    font-family: "Righteous", cursive;
+    color: rgb(243, 253, 199);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    background-color: rgba(97, 177, 150, 0.541);
+    width: 100%;
+    border-radius: 5px 5px 0 0;
+    text-align: center;
+    padding: 5px;
 }
 
 .gallery {
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-start;
-    align-items: center;
+    align-items: flex-start;
     flex-direction: row;
     margin-left: 20px;
     overflow: auto;
-
+    min-height: 470px;
+    padding: 5px;
+    overflow: auto;
 }
 
 .gallery-item {
@@ -23,7 +37,6 @@
     height: 100px;
     margin: 10px;
     margin-left: 20px;
-
     border-radius: 5px;
     cursor: pointer;
   }
@@ -31,45 +44,77 @@
   .gallery-item img {
     width: auto;
     height: 100px;
-    border-radius: 5px;
+    border-radius: 2px;
+
   }
+
+  .gallery-delete-button {
+    position: absolute;
+    bottom: 0;
+    left: 100px;
+    width: 25px;
+    height: 25px;
+    background-color: rgb(255, 255, 255);
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    font-size: 20px;
+  }
+
+    .gallery-delete-button:hover {
+        background-color: rgb(255, 0, 0);
+        color: white;
+    }
+
+    .gallery-delete-button:active {
+        background-color: rgb(124, 0, 0);
+        color: white;
+    }
   
-  .photo-delete-confirmation {
+  .gallery-delete-confirmation {
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.75);
-    color: white;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 100;
+    background: rgb(0, 215, 253);
+    border: 2px solid #2600ff;
     border-radius: 5px;
-    height: 100px;
-    width: 126.66px;
-    z-index: 4;
-    border-radius: 5px;
+    padding: 20px;
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.589);
     cursor: pointer;
   }
   
 
-
-  
-  .yes-pic-delete:hover {
-    background-color: rgb(15, 119, 93);
-    color: white;
+.gallery-delete-yes, .gallery-delete-no {
     cursor: pointer;
+    margin: 5px;
+    padding: 5px;
+    border-radius: 5px;
+  }
+
+  .gallery-delete-yes, .gallery-delete-no{
+    font-weight: bold;
   }
   
-  .no-pic-delete:hover {
-    background-color: rgb(139, 9, 9);
+  .gallery-delete-yes:hover {
+    background-color: rgb(113, 212, 0);
     color: white;
     cursor: pointer;
+
+  }
+  
+  .gallery-delete-no:hover {
+    background-color: rgb(158, 0, 105);
+    color: white;
+    cursor: pointer;
+
   }
   
   .enlarged-image-container {

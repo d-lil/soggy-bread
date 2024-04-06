@@ -93,7 +93,18 @@
 
 }
 
-
+.phone-weather-app, .phone-camera-app, .phone-gallery-app, .phone-game-app, .phone-email-app {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    cursor: pointer;
+    margin-left: 30px;
+    margin-right: 30px;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    text-align: center;
+}
 
 .phone-app-container {
     position: relative;

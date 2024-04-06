@@ -28,7 +28,7 @@ const Gallery = ({ photos, onDelete }) => {
 
   return (
     <div className="gallery-container">
-      <h1>Gallery</h1>
+      <h1 className="gallery-h1">Gallery</h1>
       {enlargedImageIndex !== null && (
         <div className="enlarged-image-container">
           <img
@@ -49,13 +49,15 @@ const Gallery = ({ photos, onDelete }) => {
               className="gallery-image"
               onClick={() => handleImageClick(index)} // Click to enlarge image
             />
-            <button onClick={() => handleDeleteButtonClick(index)} className="delete-button">Delete</button>
+            <button onClick={() => handleDeleteButtonClick(index)} className="gallery-delete-button">🗑</button>
             
             {selectedForDeletion === index && (
-              <div className="delete-confirmation">
+              <div className="gallery-delete-confirmation">
                 Delete? 
-                <button onClick={() => confirmDeletion(true, index)}>Yes</button>
-                <button onClick={() => confirmDeletion(false)}>No</button>
+                <div>
+                <button onClick={() => confirmDeletion(true, index)} className="gallery-delete-yes">Yes</button>
+                <button onClick={() => confirmDeletion(false)} className="gallery-delete-no">No</button>
+                </div>
               </div>
             )}
           </div>

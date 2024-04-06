@@ -16,6 +16,9 @@ import twoBars from "./assets/2_bars.png";
 import oneBar from "./assets/1_bar.png";
 import phoneCamera from "./assets/phone_camera.png";
 import Gallery from "../../components/phone/Gallery";
+import cameraIcon from "./assets/camera_logo.png";
+import galleryIcon from "./assets/gallery_logo.png";
+import weatherIcon from "./assets/weather_logo.png";
 
 function PhoneClock() {
   const [currentTime, setCurrentTime] = useState(new Date());
@@ -111,20 +114,22 @@ const Phone = () => {
           <div className="phone-app-container">
             <div className="phone-weather-app">
               <Link to="weather">
-                <img src="" alt="weather app" className="weather-logo-phone" />
+                <img src={weatherIcon} alt="weather app" className="weather-logo-phone" />
                 <br />
                 Weather
               </Link>
             </div>
             <div className="phone-camera-app">
               <Link to="camera">
-                <img src="" alt="folder" className="camera-logo-phone" />
+                <img src={cameraIcon} alt="folder" className="camera-logo-phone" />
+                <br />
                 Camera
               </Link>
             </div>
             <div className="phone-gallery-app">
               <Link to="gallery">
-                <img src="" alt="folder" className="gallery-logo-phone" />
+                <img src={galleryIcon} alt="folder" className="gallery-logo-phone" />
+                <br />
                 Gallery
               </Link>
             </div>
