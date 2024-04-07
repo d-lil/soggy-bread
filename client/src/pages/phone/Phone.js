@@ -74,6 +74,10 @@ const RandomImage = () => {
 const Phone = () => {
     const [photos, setPhotos] = useState([]);
 
+    const location = useLocation();
+    const isGameRoute = location.pathname.includes('/game'); 
+  
+
     const handleDeletePhoto = (index) => {
         setPhotos((currentPhotos) => currentPhotos.filter((_, i) => i !== index));
       };
@@ -97,7 +101,7 @@ const Phone = () => {
   }, [photos]);
 
   return (
-    <div className="phone-page">
+    <div className={`phone-page ${isGameRoute ? 'phone-landscape' : ''}`}>
     <div className="phone-container">
       <div className="phone-bezel">
         <div className="phone-screen">
@@ -111,7 +115,7 @@ const Phone = () => {
             <RandomImage />
           </div>
 
-          <div className="phone-app-container">
+          <div className={`phone-app-container ${isGameRoute ? 'no-overflow' : ''}`}>
             <div className="phone-weather-app">
               <Link to="weather">
                 <img src={weatherIcon} alt="weather app" className="weather-logo-phone" />

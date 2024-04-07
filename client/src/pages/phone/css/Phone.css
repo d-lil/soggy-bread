@@ -7,10 +7,54 @@
     background-color: rgb(33, 33, 41);
 }
 
+.phone-landscape {
+    transform: rotate(90deg);
+    transform-origin: center center;
+    width: 100vh; /* Assuming you want to take the full viewport height after rotation */
+    height: 100vw; /* Assuming you want to take the full viewport width after rotation */
+    /* You may need to adjust the position after rotation */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(90deg);
+    
+  }
+
+  .game-canvas {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    
+  }
+
+  .phone-landscape .game-canvas {
+    transform: rotate(-90deg);
+    transform-origin: center center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 95px;
+
+  }
+
+    .phone-landscape .phone-app-container, .phone-landscape .phone-app-container::before {
+        background-color: black;
+    }
+
+
+
+  .game-canvas canvas {
+    background-color: black;
+    margin-right: -3px;
+    border: 1px solid black;
+  }
+
 .phone-container {
     position: relative;
     display: flex;
     flex-direction: column;
+    
     height: 620px;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     margin: 5px;
@@ -106,6 +150,8 @@
     text-align: center;
 }
 
+
+
 .phone-app-container {
     position: relative;
     display: grid;
@@ -134,7 +180,9 @@
 
 }
 
-
+.no-overflow {
+    overflow: hidden;
+}
 
 .phone-weather-app, .phone-camera-app, .phone-gallery-app, .phone-game-app, .phone-email-app {
     z-index: 2;
@@ -187,3 +235,15 @@
     padding: 0 5px 0 5px;
 
 }
+
+
+@media (max-width: 600px) {
+    /* This will apply to screens with a width of 600px or less */
+    .phone-landscape {
+      /* Reset any rotation styles you added for landscape mode */
+      transform: none;
+      position: static;
+      width: auto;
+      height: auto;
+    }
+  }
