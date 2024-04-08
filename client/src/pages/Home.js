@@ -11,14 +11,11 @@ const Home = () => {
     <div className="computer">
       <Link to="computer">👽Computer</Link>
     </div>
-    <div className="game">
-    </div>
+
     <div className="phone">
       <Link to="phone">📞Phone</Link>
     </div>
-    <div className="mirror">
-      <Link to="mirror">🪞Mirror</Link>
-    </div>
+
     </div>
   );
 };

@@ -4,7 +4,7 @@ import { useRef, useCallback } from "react";
 import { useState, useEffect } from "react";
 import Weather from "../../components/phone/Weather";
 import Camera from "../../components/phone/Camera";
-import Game from "../../components/phone/Game";
+import Game from "../../components/phone/game/Game";
 import Contacts from "../../components/phone/Contacts";
 import SomeApp from "../../components/phone/Shopping";
 import EmailPhone from "../../components/phone/EmailPhone";
