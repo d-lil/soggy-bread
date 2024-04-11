@@ -1,0 +1,58 @@
+{ "frames": {
+   "phone_game_background 0.aseprite": {
+    "frame": { "x": 0, "y": 0, "w": 553, "h": 365 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 553, "h": 365 },
+    "sourceSize": { "w": 553, "h": 365 },
+    "duration": 100
+   },
+   "phone_game_background 1.aseprite": {
+    "frame": { "x": 553, "y": 0, "w": 553, "h": 365 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 553, "h": 365 },
+    "sourceSize": { "w": 553, "h": 365 },
+    "duration": 100
+   },
+   "phone_game_background 2.aseprite": {
+    "frame": { "x": 1106, "y": 0, "w": 553, "h": 365 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 553, "h": 365 },
+    "sourceSize": { "w": 553, "h": 365 },
+    "duration": 100
+   },
+   "phone_game_background 3.aseprite": {
+    "frame": { "x": 1659, "y": 0, "w": 553, "h": 365 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 553, "h": 365 },
+    "sourceSize": { "w": 553, "h": 365 },
+    "duration": 100
+   },
+   "phone_game_background 4.aseprite": {
+    "frame": { "x": 2212, "y": 0, "w": 553, "h": 365 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 553, "h": 365 },
+    "sourceSize": { "w": 553, "h": 365 },
+    "duration": 100
+   }
+ },
+ "meta": {
+  "app": "https://www.aseprite.org/",
+  "version": "1.3-rc9-x64",
+  "image": "phone_game_background.aseprite",
+  "format": "RGBA8888",
+  "size": { "w": 2765, "h": 365 },
+  "scale": "1",
+  "frameTags": [
+  ],
+  "layers": [
+   { "name": "Layer 5", "opacity": 255, "blendMode": "normal" }
+  ],
+  "slices": [
+  ]
+ }
+}

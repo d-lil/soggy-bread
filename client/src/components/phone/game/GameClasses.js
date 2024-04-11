@@ -4,7 +4,7 @@ const attackDistance = 150;
 let gameActive = true;
 
 export class Sprite {
-    constructor({ position, ctx, imageSrc }) {
+    constructor({ position, ctx, imageSrc, scale = 1, framesMax = 1 }) {
       this.position = position;
 
       this.height = 150;
@@ -13,21 +13,59 @@ export class Sprite {
       this.canvas = ctx.canvas;
       this.image = new Image();
       this.image.src = imageSrc;
+      this.scale = scale;
+      this.framesMax = framesMax;
+      this.framesCurrent = 0;
+      this.framesElapsed = 0;
+      this.framesHold = 10;
     }
   
     draw() {
-        this.ctx.drawImage(this.image, this.position.x, this.position.y);
+      if (this.scale === 'fitHeight') {
+        this.ctx.drawImage(
+          this.image,
+          this.framesCurrent * (this.image.width / this.framesMax),
+          0,
+          this.image.width / this.framesMax,
+          this.image.height, 
+          this.position.x, 
+          this.position.y,
+          this.canvas.width,
+          this.canvas.height
+
+          );
+      } else {
+        this.ctx.drawImage(
+            this.image,
+            this.framesCurrent * (this.image.width / this.framesMax),
+            0,
+            this.image.width / this.framesMax,
+            this.image.height / this.framesMax, 
+            this.position.x, 
+            this.position.y, 
+            this.image.width * this.scale, 
+            this.image.height * this.scale
+            );
+        }
     }
   
     update() {
       this.draw();
+      this.framesElapsed++;
 
+      if (this.framesElapsed % this.framesHold === 0) {
+      if (this.framesCurrent < this.framesMax - 1) {
+        this.framesCurrent++;
+      } else {
+        this.framesCurrent = 0;
+      }
     }
-
+    }
     
   
 
   }
+
 
 export class Fighter {
   constructor({ position, velocity, ctx, color = "blue", offset }) {
@@ -75,9 +113,9 @@ export class Fighter {
     this.draw();
     this.attackBox.position.x = this.position.x + this.attackBox.offset.x;
     this.attackBox.position.y = this.position.y;
-    if (this.position.y + this.height + this.velocity.y >= this.canvas.height) {
+    if (this.position.y + this.height + this.velocity.y >= this.canvas.height - 20) {
       this.velocity.y = 0;
-      this.position.y = this.canvas.height - this.height;
+      this.position.y = this.canvas.height - this.height - 20;
     } else {
       this.velocity.y += gravity;
     }
@@ -138,8 +176,10 @@ export class Fighter {
   }
 
   jump() {
-    if (this.position.y === this.canvas.height - this.height) {
-      this.velocity.y = -20;
+    const groundLevel = this.canvas.height - this.height - 20;
+    if (this.position.y >= groundLevel) {
+        this.velocity.y = -20; // Apply an upward velocity to simulate jumping
+        this.position.y = groundLevel; // Optional: Reset position to ensure it's exactly on the ground
     }
   }
 }

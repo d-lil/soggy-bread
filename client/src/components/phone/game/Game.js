@@ -1,11 +1,10 @@
 import React, { useRef, useState, useEffect } from "react";
 import "./css/Game.css";
-import { Sprite, Fighter } from "./GameClasses";
-import gameBackground from "../../../pages/computer/assets/desktop_background.png";
+import { Sprite, AnimatedSprite, Fighter } from "./GameClasses";
+import gameBackground from "./assets/phone_game_background.png";
+import backgroundFrames from "./assets/phoneGameBackground.json";
 
-const gravity = 0.7;
-const enemySpeed = 0.5; // Adjust speed as needed
-const attackDistance = 150;
+
 let gameActive = true;
 
 
@@ -21,6 +20,7 @@ const Game = () => {
     const height = 365;
     canvas.width = width;
     canvas.height = height;
+
     const background = new Sprite({
       position: {
         x: 0,
@@ -28,7 +28,12 @@ const Game = () => {
       },
       ctx,
       imageSrc: gameBackground,
-    });
+      scale: 'fitHeight',
+      framesMax: 5,
+
+    })
+
+
     const player = new Fighter({
       position: {
         x: 20,
