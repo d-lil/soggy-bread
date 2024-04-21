@@ -2,12 +2,16 @@ import React, { useRef, useState, useEffect } from "react";
 import "./css/Game.css";
 import { Sprite, AnimatedSprite, Fighter } from "./GameClasses";
 import gameBackground from "./assets/phone_game_background.png";
-import backgroundFrames from "./assets/phoneGameBackground.json";
-
+import fighterIdle from "./assets/phone_fighter_idle.png";
+import fighterJump from "./assets/phone_fighter_jumping.png";
+import fighterFall from "./assets/player_fall.png";
+import fighterJump2 from "./assets/phone_fighter_jumping2.png";
+import fighterRunLeft from "./assets/phone_fighter_run_left.png";
+import fighterPunch from "./assets/phone_fighter_punch.png";
+import fighterKick from "./assets/phone_fighter_kick.png";
+import fighterRunRight from "./assets/phone_fighter_run_right.png";
 
 let gameActive = true;
-
-
 
 const Game = () => {
   const canvasRef = useRef(null);
@@ -28,11 +32,9 @@ const Game = () => {
       },
       ctx,
       imageSrc: gameBackground,
-      scale: 'fitHeight',
+      scale: "fitHeight",
       framesMax: 5,
-
-    })
-
+    });
 
     const player = new Fighter({
       position: {
@@ -48,7 +50,30 @@ const Game = () => {
         y: 0,
       },
       ctx,
-      color: "blue",
+      scale: 1.5,
+      offset: {
+        x: 10,
+        y: 70,
+      },
+
+      idleSrc: fighterIdle,
+      framesMax: 6,
+      jumpSrc: fighterJump,
+      runLeftSrc: fighterRunLeft,
+      fallSrc: fighterFall,
+      runSrc: fighterRunRight,
+      punchSrc: fighterPunch,
+      kickSrc: fighterKick,
+      // sprites: {
+      //   idle: {
+      //     imageSrc: fighterIdle,
+      //     framesMax: 6,
+      //   },
+      //   jump: {
+      //     imageSrc: fighterJump2,
+      //     framesMax: 6,
+      //   },
+      // }
     });
 
     const enemy = new Fighter({
@@ -65,7 +90,30 @@ const Game = () => {
         y: 0,
       },
       ctx,
-      color: "red",
+
+      scale: 1.5,
+      offset: {
+        x: 10,
+        y: 70,
+      },
+      idleSrc: fighterIdle,
+      framesMax: 6,
+      jumpSrc: fighterJump,
+      fallSrc: fighterFall,
+      runLeftSrc: fighterRunLeft,
+      runSrc: fighterRunRight,
+      punchSrc: fighterPunch,
+      kickSrc: fighterKick,
+      // sprites: {
+      //   idle: {
+      //     imageSrc: fighterIdle,
+      //     framesMax: 6,
+      //   },
+      //   jump: {
+      //     imageSrc: fighterJump2,
+      //     framesMax: 6,
+      //   },
+      // }
     });
 
     const keys = {
@@ -103,11 +151,10 @@ const Game = () => {
 
     let timer = 60;
 
-
     function decreaseTimer() {
-        if (gameActive === false) {
-            return;
-        }
+      if (gameActive === false) {
+        return;
+      }
       if (timer > 0) {
         timerId = setTimeout(decreaseTimer, 1000);
         timer--;
@@ -123,34 +170,63 @@ const Game = () => {
 
     function animate() {
       if (!gameActive) return;
-      requestAnimationFrame(animate);
+      window.requestAnimationFrame(animate);
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      if (keys.ArrowRight.pressed) player.velocity.x = 5;
-      else if (keys.ArrowLeft.pressed) player.velocity.x = -5;
-      else player.velocity.x = 0;
       background.update();
       enemy.aiUpdate(player);
+
+      let newAction = "idle";
+
+      if (player.isAttacking) {
+        if (player.lastAttackType === 'punch') {
+          newAction = 'punch';
+        } else if (player.lastAttackType === 'kick') {
+          newAction = 'kick';
+        }
+      } else {
+      // Update player sprite based on vertical movement
+      if (player.velocity.y < 0) {
+        newAction = 'jump';
+      } else if (player.velocity.y > 0) {
+        newAction = 'fall';
+      } else {
+        if (keys.ArrowRight.pressed) {
+          player.velocity.x = 5;
+          newAction = 'run'; // Assuming you have a running sprite animation
+        } else if (keys.ArrowLeft.pressed) {
+          player.velocity.x = -5;
+          newAction = 'runLeft' // Assuming you have a running sprite animation
+        } else {
+          newAction = 'idle';
+        }
+      }
+      player.changeSprite(newAction);
+    }
+
+      
+      player.changeSprite(newAction);
       player.update();
       enemy.update();
 
-      if (
-        rectangularCollision({
-          rect1: player,
-          rect2: enemy,
-        }) &&
-        player.isAttacking
-      ) {
-        player.isAttacking = false;
-        enemy.health -= 10;
-        document.getElementById("enemy-health").style.width =
-          enemy.health + "%";
+  if (rectangularCollision({ rect1: player, rect2: enemy }) && player.isAttacking && !player.damageDealt) {
+    enemy.health -= 10;
 
-        // console.log("player hit enemy");
+    document.getElementById("enemy-health").style.width = enemy.health + "%";
+    player.damageDealt = true;
+  }
+
+  if (player.isAttacking && player.framesCurrent === player.sprites[player.lastAttackType].framesMax - 1) {
+    setTimeout(() => {
+      if (player.isAttacking) { // Double-check to avoid conflicts with other state changes
+        player.isAttacking = false;
+        player.changeSprite('idle');
+        player.damageDealt = false; // Reset damage flag here to allow for subsequent attacks
       }
-        if (enemy.health <= 0 || player.health <= 0) {
-          determineWinner({ player, enemy, timerId });
-        }
+    }, 100);
+  }
+      if (enemy.health <= 0 || player.health <= 0) {
+        determineWinner({ player, enemy, timerId });
+      }
       if (
         rectangularCollision({
           rect1: enemy,
@@ -185,9 +261,19 @@ const Game = () => {
           break;
         case " ":
           player.jump();
+
           break;
         case "d":
+          if (!player.isAttacking) {
           player.attack();
+          player.isAttacking = true;
+          }
+          break;
+        case "a":
+          if (!player.isAttacking) {
+          player.kick();
+          player.isAttacking = true;
+          }
           break;
       }
     }
@@ -197,6 +283,7 @@ const Game = () => {
         case "ArrowRight":
           keys.ArrowRight.pressed = false;
           player.velocity.x = 0;
+
           break;
         case "ArrowLeft":
           keys.ArrowLeft.pressed = false;
