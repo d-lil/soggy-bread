@@ -10,6 +10,7 @@ import fighterRunLeft from "./assets/phone_fighter_run_left.png";
 import fighterPunch from "./assets/phone_fighter_punch.png";
 import fighterKick from "./assets/phone_fighter_kick.png";
 import fighterRunRight from "./assets/phone_fighter_run_right.png";
+import fighterTakeHit from "./assets/phone_fighter_take_hit.png";
 
 let gameActive = true;
 
@@ -64,16 +65,7 @@ const Game = () => {
       runSrc: fighterRunRight,
       punchSrc: fighterPunch,
       kickSrc: fighterKick,
-      // sprites: {
-      //   idle: {
-      //     imageSrc: fighterIdle,
-      //     framesMax: 6,
-      //   },
-      //   jump: {
-      //     imageSrc: fighterJump2,
-      //     framesMax: 6,
-      //   },
-      // }
+      takeHitSrc: fighterTakeHit,
     });
 
     const enemy = new Fighter({
@@ -104,16 +96,7 @@ const Game = () => {
       runSrc: fighterRunRight,
       punchSrc: fighterPunch,
       kickSrc: fighterKick,
-      // sprites: {
-      //   idle: {
-      //     imageSrc: fighterIdle,
-      //     framesMax: 6,
-      //   },
-      //   jump: {
-      //     imageSrc: fighterJump2,
-      //     framesMax: 6,
-      //   },
-      // }
+      takeHitSrc: fighterTakeHit,
     });
 
     const keys = {
@@ -178,52 +161,61 @@ const Game = () => {
       let newAction = "idle";
 
       if (player.isAttacking) {
-        if (player.lastAttackType === 'punch') {
-          newAction = 'punch';
-        } else if (player.lastAttackType === 'kick') {
-          newAction = 'kick';
+        if (player.lastAttackType === "punch") {
+          newAction = "punch";
+        } else if (player.lastAttackType === "kick") {
+          newAction = "kick";
         }
       } else {
-      // Update player sprite based on vertical movement
-      if (player.velocity.y < 0) {
-        newAction = 'jump';
-      } else if (player.velocity.y > 0) {
-        newAction = 'fall';
-      } else {
-        if (keys.ArrowRight.pressed) {
-          player.velocity.x = 5;
-          newAction = 'run'; // Assuming you have a running sprite animation
-        } else if (keys.ArrowLeft.pressed) {
-          player.velocity.x = -5;
-          newAction = 'runLeft' // Assuming you have a running sprite animation
+        // Update player sprite based on vertical movement
+        if (player.velocity.y < 0) {
+          newAction = "jump";
+        } else if (player.velocity.y > 0) {
+          newAction = "fall";
         } else {
-          newAction = 'idle';
+          if (keys.ArrowRight.pressed) {
+            player.velocity.x = 5;
+            newAction = "run"; // Assuming you have a running sprite animation
+          } else if (keys.ArrowLeft.pressed) {
+            player.velocity.x = -5;
+            newAction = "runLeft"; // Assuming you have a running sprite animation
+          } else {
+            newAction = "idle";
+          }
         }
+        player.changeSprite(newAction);
       }
-      player.changeSprite(newAction);
-    }
 
-      
       player.changeSprite(newAction);
       player.update();
       enemy.update();
 
-  if (rectangularCollision({ rect1: player, rect2: enemy }) && player.isAttacking && !player.damageDealt) {
-    enemy.health -= 10;
+      if (
+        rectangularCollision({ rect1: player, rect2: enemy }) &&
+        player.isAttacking &&
+        !player.damageDealt
+      ) {
+        enemy.takeHit();
 
-    document.getElementById("enemy-health").style.width = enemy.health + "%";
-    player.damageDealt = true;
-  }
-
-  if (player.isAttacking && player.framesCurrent === player.sprites[player.lastAttackType].framesMax - 1) {
-    setTimeout(() => {
-      if (player.isAttacking) { // Double-check to avoid conflicts with other state changes
-        player.isAttacking = false;
-        player.changeSprite('idle');
-        player.damageDealt = false; // Reset damage flag here to allow for subsequent attacks
+        document.getElementById("enemy-health").style.width =
+          enemy.health + "%";
+        player.damageDealt = true;
       }
-    }, 100);
-  }
+
+      if (
+        player.isAttacking &&
+        player.framesCurrent ===
+          player.sprites[player.lastAttackType].framesMax - 1
+      ) {
+        setTimeout(() => {
+          if (player.isAttacking) {
+            // Double-check to avoid conflicts with other state changes
+            player.isAttacking = false;
+            player.changeSprite("idle");
+            player.damageDealt = false; // Reset damage flag here to allow for subsequent attacks
+          }
+        }, 100);
+      }
       if (enemy.health <= 0 || player.health <= 0) {
         determineWinner({ player, enemy, timerId });
       }
@@ -234,10 +226,12 @@ const Game = () => {
         }) &&
         enemy.isAttacking
       ) {
-        enemy.isAttacking = false;
         player.health -= 5;
         document.getElementById("player-health").style.width =
           player.health + "%";
+        player.changeSprite("takeHit");
+        enemy.damageDealt = true;
+        enemy.isAttacking = false;
         if (enemy.health <= 0 || player.health <= 0) {
           determineWinner({ player, enemy, timerId });
         }
@@ -265,14 +259,14 @@ const Game = () => {
           break;
         case "d":
           if (!player.isAttacking) {
-          player.attack();
-          player.isAttacking = true;
+            player.attack();
+            player.isAttacking = true;
           }
           break;
         case "a":
           if (!player.isAttacking) {
-          player.kick();
-          player.isAttacking = true;
+            player.kick();
+            player.isAttacking = true;
           }
           break;
       }

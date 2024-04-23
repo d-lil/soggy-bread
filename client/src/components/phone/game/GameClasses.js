@@ -1,6 +1,8 @@
 const gravity = 0.7;
-const enemySpeed = 0.5; // Adjust speed as needed
+const enemySpeed = 1; // Adjust speed as needed
 const attackDistance = 150;
+const retreatDistance = 100;
+const jumpDistance = 120;
 let gameActive = true;
 
 export class Sprite {
@@ -42,6 +44,12 @@ export class Sprite {
         this.canvas.height
       );
     } else {
+      let frameWidth = this.width * this.scale * 1.5; // Default frame width scaled
+      if (this.currentAction === "kick") {
+        // Only modify frameWidth if the current action is 'kick'
+        frameWidth = this.sprites.kick.width * this.scale * 1; // Specific width for kick
+      }
+
       this.ctx.drawImage(
         this.image,
         this.framesCurrent * (this.image.width / this.framesMax),
@@ -52,7 +60,8 @@ export class Sprite {
         this.position.y - this.offset.y,
         // this.position.x,
         // this.position.y,
-        this.width * this.scale * 1.5,
+        // this.width * this.scale * 1.5,
+        frameWidth,
         this.height * this.scale
       );
     }
@@ -109,6 +118,7 @@ export class Fighter extends Sprite {
     runSrc,
     punchSrc,
     kickSrc,
+    takeHitSrc,
   }) {
     super({
       position,
@@ -140,15 +150,27 @@ export class Fighter extends Sprite {
     this.framesElapsed = 0;
     this.framesHold = 10;
     this.damageDealt = false;
+    this.isTakingHit = false;
     // this.sprites = sprites;
     this.sprites = {
-      idle: { imageSrc: idleSrc, framesMax: 6, framesHold: 10 },
-      jump: { imageSrc: jumpSrc, framesMax: 2, framesHold: 10 }, // Increased for longer jumps
-      fall: { imageSrc: fallSrc, framesMax: 2, framesHold: 10 }, // Increased for longer falls
-      runLeft: { imageSrc: runLeftSrc, framesMax: 9, framesHold: 10 },
-      run: { imageSrc: runSrc, framesMax: 6, framesHold: 10 },
-      punch: { imageSrc: punchSrc, framesMax: 4, framesHold: 10 },
-      kick: { imageSrc: kickSrc, framesMax: 6, framesHold: 10 },
+      idle: { imageSrc: idleSrc, framesMax: 6, framesHold: 10, width: 75 },
+      jump: { imageSrc: jumpSrc, framesMax: 2, framesHold: 10, width: 75 }, // Increased for longer jumps
+      fall: { imageSrc: fallSrc, framesMax: 2, framesHold: 10, width: 75 }, // Increased for longer falls
+      runLeft: {
+        imageSrc: runLeftSrc,
+        framesMax: 9,
+        framesHold: 10,
+        width: 75,
+      },
+      run: { imageSrc: runSrc, framesMax: 6, framesHold: 10, width: 75 },
+      punch: { imageSrc: punchSrc, framesMax: 4, framesHold: 10, width: 75 },
+      kick: { imageSrc: kickSrc, framesMax: 6, framesHold: 10, width: 103 },
+      takeHit: {
+        imageSrc: takeHitSrc,
+        framesMax: 3,
+        framesHold: 10,
+        width: 75,
+      },
     };
   }
 
@@ -160,44 +182,44 @@ export class Fighter extends Sprite {
   }
 
   shouldPreventActionChange(action) {
-    // Allow sprite change if not attacking, regardless of the frame count
-    if (!this.isAttacking) return false;
-
-    // Otherwise, only prevent change if still within the animation frames
-    return (
-      (this.isCurrentAction("punch") || this.isCurrentAction("kick")) &&
-      this.framesCurrent < this.sprites[action].framesMax - 1
-    );
+    if (
+      this.isTakingHit &&
+      this.framesCurrent < this.sprites["takeHit"].framesMax - 1
+    ) {
+      return true; // Prevent changing action while taking a hit and animation is not complete
+    }
+    if (
+      this.isAttacking &&
+      this.framesCurrent < this.sprites[this.lastAttackType].framesMax - 1
+    ) {
+      return true; // Prevent changing action while attacking and animation is not complete
+    }
+    return false; // Allow action change in other cases
   }
 
   changeSprite(action) {
     if (this.shouldPreventActionChange(action)) {
       return;
     }
-    if (
-      this.isAttacking &&
-      this.framesCurrent < this.sprites[action].framesMax - 1
-    ) {
-      return; // Avoid changing the sprite if the current attack animation hasn't finished
-    }
 
     const newAction = this.sprites[action];
     const currentSrc = new URL(this.image.src, document.location).href; // Normalize current src to absolute URL
     const newSrc = new URL(newAction.imageSrc, document.location).href; // Normalize new src to absolute URL
 
-    // Check both source change and framesHold change or if the animation should be reset forcefully if it has completed.
     if (
       newAction &&
       (currentSrc !== newSrc ||
         this.framesHold !== newAction.framesHold ||
         this.framesCurrent >= this.framesMax)
     ) {
-      this.image.src = newSrc; // Use normalized newSrc
+      this.image.src = newSrc;
       this.framesMax = newAction.framesMax;
-      this.framesCurrent = 0; // Reset the frame counter to start the new animation
-      this.framesElapsed = 0; // Reset the elapsed frames to start the hold count afresh
-      this.framesHold = newAction.framesHold; // Update framesHold based on the action
-      this.isAttacking = false; // Reset attacking status
+      this.framesCurrent = 0;
+      this.framesElapsed = 0;
+      this.framesHold = newAction.framesHold;
+      this.currentAction = action;
+      this.isAttacking = action === "punch" || action === "kick";
+      this.isTakingHit = action === "takeHit";
     }
   }
 
@@ -227,43 +249,79 @@ export class Fighter extends Sprite {
       this.velocity.x = 0;
       return; // Stop AI actions if the game is not active
     }
-    // Determine the direction towards the player
+
+    // Calculate direction and distance to player
     const directionToPlayer = player.position.x > this.position.x ? 1 : -1;
-
-    // Move the enemy towards the player
-    this.velocity.x = enemySpeed * directionToPlayer;
-
-    // Check for attack
     const dx = player.position.x - this.position.x;
-    const dy = player.position.y - this.position.y;
-    const distanceToPlayer = Math.sqrt(dx * dx + dy * dy);
-    // Check for attack only if not on cooldown
+    const distanceToPlayer = Math.sqrt(dx * dx);
+
+    // Determine if the player is behind the enemy
+    const isPlayerBehind = player.position.x > this.position.x;
+
+    // Modify retreat or repositioning logic to use increased speed
+    if (
+      (player.isAttacking && distanceToPlayer < retreatDistance) ||
+      isPlayerBehind
+    ) {
+      // If the player is behind, retreat or reposition faster towards the right of the screen
+      this.velocity.x = isPlayerBehind
+        ? enemySpeed * 2
+        : -enemySpeed * directionToPlayer; // Increase speed when repositioning
+      this.runningDirection = isPlayerBehind
+        ? "run"
+        : directionToPlayer < 0
+        ? "runLeft"
+        : "run";
+    } else {
+      // Regular pursuit towards the player
+      this.velocity.x = enemySpeed * directionToPlayer;
+      this.runningDirection = directionToPlayer > 0 ? "run" : "runLeft";
+    }
+
+    if (!this.isJumping && Math.random() < 0.1) {
+      // Reduce the chance to 5%
+      if (
+        (player.isAttacking && distanceToPlayer < retreatDistance) ||
+        (this.velocity.x < 0 && directionToPlayer > 0)
+      ) {
+        // Jump when retreating or player is attacking
+        this.jump();
+      }
+    }
+    // AI decision to attack
     if (
       distanceToPlayer < attackDistance &&
       !this.isAttacking &&
       !this.attackCooldown
     ) {
-      this.attack();
-      // Set the attack cooldown
+      if (Math.random() < 0.5) {
+        this.kick();
+      } else {
+        this.attack();
+      }
       this.attackCooldown = true;
       setTimeout(() => {
         this.attackCooldown = false;
-      }, 1000); // Cooldown of 2 seconds before next attack is possible
-    }
-
-    // Update position and attack box
-    this.position.x += this.velocity.x;
-    this.attackBox.position.x = this.position.x + this.attackBox.offset.x;
-
-    // Update based on gravity
-    if (this.position.y + this.height + this.velocity.y >= this.canvas.height) {
-      this.velocity.y = 0;
-      this.position.y = this.canvas.height - this.height;
-    } else {
-      this.velocity.y += gravity;
+      }, 1000); // Cooldown of 1 second before next attack is possible
     }
   }
+
+  updateSprite() {
+    if (this.isAttacking) {
+      this.changeSprite(this.lastAttackType === "kick" ? "kick" : "punch");
+    } else if (this.isJumping) {
+      this.changeSprite("jump");
+    } else if (Math.abs(this.velocity.x) > 0) {
+      this.changeSprite(this.runningDirection);
+    } else {
+      this.changeSprite("idle");
+    }
+  }
+
   attack() {
+    if (!gameActive) {
+      return; // Stop AI actions if the game is not active
+    }
     if (!this.isAttacking) {
       this.lastAttackType = "punch"; // Set the attack type
       this.changeSprite("punch");
@@ -272,6 +330,9 @@ export class Fighter extends Sprite {
   }
 
   kick() {
+    if (!gameActive) {
+      return; // Stop AI actions if the game is not active
+    }
     if (!this.isAttacking) {
       this.lastAttackType = "kick"; // Set the attack type
       this.changeSprite("kick");
@@ -280,6 +341,9 @@ export class Fighter extends Sprite {
   }
 
   jump() {
+    if (!gameActive) {
+      return; // Stop AI actions if the game is not active
+    }
     const groundLevel = this.canvas.height - this.height - 20;
     if (this.position.y >= groundLevel) {
       this.velocity.y = -15; // Apply an upward velocity to simulate jumping
@@ -287,26 +351,58 @@ export class Fighter extends Sprite {
     }
   }
 
+  takeHit() {
+    this.health -= 10;
+    this.changeSprite("takeHit");
+  }
+
   animateFrames() {
     this.framesElapsed++;
 
     if (this.framesElapsed % this.framesHold === 0) {
-      if (this.isAttacking && this.lastAttackType) {
+      // First, handle the taking hit animation because it should have priority over others
+      if (this.isTakingHit) {
+        if (this.framesCurrent < this.sprites["takeHit"].framesMax - 1) {
+          this.framesCurrent++;
+        } else {
+          // Reset once the taking hit animation is done
+          this.framesCurrent = 0;
+          this.isTakingHit = false;
+          this.changeSprite("idle");
+        }
+      }
+      // Then handle the attacking animation
+      else if (this.isAttacking && this.lastAttackType) {
         if (
           this.framesCurrent <
           this.sprites[this.lastAttackType].framesMax - 1
         ) {
           this.framesCurrent++;
         } else {
-          // Reset only if it's the last frame of the attack
+          // Reset once the attacking animation is done
           this.framesCurrent = 0;
           this.isAttacking = false;
+          this.damageDealt = false;
           this.changeSprite("idle");
-          this.damageDealt = false; // Consider resetting damage flag here too
         }
-      } else {
-        // Handle non-attack animations or idle state
-        this.framesCurrent = (this.framesCurrent + 1) % this.framesMax;
+      }
+      // Handle idle and running animations
+      else {
+        // Assume this.currentAction holds the current sprite key (e.g., "idle", "running")
+        // Ensure this.currentAction is valid and defaults to "idle" if undefined or not active
+        if (!this.currentAction || !this.sprites[this.currentAction]) {
+          this.currentAction = "idle";
+        }
+
+        // Loop through the current action animation
+        if (
+          this.framesCurrent <
+          this.sprites[this.currentAction].framesMax - 1
+        ) {
+          this.framesCurrent++;
+        } else {
+          this.framesCurrent = 0; // Loop the animation from start
+        }
       }
     }
   }
