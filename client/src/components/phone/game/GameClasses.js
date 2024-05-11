@@ -2,7 +2,6 @@ const gravity = 0.7;
 const enemySpeed = 1; // Adjust speed as needed
 const attackDistance = 150;
 const retreatDistance = 100;
-const jumpDistance = 120;
 let gameActive = true;
 
 export class Sprite {
@@ -404,6 +403,29 @@ export class Fighter extends Sprite {
           this.framesCurrent = 0; // Loop the animation from start
         }
       }
+    }
+  }
+}
+
+export class Bomb extends Sprite {
+  constructor({ position, velocity, ctx, imageSrc, collisionCheck, target }) {
+    super({ position, ctx, imageSrc, framesMax: 1 });
+    this.velocity = velocity;
+    this.collisionCheck = collisionCheck; // Pass the collision detection function
+    this.target = target; // Pass the player as the target
+  }
+
+  update() {
+    super.update(); // Draw and animate frames if necessary
+    this.position.x += this.velocity.x;
+    this.position.y += this.velocity.y;
+
+    // Collision detection with player
+    if (this.collisionCheck({ rect1: this, rect2: this.target })) {
+      // Handle bomb explosion effects here
+      console.log('Bomb hits player!');
+      // Remove bomb or hide it
+      this.visible = false;
     }
   }
 }

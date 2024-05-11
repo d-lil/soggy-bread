@@ -11,6 +11,7 @@ import fighterPunch from "./assets/phone_fighter_punch.png";
 import fighterKick from "./assets/phone_fighter_kick.png";
 import fighterRunRight from "./assets/phone_fighter_run_right.png";
 import fighterTakeHit from "./assets/phone_fighter_take_hit.png";
+import enemyIdle from "./assets/phone_game_enemy_idle.png";
 
 let gameActive = true;
 
@@ -88,7 +89,7 @@ const Game = () => {
         x: 10,
         y: 70,
       },
-      idleSrc: fighterIdle,
+      idleSrc: enemyIdle,
       framesMax: 6,
       jumpSrc: fighterJump,
       fallSrc: fighterFall,
@@ -98,6 +99,15 @@ const Game = () => {
       kickSrc: fighterKick,
       takeHitSrc: fighterTakeHit,
     });
+
+    // const newBomb = new Bomb({
+    //   position: bombPosition,
+    //   velocity: bombVelocity,
+    //   ctx: ctx,
+    //   imageSrc: 'path/to/bomb_image.png',
+    //   collisionCheck: rectangularCollision,
+    //   target: player
+    // });
 
     const keys = {
       ArrowRight: { pressed: false },
@@ -239,6 +249,20 @@ const Game = () => {
       }
     }
 
+    function flashEffect() {
+      // Draw a white rectangle over the entire canvas
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.8)'; // Semi-transparent white
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+    
+      // Use setTimeout to create the fading effect and unfreeze controls
+      setTimeout(() => {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        background.update();
+        player.freezeControls = false; // Assume you have a flag in player to manage this
+      }, 200); // Short flash duration
+    }
+    
+
     animate();
 
     window.addEventListener("keydown", handleKeyDown);
@@ -246,6 +270,9 @@ const Game = () => {
 
     function handleKeyDown(e) {
       if (!gameActive) return;
+      if (player.freezeControls) {
+        return;
+      }
       switch (e.key) {
         case "ArrowRight":
           keys.ArrowRight.pressed = true;
@@ -273,6 +300,10 @@ const Game = () => {
     }
 
     function handleKeyUp(e) {
+      if (!gameActive) return;
+      if (player.freezeControls) {
+        return;
+      }
       switch (e.key) {
         case "ArrowRight":
           keys.ArrowRight.pressed = false;
