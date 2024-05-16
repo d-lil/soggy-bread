@@ -1,17 +1,26 @@
 import React, { useRef, useState, useEffect } from "react";
 import "./css/Game.css";
-import { Sprite, AnimatedSprite, Fighter } from "./GameClasses";
+import { Sprite, Bomb, Fighter } from "./GameClasses";
+import { rectangularCollision } from "./utils/RectangularCollision";
 import gameBackground from "./assets/phone_game_background.png";
 import fighterIdle from "./assets/phone_fighter_idle.png";
 import fighterJump from "./assets/phone_fighter_jumping.png";
 import fighterFall from "./assets/player_fall.png";
-import fighterJump2 from "./assets/phone_fighter_jumping2.png";
 import fighterRunLeft from "./assets/phone_fighter_run_left.png";
 import fighterPunch from "./assets/phone_fighter_punch.png";
 import fighterKick from "./assets/phone_fighter_kick.png";
 import fighterRunRight from "./assets/phone_fighter_run_right.png";
 import fighterTakeHit from "./assets/phone_fighter_take_hit.png";
 import enemyIdle from "./assets/phone_game_enemy_idle.png";
+import enemyRunRight from "./assets/phone_game_enemy_run_right.png";
+import enemyRunLeft from "./assets/phone_game_enemy_run.png";
+import enemyFlash from "./assets/phone_game_enemy_flash.png";
+import enemyThrow from "./assets/phone_game_enemy_throw.png";
+import enemyTakeHit from "./assets/phone_game_enemy_takehit.png";
+import enemyJump from "./assets/phone_game_enemy_jump.png";
+import enemyFall from "./assets/phone_game_enemy_fall.png";
+
+
 
 let gameActive = true;
 
@@ -27,6 +36,7 @@ const Game = () => {
     canvas.width = width;
     canvas.height = height;
 
+  
     const background = new Sprite({
       position: {
         x: 0,
@@ -37,6 +47,15 @@ const Game = () => {
       scale: "fitHeight",
       framesMax: 5,
     });
+
+    const flashEffect = () => {
+      const ctx = canvasRef.current.getContext('2d');
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+      ctx.fillRect(0, 0, canvasRef.current.width, canvasRef.current.height);
+      setTimeout(() => {
+          ctx.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
+      }, 200); // Clear the effect after 200 ms
+  };
 
     const player = new Fighter({
       position: {
@@ -67,6 +86,7 @@ const Game = () => {
       punchSrc: fighterPunch,
       kickSrc: fighterKick,
       takeHitSrc: fighterTakeHit,
+      controlFreeze: null
     });
 
     const enemy = new Fighter({
@@ -91,44 +111,22 @@ const Game = () => {
       },
       idleSrc: enemyIdle,
       framesMax: 6,
-      jumpSrc: fighterJump,
-      fallSrc: fighterFall,
-      runLeftSrc: fighterRunLeft,
-      runSrc: fighterRunRight,
-      punchSrc: fighterPunch,
-      kickSrc: fighterKick,
-      takeHitSrc: fighterTakeHit,
+      jumpSrc: enemyJump,
+      fallSrc: enemyFall,
+      runLeftSrc: enemyRunLeft,
+      runSrc: enemyRunRight,
+      flashSrc: enemyFlash,
+      throwSrc: enemyThrow,
+      flashEffect: flashEffect,
+      takeHitSrc: enemyTakeHit,
+      target: player,
     });
-
-    // const newBomb = new Bomb({
-    //   position: bombPosition,
-    //   velocity: bombVelocity,
-    //   ctx: ctx,
-    //   imageSrc: 'path/to/bomb_image.png',
-    //   collisionCheck: rectangularCollision,
-    //   target: player
-    // });
 
     const keys = {
       ArrowRight: { pressed: false },
       ArrowLeft: { pressed: false },
     };
 
-    function rectangularCollision({ rect1, rect2 }) {
-      if (!rect1 || !rect2 || !rect1.attackBox || !rect2.position) {
-        console.error("Invalid rectangles:", rect1, rect2);
-        return false;
-      }
-
-      return (
-        rect1.attackBox.position.x + rect1.attackBox.width >=
-          rect2.position.x &&
-        rect1.attackBox.position.x <= rect2.position.x + rect2.width &&
-        rect1.attackBox.position.y + rect1.attackBox.height >=
-          rect2.position.y &&
-        rect1.attackBox.position.y <= rect2.position.y + rect2.height
-      );
-    }
     let timerId;
     function determineWinner({ player, enemy, timerId }) {
       clearTimeout(timerId);
@@ -196,6 +194,15 @@ const Game = () => {
         player.changeSprite(newAction);
       }
 
+      enemy.bombs.forEach((bomb, index) => {
+        bomb.update();
+        bomb.draw();  // Make sure to draw the bomb
+        if (!bomb.active) {
+          enemy.bombs.splice(index, 1);  // Remove the bomb if it's no longer active
+        }
+      }
+      );
+
       player.changeSprite(newAction);
       player.update();
       enemy.update();
@@ -248,19 +255,7 @@ const Game = () => {
         // console.log("enemy hit player");
       }
     }
-
-    function flashEffect() {
-      // Draw a white rectangle over the entire canvas
-      ctx.fillStyle = 'rgba(255, 255, 255, 0.8)'; // Semi-transparent white
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-    
-      // Use setTimeout to create the fading effect and unfreeze controls
-      setTimeout(() => {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        background.update();
-        player.freezeControls = false; // Assume you have a flag in player to manage this
-      }, 200); // Short flash duration
-    }
+  
     
 
     animate();
@@ -269,10 +264,8 @@ const Game = () => {
     window.addEventListener("keyup", handleKeyUp);
 
     function handleKeyDown(e) {
-      if (!gameActive) return;
-      if (player.freezeControls) {
-        return;
-      }
+      if (!gameActive || player.freezeControls) return;
+    
       switch (e.key) {
         case "ArrowRight":
           keys.ArrowRight.pressed = true;
@@ -282,28 +275,26 @@ const Game = () => {
           break;
         case " ":
           player.jump();
-
           break;
         case "d":
-          if (!player.isAttacking) {
+          if (!player.isAttacking && !player.freezeControls) {
             player.attack();
             player.isAttacking = true;
           }
           break;
         case "a":
-          if (!player.isAttacking) {
+          if (!player.isAttacking && !player.freezeControls) {
             player.kick();
             player.isAttacking = true;
           }
           break;
       }
     }
+    
 
     function handleKeyUp(e) {
-      if (!gameActive) return;
-      if (player.freezeControls) {
-        return;
-      }
+      if (!gameActive || player.freezeControls) return;
+
       switch (e.key) {
         case "ArrowRight":
           keys.ArrowRight.pressed = false;

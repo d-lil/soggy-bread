@@ -1,5 +1,8 @@
+import loveBomb from "./assets/phone_game_love_bomb.png"
+import { rectangularCollision } from "./utils/RectangularCollision";
+
 const gravity = 0.7;
-const enemySpeed = 1; // Adjust speed as needed
+const enemySpeed = 2; // Adjust speed as needed
 const attackDistance = 150;
 const retreatDistance = 100;
 let gameActive = true;
@@ -118,6 +121,11 @@ export class Fighter extends Sprite {
     punchSrc,
     kickSrc,
     takeHitSrc,
+    flashEffect,
+    flashSrc,
+    throwSrc,
+    options,
+    target,
   }) {
     super({
       position,
@@ -126,6 +134,7 @@ export class Fighter extends Sprite {
       ctx,
       scale,
       offset,
+      options,
     });
 
     this.velocity = velocity;
@@ -150,26 +159,23 @@ export class Fighter extends Sprite {
     this.framesHold = 10;
     this.damageDealt = false;
     this.isTakingHit = false;
+    this.flashEffect = flashEffect;
+    this.freezeControls = false;
+    this.target = target;
+    this.bombs = [];
     // this.sprites = sprites;
     this.sprites = {
       idle: { imageSrc: idleSrc, framesMax: 6, framesHold: 10, width: 75 },
       jump: { imageSrc: jumpSrc, framesMax: 2, framesHold: 10, width: 75 }, // Increased for longer jumps
       fall: { imageSrc: fallSrc, framesMax: 2, framesHold: 10, width: 75 }, // Increased for longer falls
-      runLeft: {
-        imageSrc: runLeftSrc,
-        framesMax: 9,
-        framesHold: 10,
-        width: 75,
-      },
+      runLeft: {imageSrc: runLeftSrc, framesMax: 9, framesHold: 10, width: 75 },
       run: { imageSrc: runSrc, framesMax: 6, framesHold: 10, width: 75 },
       punch: { imageSrc: punchSrc, framesMax: 4, framesHold: 10, width: 75 },
       kick: { imageSrc: kickSrc, framesMax: 6, framesHold: 10, width: 103 },
-      takeHit: {
-        imageSrc: takeHitSrc,
-        framesMax: 3,
-        framesHold: 10,
-        width: 75,
-      },
+      takeHit: { imageSrc: takeHitSrc, framesMax: 3, framesHold: 10, width: 75 },
+      enemyRunLeft: { imageSrc: runLeftSrc, framesMax: 6, framesHold: 10, width: 75 },
+      flash: { imageSrc: flashSrc, framesMax: 8, framesHold: 10, width: 75 },
+      throw: { imageSrc: throwSrc, framesMax: 10, framesHold: 10, width: 75 },
     };
   }
 
@@ -217,7 +223,7 @@ export class Fighter extends Sprite {
       this.framesElapsed = 0;
       this.framesHold = newAction.framesHold;
       this.currentAction = action;
-      this.isAttacking = action === "punch" || action === "kick";
+      this.isAttacking = action === "punch" || action === "kick" || action === "flash";
       this.isTakingHit = action === "takeHit";
     }
   }
@@ -248,6 +254,10 @@ export class Fighter extends Sprite {
       this.velocity.x = 0;
       return; // Stop AI actions if the game is not active
     }
+    
+    if (this.isAttacking) {
+      this.velocity.x = 0;  // Ensure velocity is zero if in an attack mode
+    }
 
     // Calculate direction and distance to player
     const directionToPlayer = player.position.x > this.position.x ? 1 : -1;
@@ -257,6 +267,8 @@ export class Fighter extends Sprite {
     // Determine if the player is behind the enemy
     const isPlayerBehind = player.position.x > this.position.x;
 
+
+    
     // Modify retreat or repositioning logic to use increased speed
     if (
       (player.isAttacking && distanceToPlayer < retreatDistance) ||
@@ -269,14 +281,20 @@ export class Fighter extends Sprite {
       this.runningDirection = isPlayerBehind
         ? "run"
         : directionToPlayer < 0
-        ? "runLeft"
+        ? "enemyRunLeft"
         : "run";
     } else {
       // Regular pursuit towards the player
       this.velocity.x = enemySpeed * directionToPlayer;
-      this.runningDirection = directionToPlayer > 0 ? "run" : "runLeft";
+      this.runningDirection = directionToPlayer > 0 ? "run" : "enemyRunLeft";
     }
-
+    // Dynamic sprite update based on the velocity
+    if (Math.abs(this.velocity.x) > 0) {
+        this.runningDirection = directionToPlayer > 0 ? "run" : "enemyRunLeft";
+        this.changeSprite(this.runningDirection);
+    } else {
+        this.changeSprite("idle");
+    }
     if (!this.isJumping && Math.random() < 0.1) {
       // Reduce the chance to 5%
       if (
@@ -287,6 +305,8 @@ export class Fighter extends Sprite {
         this.jump();
       }
     }
+
+
     // AI decision to attack
     if (
       distanceToPlayer < attackDistance &&
@@ -294,9 +314,9 @@ export class Fighter extends Sprite {
       !this.attackCooldown
     ) {
       if (Math.random() < 0.5) {
-        this.kick();
+        this.flashAttack();
       } else {
-        this.attack();
+        this.throwAttack();
       }
       this.attackCooldown = true;
       setTimeout(() => {
@@ -304,6 +324,84 @@ export class Fighter extends Sprite {
       }, 1000); // Cooldown of 1 second before next attack is possible
     }
   }
+
+
+  flashAttack() {
+    if (!this.isAttacking && !this.attackCooldown && gameActive) {
+        this.isAttacking = true;
+        this.lastAttackType = 'flash';
+        this.changeSprite('flash');
+
+        // Check if target and freezeControls function exist before calling
+        if (this.target && typeof this.target.freezeControls === 'function') {
+            this.target.freezeControls(true); // Freeze player controls
+
+            setTimeout(() => {
+                this.isAttacking = false;
+                this.changeSprite('idle');
+                if (this.target && typeof this.target.freezeControls === 'function') {
+                    this.target.freezeControls(false); // Unfreeze player controls
+                }
+                this.attackCooldown = true;
+                setTimeout(() => {
+                    this.attackCooldown = false;
+                }, 1000); // Cooldown before next attack
+            }, 2000); // Duration of control freeze
+        } else {
+            console.error("Target or freezeControls function is undefined.");
+        }
+    }
+}
+
+
+freezeControls(freeze) {
+  // Implementation of how controls should be frozen or unfrozen
+  this.controlsFrozen = freeze;
+}
+
+throwAttack() {
+  if (!gameActive || this.isAttacking) return;
+
+  console.log("Starting throw attack");
+  this.lastAttackType = "throw";
+  this.changeSprite("throw");
+  this.isAttacking = true;
+  this.velocity.x = 0; // Ensure enemy stops moving
+
+  setTimeout(() => {
+    this.launchBomb();
+    this.isAttacking = false;
+    this.changeSprite("idle");
+    console.log("Throw attack completed and bomb launched");
+  }, 3000); // Ensure this matches the throw animation duration
+}
+
+launchBomb() {
+  console.log("Launching bomb");
+  const bombPosition = {
+    x: this.position.x + (this.direction === 1 ? this.width : -50),
+    y: this.position.y + this.height / 2,
+  };
+  const bombVelocity = {
+    x: this.direction * 5,
+    y: 0
+  };
+
+  const newBomb = new Bomb({
+    position: bombPosition,
+    velocity: bombVelocity,
+    ctx: this.ctx,
+    imageSrc: loveBomb,
+    collisionCheck: rectangularCollision,
+    target: this.target,
+    framesMax: 5 // Ensure this matches your bomb sprite sheet
+  });
+
+  this.bombs.push(newBomb);
+  console.log("Bomb added to array, total bombs: ", this.bombs.length);
+}
+
+
 
   updateSprite() {
     if (this.isAttacking) {
@@ -378,12 +476,17 @@ export class Fighter extends Sprite {
         ) {
           this.framesCurrent++;
         } else {
+          
+          if (this.isAttacking && this.currentAction === 'flash') {
+            this.framesCurrent = 0; // Continue looping flash while attacking
+        } else {
           // Reset once the attacking animation is done
           this.framesCurrent = 0;
           this.isAttacking = false;
           this.damageDealt = false;
           this.changeSprite("idle");
         }
+      }
       }
       // Handle idle and running animations
       else {
@@ -408,24 +511,46 @@ export class Fighter extends Sprite {
 }
 
 export class Bomb extends Sprite {
-  constructor({ position, velocity, ctx, imageSrc, collisionCheck, target }) {
-    super({ position, ctx, imageSrc, framesMax: 1 });
+  constructor({ position, velocity, ctx, imageSrc, collisionCheck, target, framesMax }) {
+    super({
+      position,
+      ctx,
+      imageSrc,
+      framesMax,  // Pass the number of frames in the sprite sheet
+      scale: 1,   // Adjust scale as necessary
+    });
     this.velocity = velocity;
-    this.collisionCheck = collisionCheck; // Pass the collision detection function
-    this.target = target; // Pass the player as the target
+    this.collisionCheck = collisionCheck;
+    this.target = target;
+    this.active = true;
   }
 
   update() {
-    super.update(); // Draw and animate frames if necessary
+    if (!this.active) return;
+    super.update();  // This will handle animation frames
     this.position.x += this.velocity.x;
     this.position.y += this.velocity.y;
 
-    // Collision detection with player
+    // Additional logic to handle collision or going off screen
     if (this.collisionCheck({ rect1: this, rect2: this.target })) {
-      // Handle bomb explosion effects here
       console.log('Bomb hits player!');
-      // Remove bomb or hide it
-      this.visible = false;
+      this.active = false;  // Deactivate the bomb on collision
+    }
+
+    if (this.position.x < 0 || this.position.x > this.ctx.canvas.width ||
+        this.position.y < 0 || this.position.y > this.ctx.canvas.height) {
+      this.active = false;
+    }
+
+    if (this.bombs && Array.isArray(this.bombs)) {
+      this.bombs.forEach((bomb, index) => {
+        bomb.update();
+        if (!bomb.active) {  // Assuming each bomb has an 'active' property
+          this.bombs.splice(index, 1);
+        }
+      });
     }
   }
 }
+
+
