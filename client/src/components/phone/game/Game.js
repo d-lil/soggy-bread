@@ -194,6 +194,11 @@ const Game = () => {
         player.changeSprite(newAction);
       }
 
+
+
+      player.changeSprite(newAction);
+      player.update();
+      enemy.update();
       enemy.bombs.forEach((bomb, index) => {
         bomb.update();
         bomb.draw();  // Make sure to draw the bomb
@@ -202,11 +207,6 @@ const Game = () => {
         }
       }
       );
-
-      player.changeSprite(newAction);
-      player.update();
-      enemy.update();
-
       if (
         rectangularCollision({ rect1: player, rect2: enemy }) &&
         player.isAttacking &&
@@ -233,6 +233,9 @@ const Game = () => {
           }
         }, 100);
       }
+
+
+
       if (enemy.health <= 0 || player.health <= 0) {
         determineWinner({ player, enemy, timerId });
       }
@@ -252,7 +255,6 @@ const Game = () => {
         if (enemy.health <= 0 || player.health <= 0) {
           determineWinner({ player, enemy, timerId });
         }
-        // console.log("enemy hit player");
       }
     }
   

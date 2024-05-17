@@ -78,7 +78,6 @@ export class Sprite {
       } else {
         this.framesCurrent = 0; // Reset frames to loop or stop the animation
         if (this.isAttacking) {
-          console.log("Attack complete");
           this.isAttacking = false; // Stop attacking once the animation cycle is complete
           this.changeSprite("idle"); // Reset to idle animation
         }
@@ -163,6 +162,7 @@ export class Fighter extends Sprite {
     this.freezeControls = false;
     this.target = target;
     this.bombs = [];
+    this.lastAttackType = null;
     // this.sprites = sprites;
     this.sprites = {
       idle: { imageSrc: idleSrc, framesMax: 6, framesHold: 10, width: 75 },
@@ -187,45 +187,50 @@ export class Fighter extends Sprite {
   }
 
   shouldPreventActionChange(action) {
-    if (
-      this.isTakingHit &&
-      this.framesCurrent < this.sprites["takeHit"].framesMax - 1
-    ) {
-      return true; // Prevent changing action while taking a hit and animation is not complete
+    if (!this.sprites[action]) {
+        console.error("Action not defined in sprites:", action);
+        return false; // Default to not preventing action change if undefined
     }
-    if (
-      this.isAttacking &&
-      this.framesCurrent < this.sprites[this.lastAttackType].framesMax - 1
-    ) {
-      return true; // Prevent changing action while attacking and animation is not complete
+
+    if (this.isTakingHit && this.framesCurrent < this.sprites["takeHit"].framesMax - 1) {
+        return true; // Prevent changing action while taking a hit and animation is not complete
     }
+
+    // Check if lastAttackType is valid and prevent action change if the attack animation is not complete
+    if (this.isAttacking && this.lastAttackType && this.sprites[this.lastAttackType] && this.framesCurrent < this.sprites[this.lastAttackType].framesMax - 1) {
+        return true; // Prevent changing action while attacking and animation is not complete
+    }
+
     return false; // Allow action change in other cases
-  }
+}
+
+  
+  
 
   changeSprite(action) {
+    if (!this.sprites[action]) {
+      console.log("Attempted to change to undefined sprite:", action);
+      action = 'idle'; // Default action if undefined
+  }
     if (this.shouldPreventActionChange(action)) {
       return;
     }
 
     const newAction = this.sprites[action];
+    if (!newAction) return; // Safety check
     const currentSrc = new URL(this.image.src, document.location).href; // Normalize current src to absolute URL
     const newSrc = new URL(newAction.imageSrc, document.location).href; // Normalize new src to absolute URL
 
-    if (
-      newAction &&
-      (currentSrc !== newSrc ||
-        this.framesHold !== newAction.framesHold ||
-        this.framesCurrent >= this.framesMax)
-    ) {
+    if (currentSrc !== newSrc) {
       this.image.src = newSrc;
       this.framesMax = newAction.framesMax;
-      this.framesCurrent = 0;
+      this.framesCurrent = 0; // Reset frames to ensure smooth animation
       this.framesElapsed = 0;
       this.framesHold = newAction.framesHold;
       this.currentAction = action;
-      this.isAttacking = action === "punch" || action === "kick" || action === "flash";
+      this.isAttacking = ['punch', 'kick', 'flash', 'throw'].includes(action);
       this.isTakingHit = action === "takeHit";
-    }
+  }
   }
 
   update() {
@@ -250,14 +255,11 @@ export class Fighter extends Sprite {
   }
 
   aiUpdate(player) {
-    if (!gameActive) {
+    if (!gameActive || this.isAttacking) {
       this.velocity.x = 0;
       return; // Stop AI actions if the game is not active
     }
     
-    if (this.isAttacking) {
-      this.velocity.x = 0;  // Ensure velocity is zero if in an attack mode
-    }
 
     // Calculate direction and distance to player
     const directionToPlayer = player.position.x > this.position.x ? 1 : -1;
@@ -289,7 +291,11 @@ export class Fighter extends Sprite {
       this.runningDirection = directionToPlayer > 0 ? "run" : "enemyRunLeft";
     }
     // Dynamic sprite update based on the velocity
-    if (Math.abs(this.velocity.x) > 0) {
+    if (this.velocity.y < 0) {
+      this.changeSprite("jump");
+    } else if (this.velocity.y > 0) {
+      this.changeSprite("fall");
+    } else if (Math.abs(this.velocity.x) > 0) {
         this.runningDirection = directionToPlayer > 0 ? "run" : "enemyRunLeft";
         this.changeSprite(this.runningDirection);
     } else {
@@ -303,6 +309,7 @@ export class Fighter extends Sprite {
       ) {
         // Jump when retreating or player is attacking
         this.jump();
+
       }
     }
 
@@ -321,7 +328,7 @@ export class Fighter extends Sprite {
       this.attackCooldown = true;
       setTimeout(() => {
         this.attackCooldown = false;
-      }, 1000); // Cooldown of 1 second before next attack is possible
+      }, 3000); // Cooldown of 1 second before next attack is possible
     }
   }
 
@@ -329,27 +336,19 @@ export class Fighter extends Sprite {
   flashAttack() {
     if (!this.isAttacking && !this.attackCooldown && gameActive) {
         this.isAttacking = true;
-        this.lastAttackType = 'flash';
         this.changeSprite('flash');
+        this.lastAttackType = 'flash';
+        // Implement the flash effect or other visual feedback
+        this.flashEffect();
 
-        // Check if target and freezeControls function exist before calling
-        if (this.target && typeof this.target.freezeControls === 'function') {
-            this.target.freezeControls(true); // Freeze player controls
-
+        setTimeout(() => {
+            this.isAttacking = false;
+            this.changeSprite('idle');
+            this.attackCooldown = true;
             setTimeout(() => {
-                this.isAttacking = false;
-                this.changeSprite('idle');
-                if (this.target && typeof this.target.freezeControls === 'function') {
-                    this.target.freezeControls(false); // Unfreeze player controls
-                }
-                this.attackCooldown = true;
-                setTimeout(() => {
-                    this.attackCooldown = false;
-                }, 1000); // Cooldown before next attack
-            }, 2000); // Duration of control freeze
-        } else {
-            console.error("Target or freezeControls function is undefined.");
-        }
+                this.attackCooldown = false;
+            }, 1000); // Cooldown before next attack
+        }, 2000); // Duration of the flash attack
     }
 }
 
@@ -361,23 +360,19 @@ freezeControls(freeze) {
 
 throwAttack() {
   if (!gameActive || this.isAttacking) return;
-
-  console.log("Starting throw attack");
-  this.lastAttackType = "throw";
-  this.changeSprite("throw");
   this.isAttacking = true;
   this.velocity.x = 0; // Ensure enemy stops moving
+  this.changeSprite("throw");
+  this.lastAttackType = "throw";
 
   setTimeout(() => {
-    this.launchBomb();
-    this.isAttacking = false;
-    this.changeSprite("idle");
-    console.log("Throw attack completed and bomb launched");
+      this.launchBomb();
+      this.isAttacking = false;
+      this.changeSprite("idle");
   }, 3000); // Ensure this matches the throw animation duration
 }
 
 launchBomb() {
-  console.log("Launching bomb");
   const bombPosition = {
     x: this.position.x + (this.direction === 1 ? this.width : -50),
     y: this.position.y + this.height / 2,
@@ -390,6 +385,8 @@ launchBomb() {
   const newBomb = new Bomb({
     position: bombPosition,
     velocity: bombVelocity,
+    width: 40,
+    height: 40,
     ctx: this.ctx,
     imageSrc: loveBomb,
     collisionCheck: rectangularCollision,
@@ -398,7 +395,6 @@ launchBomb() {
   });
 
   this.bombs.push(newBomb);
-  console.log("Bomb added to array, total bombs: ", this.bombs.length);
 }
 
 
@@ -511,45 +507,39 @@ launchBomb() {
 }
 
 export class Bomb extends Sprite {
-  constructor({ position, velocity, ctx, imageSrc, collisionCheck, target, framesMax }) {
-    super({
-      position,
-      ctx,
-      imageSrc,
-      framesMax,  // Pass the number of frames in the sprite sheet
-      scale: 1,   // Adjust scale as necessary
-    });
+  constructor({ position, velocity, ctx, imageSrc, scale, framesMax }) {
+    super({ position, ctx, imageSrc, scale, framesMax });
     this.velocity = velocity;
-    this.collisionCheck = collisionCheck;
-    this.target = target;
     this.active = true;
+    this.attackBox = { // Ensure the bomb has an attackBox if used in collisions
+      position: this.position,
+      width: this.width,
+      height: this.height
+    };
   }
 
   update() {
     if (!this.active) return;
-    super.update();  // This will handle animation frames
+    super.update();
     this.position.x += this.velocity.x;
     this.position.y += this.velocity.y;
 
-    // Additional logic to handle collision or going off screen
-    if (this.collisionCheck({ rect1: this, rect2: this.target })) {
-      console.log('Bomb hits player!');
-      this.active = false;  // Deactivate the bomb on collision
-    }
-
+    // Check bounds
     if (this.position.x < 0 || this.position.x > this.ctx.canvas.width ||
         this.position.y < 0 || this.position.y > this.ctx.canvas.height) {
       this.active = false;
     }
+  }
 
-    if (this.bombs && Array.isArray(this.bombs)) {
-      this.bombs.forEach((bomb, index) => {
-        bomb.update();
-        if (!bomb.active) {  // Assuming each bomb has an 'active' property
-          this.bombs.splice(index, 1);
-        }
-      });
-    }
+  draw() {
+    if (!this.active) return;
+    this.ctx.drawImage(
+      this.image,
+      this.position.x,
+      this.position.y,
+      this.width, // Ensure you have width and height defined
+      this.height
+    );
   }
 }
 
