@@ -1,13 +1,10 @@
 import React, { useRef, useState, useEffect } from "react";
 import "./css/Camera.css";
+import { addPhoto } from "./cameraUtils/indexedDBUtils";
 
 const filters = [
   { name: "None", value: "none", className: "filter-none" },
-  {
-    name: "Grayscale",
-    value: "grayscale(100%)",
-    className: "filter-grayscale",
-  },
+  { name: "Grayscale", value: "grayscale(100%)",className: "filter-grayscale", },
   { name: "Sepia", value: "sepia(100%)", className: "filter-sepia" },
   { name: "Invert", value: "invert(100%)", className: "filter-invert" },
   { name: "Contrast", value: "contrast(200%)", className: "filter-contrast" },
@@ -162,6 +159,7 @@ const Camera = ({ setPhotos }) => {
       applyFilterToCanvas(context); // Apply filter before drawing the image
       context.drawImage(video, 0, 0, canvas.width, canvas.height);
       const imageUrl = canvas.toDataURL("image/png");
+      addPhoto(imageUrl);
       setLocalPhotos((prev) => [...prev, imageUrl]);
       setPhotos((prev) => [...prev, imageUrl]);
     }

@@ -1,13 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./css/Gallery.css";
+import { getPhotos, deletePhoto } from "./cameraUtils/indexedDBUtils";
 
-const Gallery = ({ photos, onDelete }) => {
+const Gallery = () => {
   const [enlargedImageIndex, setEnlargedImageIndex] = useState(null);
   const [selectedForDeletion, setSelectedForDeletion] = useState(null);
+  const [photos, setPhotos] = useState([]);
 
-  if (!photos) {
-    return <div>Loading photos...</div>; // Or any other placeholder content
-  }
+  useEffect(() => {
+      getPhotos().then(setPhotos);
+  }, []);
 
   const handleImageClick = (index) => {
     setEnlargedImageIndex(index); // Enlarge the image
@@ -21,10 +23,16 @@ const Gallery = ({ photos, onDelete }) => {
 
   const confirmDeletion = (confirm, index) => {
     if (confirm) {
-      onDelete(index);
+      deletePhoto(photos[index].id).then(() => {
+        getPhotos().then(setPhotos); // Refresh photos from IndexedDB
+      });
     }
     setSelectedForDeletion(null); // Reset the selection whether confirmed or not
   };
+
+  if (!photos.length) {
+    return
+  }
 
   return (
     <div className="gallery-container">
@@ -32,10 +40,9 @@ const Gallery = ({ photos, onDelete }) => {
       {enlargedImageIndex !== null && (
         <div className="enlarged-image-container">
           <img
-            src={photos[enlargedImageIndex]}
-            alt={`Enlarged captured`}
+            src={photos[enlargedImageIndex].data}
+            alt={`Enlarged capture`}
             className="enlarged-image"
-             // Clicking the enlarged image closes it
           />
           <button className="enlarged-close-btn" onClick={() => setEnlargedImageIndex(null)}>X</button>
         </div>
@@ -44,19 +51,18 @@ const Gallery = ({ photos, onDelete }) => {
         {photos.map((photo, index) => (
           <div className="gallery-item" key={index}>
             <img
-              src={photo}
+              src={photo.data}
               alt={`Captured ${index}`}
               className="gallery-image"
-              onClick={() => handleImageClick(index)} // Click to enlarge image
+              onClick={() => handleImageClick(index)}
             />
             <button onClick={() => handleDeleteButtonClick(index)} className="gallery-delete-button">🗑</button>
-            
             {selectedForDeletion === index && (
               <div className="gallery-delete-confirmation">
                 Delete? 
                 <div>
-                <button onClick={() => confirmDeletion(true, index)} className="gallery-delete-yes">Yes</button>
-                <button onClick={() => confirmDeletion(false)} className="gallery-delete-no">No</button>
+                  <button onClick={() => confirmDeletion(true, index)} className="gallery-delete-yes">Yes</button>
+                  <button onClick={() => confirmDeletion(false)} className="gallery-delete-no">No</button>
                 </div>
               </div>
             )}

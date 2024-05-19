@@ -21,7 +21,7 @@ import enemyJump from "./assets/phone_game_enemy_jump.png";
 import enemyFall from "./assets/phone_game_enemy_fall.png";
 
 
-
+let animationFrameId
 let gameActive = true;
 let freezeControls = false;
 
@@ -50,6 +50,8 @@ const Game = () => {
     });
 
     const flashEffect = () => {
+      if (!canvasRef.current) return;
+
       freezeControls = true; 
       const ctx = canvasRef.current.getContext('2d');
       ctx.save(); 
@@ -164,7 +166,7 @@ const Game = () => {
 
 
     function animate() {
-      if (!gameActive) return;
+      if (!gameActive || !canvasRef.current) return;
       window.requestAnimationFrame(animate);
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       background.update();
@@ -327,7 +329,7 @@ const Game = () => {
       window.removeEventListener("keyup", handleKeyUp);
 
       clearInterval(timerId);
-
+      window.cancelAnimationFrame(animationFrameId);
     };
   }, []);
 
