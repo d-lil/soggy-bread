@@ -23,10 +23,12 @@ import enemyFall from "./assets/phone_game_enemy_fall.png";
 
 
 let gameActive = true;
+let freezeControls = false;
 
 const Game = () => {
   const canvasRef = useRef(null);
   const [gameResult, setGameResult] = useState("");
+  const [timer, setTimer] = useState(60);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -35,7 +37,6 @@ const Game = () => {
     const height = 365;
     canvas.width = width;
     canvas.height = height;
-
   
     const background = new Sprite({
       position: {
@@ -49,14 +50,23 @@ const Game = () => {
     });
 
     const flashEffect = () => {
+      freezeControls = true; 
       const ctx = canvasRef.current.getContext('2d');
-      ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+      ctx.save(); 
+      ctx.globalCompositeOperation = 'lighter'; 
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.8)'; 
       ctx.fillRect(0, 0, canvasRef.current.width, canvasRef.current.height);
       setTimeout(() => {
           ctx.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
-      }, 200); // Clear the effect after 200 ms
-  };
-
+          ctx.restore();
+      }, 100);
+      setTimeout(() => {
+          freezeControls = false; 
+      }, 1000); 
+    };
+    
+    
+    
     const player = new Fighter({
       position: {
         x: 20,
@@ -127,7 +137,7 @@ const Game = () => {
       ArrowLeft: { pressed: false },
     };
 
-    let timerId;
+
     function determineWinner({ player, enemy, timerId }) {
       clearTimeout(timerId);
       gameActive = false;
@@ -140,24 +150,18 @@ const Game = () => {
       }
     }
 
-    let timer = 60;
 
-    function decreaseTimer() {
-      if (gameActive === false) {
-        return;
-      }
-      if (timer > 0) {
-        timerId = setTimeout(decreaseTimer, 1000);
-        timer--;
-        document.getElementById("timer").innerHTML = timer;
-      }
-      if (timer === 0) {
+    const timerId = setInterval(() => {
+      setTimer((prevTimer) => {
+        if (prevTimer > 1) return prevTimer - 1; // Decrease timer by 1
+        clearInterval(timerId); // Clear interval when timer reaches 0
         gameActive = false;
         determineWinner({ player, enemy, timerId });
-      }
-    }
+        return 0; // Set timer to 0
+      });
+    }, 1000);
 
-    decreaseTimer();
+
 
     function animate() {
       if (!gameActive) return;
@@ -175,6 +179,15 @@ const Game = () => {
           newAction = "kick";
         }
       } else {
+        if (freezeControls) {
+          player.velocity.x = 0;
+          newAction = "idle";
+          ///////////////////////////////////////////////////////////////
+          // NEED TO ADJUST THIS PART FOR MORE FLUID MOVEMENT //////////////////////////////////////////////////////////////////
+          ///////////////////////////////////////////////////////////////
+          keys.ArrowRight.pressed = false;
+          keys.ArrowLeft.pressed = false;
+        } else {
         // Update player sprite based on vertical movement
         if (player.velocity.y < 0) {
           newAction = "jump";
@@ -183,27 +196,26 @@ const Game = () => {
         } else {
           if (keys.ArrowRight.pressed) {
             player.velocity.x = 5;
-            newAction = "run"; // Assuming you have a running sprite animation
+            newAction = "run"; 
           } else if (keys.ArrowLeft.pressed) {
             player.velocity.x = -5;
-            newAction = "runLeft"; // Assuming you have a running sprite animation
+            newAction = "runLeft"; 
           } else {
             newAction = "idle";
           }
         }
+      }
         player.changeSprite(newAction);
       }
-
-
 
       player.changeSprite(newAction);
       player.update();
       enemy.update();
       enemy.bombs.forEach((bomb, index) => {
         bomb.update();
-        bomb.draw();  // Make sure to draw the bomb
+        bomb.draw(); 
         if (!bomb.active) {
-          enemy.bombs.splice(index, 1);  // Remove the bomb if it's no longer active
+          enemy.bombs.splice(index, 1); 
         }
       }
       );
@@ -226,10 +238,10 @@ const Game = () => {
       ) {
         setTimeout(() => {
           if (player.isAttacking) {
-            // Double-check to avoid conflicts with other state changes
+           
             player.isAttacking = false;
             player.changeSprite("idle");
-            player.damageDealt = false; // Reset damage flag here to allow for subsequent attacks
+            player.damageDealt = false;
           }
         }, 100);
       }
@@ -266,7 +278,7 @@ const Game = () => {
     window.addEventListener("keyup", handleKeyUp);
 
     function handleKeyDown(e) {
-      if (!gameActive || player.freezeControls) return;
+      if (!gameActive || freezeControls) return;
     
       switch (e.key) {
         case "ArrowRight":
@@ -295,7 +307,7 @@ const Game = () => {
     
 
     function handleKeyUp(e) {
-      if (!gameActive || player.freezeControls) return;
+      if (!gameActive || freezeControls) return;
 
       switch (e.key) {
         case "ArrowRight":
@@ -313,6 +325,9 @@ const Game = () => {
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
       window.removeEventListener("keyup", handleKeyUp);
+
+      clearInterval(timerId);
+
     };
   }, []);
 
@@ -324,7 +339,7 @@ const Game = () => {
           <div className="player-health-decrease" id="player-health"></div>
         </div>
         <div className="timer" id="timer">
-          60
+          {timer}
         </div>
         <div className="enemy-health-divs">
           <div className="enemy-health">Enemy Health</div>
