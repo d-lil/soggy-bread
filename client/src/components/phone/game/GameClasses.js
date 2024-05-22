@@ -558,7 +558,6 @@ class Bomb extends Sprite {
     this.attackBox.position.x = this.position.x + this.attackBox.offset.x;
     this.attackBox.position.y = this.position.y + this.attackBox.offset.y;
 
-    console.log(`Bomb updated [ID: ${this.id}] at position:`, this.position, 'Active:', this.active, 'Animation Completed:', this.animationCompleted, 'Attack Box:', this.attackBox);
   }
 
   draw() {
@@ -573,6 +572,5 @@ class Bomb extends Sprite {
       this.position.x, this.position.y,
       frameWidth * this.scale, frameHeight * this.scale
     );
-    console.log(`Bomb drawn [ID: ${this.id}] at position:`, this.position, 'Active:', this.active, 'Animation Completed:', this.animationCompleted, 'Attack Box:', this.attackBox);
   }
 }

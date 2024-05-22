@@ -162,10 +162,13 @@ const Game = () => {
         clearTimeout(timerId);
         gameActive = false;
         if (player.health === enemy.health) {
+          clearTimeout(timerId);
           setGameResult("tie");
         } else if (player.health > enemy.health) {
+          clearTimeout(timerId);
           setGameResult("playerWins");
         } else {
+          clearTimeout(timerId);
           setGameResult("enemyWins");
         }
       }
@@ -430,14 +433,14 @@ const Game = () => {
         <div className="game-canvas">
           <div className="game-header">
             <div className="player-health-divs">
-              <div className="player-health">player Health</div>
+              <div className="player-health"></div>
               <div className="player-health-decrease" id="player-health"></div>
             </div>
             <div className="timer" id="timer">
               {timer}
             </div>
             <div className="enemy-health-divs">
-              <div className="enemy-health">Enemy Health</div>
+              <div className="enemy-health"></div>
               <div className="enemy-health-decrease" id="enemy-health"></div>
             </div>
           </div>
