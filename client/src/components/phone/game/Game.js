@@ -11,6 +11,7 @@ import fighterPunch from "./assets/phone_fighter_punch.png";
 import fighterKick from "./assets/phone_fighter_kick.png";
 import fighterRunRight from "./assets/phone_fighter_run_right.png";
 import fighterTakeHit from "./assets/phone_fighter_take_hit.png";
+import fighterStunned from "./assets/phone_fighter_stunned.png";
 import enemyIdle from "./assets/phone_game_enemy_idle.png";
 import enemyRunRight from "./assets/phone_game_enemy_run_right.png";
 import enemyRunLeft from "./assets/phone_game_enemy_run.png";
@@ -19,341 +20,363 @@ import enemyThrow from "./assets/phone_game_enemy_throw.png";
 import enemyTakeHit from "./assets/phone_game_enemy_takehit.png";
 import enemyJump from "./assets/phone_game_enemy_jump.png";
 import enemyFall from "./assets/phone_game_enemy_fall.png";
+
 import gameSong from "./assets/Vierre_Cloud_moment.mp3";
 
-
-let animationFrameId
+let animationFrameId;
 let gameActive = true;
 let freezeControls = false;
 
 const Game = () => {
   const canvasRef = useRef(null);
   const audioRef = useRef(new Audio(gameSong));
-  const [volume, setVolume] = useState(0.06); 
+  const [volume, setVolume] = useState(0.06);
   const [gameResult, setGameResult] = useState("");
   const [timer, setTimer] = useState(60);
-  const [screen, setScreen] = useState("loading");
-  const [fade, setFade] = useState(true);
+
+  // Check localStorage immediately before setting initial state
+  const initialScreen =
+    localStorage.getItem("resetToGame") === "true" ? "game" : "loading";
+  localStorage.removeItem("resetToGame"); // Clean up the flag regardless of its value
+  const [screen, setScreen] = useState(initialScreen);
 
   useEffect(() => {
-    audioRef.current.volume = volume;  // Apply volume from state to audio element
+    audioRef.current.volume = volume; // Apply volume from state to audio element
   }, [volume]);
 
   useEffect(() => {
     if (screen === "game") {
-    const canvas = canvasRef.current;
-    const ctx = canvas.getContext("2d");
-    const width = 553;
-    const height = 365;
-    canvas.width = width;
-    canvas.height = height;
-  
-    const background = new Sprite({
-      position: {
-        x: 0,
-        y: 0,
-      },
-      ctx,
-      imageSrc: gameBackground,
-      scale: "fitHeight",
-      framesMax: 5,
-    });
+      const canvas = canvasRef.current;
+      const ctx = canvas.getContext("2d");
+      const width = 553;
+      const height = 365;
+      canvas.width = width;
+      canvas.height = height;
 
-    const flashEffect = () => {
-      if (!canvasRef.current) return;
-
-      freezeControls = true; 
-      const ctx = canvasRef.current.getContext('2d');
-      ctx.save(); 
-      ctx.globalCompositeOperation = 'lighter'; 
-      ctx.fillStyle = 'rgba(255, 255, 255, 0.8)'; 
-      ctx.fillRect(0, 0, canvasRef.current.width, canvasRef.current.height);
-      setTimeout(() => {
-          ctx.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
-          ctx.restore();
-      }, 100);
-      setTimeout(() => {
-          freezeControls = false; 
-      }, 1000); 
-    };
-    
-    
-    
-    const player = new Fighter({
-      position: {
-        x: 20,
-        y: 20,
-      },
-      velocity: {
-        x: 0,
-        y: 0,
-      },
-      offset: {
-        x: 0,
-        y: 0,
-      },
-      ctx,
-      scale: 1.5,
-      offset: {
-        x: 10,
-        y: 70,
-      },
-
-      idleSrc: fighterIdle,
-      framesMax: 6,
-      jumpSrc: fighterJump,
-      runLeftSrc: fighterRunLeft,
-      fallSrc: fighterFall,
-      runSrc: fighterRunRight,
-      punchSrc: fighterPunch,
-      kickSrc: fighterKick,
-      takeHitSrc: fighterTakeHit,
-      controlFreeze: null
-    });
-
-    const enemy = new Fighter({
-      position: {
-        x: 280,
-        y: 100,
-      },
-      velocity: {
-        x: 0,
-        y: 0,
-      },
-      offset: {
-        x: -50,
-        y: 0,
-      },
-      ctx,
-
-      scale: 1.5,
-      offset: {
-        x: 10,
-        y: 70,
-      },
-      idleSrc: enemyIdle,
-      framesMax: 6,
-      jumpSrc: enemyJump,
-      fallSrc: enemyFall,
-      runLeftSrc: enemyRunLeft,
-      runSrc: enemyRunRight,
-      flashSrc: enemyFlash,
-      throwSrc: enemyThrow,
-      flashEffect: flashEffect,
-      takeHitSrc: enemyTakeHit,
-      target: player,
-    });
-
-    const keys = {
-      ArrowRight: { pressed: false },
-      ArrowLeft: { pressed: false },
-    };
-
-
-    function determineWinner({ player, enemy, timerId }) {
-      clearTimeout(timerId);
-      gameActive = false;
-      if (player.health === enemy.health) {
-        setGameResult("tie");
-      } else if (player.health > enemy.health) {
-        setGameResult("playerWins");
-      } else {
-        setGameResult("enemyWins");
-      }
-    }
-
-
-    const timerId = setInterval(() => {
-      setTimer((prevTimer) => {
-        if (prevTimer > 1) return prevTimer - 1; // Decrease timer by 1
-        clearInterval(timerId); // Clear interval when timer reaches 0
-        gameActive = false;
-        determineWinner({ player, enemy, timerId });
-        return 0; // Set timer to 0
+      const background = new Sprite({
+        position: {
+          x: 0,
+          y: 0,
+        },
+        ctx,
+        imageSrc: gameBackground,
+        scale: "fitHeight",
+        framesMax: 5,
       });
-    }, 1000);
 
+      const flashEffect = () => {
+        if (!canvasRef.current) return;
 
-
-    function animate() {
-      if (!gameActive || !canvasRef.current) return;
-      window.requestAnimationFrame(animate);
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      background.update();
-      enemy.aiUpdate(player);
-
-      let newAction = "idle";
-
-      if (player.isAttacking) {
-        if (player.lastAttackType === "punch") {
-          newAction = "punch";
-        } else if (player.lastAttackType === "kick") {
-          newAction = "kick";
-        }
-      } else {
-        if (freezeControls) {
-          player.velocity.x = 0;
-          newAction = "idle";
-          ///////////////////////////////////////////////////////////////
-          // NEED TO ADJUST THIS PART FOR MORE FLUID MOVEMENT //////////////////////////////////////////////////////////////////
-          ///////////////////////////////////////////////////////////////
-          keys.ArrowRight.pressed = false;
-          keys.ArrowLeft.pressed = false;
-        } else {
-        // Update player sprite based on vertical movement
-        if (player.velocity.y < 0) {
-          newAction = "jump";
-        } else if (player.velocity.y > 0) {
-          newAction = "fall";
-        } else {
-          if (keys.ArrowRight.pressed) {
-            player.velocity.x = 5;
-            newAction = "run"; 
-          } else if (keys.ArrowLeft.pressed) {
-            player.velocity.x = -5;
-            newAction = "runLeft"; 
-          } else {
-            newAction = "idle";
-          }
-        }
-      }
-        player.changeSprite(newAction);
-      }
-
-      player.changeSprite(newAction);
-      player.update();
-      enemy.update();
-      enemy.bombs.forEach((bomb, index) => {
-        bomb.update();
-        bomb.draw(); 
-        if (!bomb.active) {
-          enemy.bombs.splice(index, 1); 
-        }
-      }
-      );
-      if (
-        rectangularCollision({ rect1: player, rect2: enemy }) &&
-        player.isAttacking &&
-        !player.damageDealt
-      ) {
-        enemy.takeHit();
-
-        document.getElementById("enemy-health").style.width =
-          enemy.health + "%";
-        player.damageDealt = true;
-      }
-
-      if (
-        player.isAttacking &&
-        player.framesCurrent ===
-          player.sprites[player.lastAttackType].framesMax - 1
-      ) {
+        freezeControls = true;
+        const ctx = canvasRef.current.getContext("2d");
+        ctx.save();
+        ctx.globalCompositeOperation = "lighter";
+        ctx.fillStyle = "rgba(255, 255, 255, 0.8)";
+        ctx.fillRect(0, 0, canvasRef.current.width, canvasRef.current.height);
         setTimeout(() => {
-          if (player.isAttacking) {
-           
-            player.isAttacking = false;
-            player.changeSprite("idle");
-            player.damageDealt = false;
-          }
+          ctx.clearRect(
+            0,
+            0,
+            canvasRef.current.width,
+            canvasRef.current.height
+          );
+          ctx.restore();
         }, 100);
+        setTimeout(() => {
+          freezeControls = false;
+        }, 1000);
+      };
+
+      const player = new Fighter({
+        position: {
+          x: 20,
+          y: 20,
+        },
+        velocity: {
+          x: 0,
+          y: 0,
+        },
+        offset: {
+          x: 0,
+          y: 0,
+        },
+        ctx,
+        scale: 1.5,
+        offset: {
+          x: 10,
+          y: 70,
+        },
+
+        idleSrc: fighterIdle,
+        framesMax: 6,
+        jumpSrc: fighterJump,
+        runLeftSrc: fighterRunLeft,
+        fallSrc: fighterFall,
+        runSrc: fighterRunRight,
+        punchSrc: fighterPunch,
+        kickSrc: fighterKick,
+        takeHitSrc: fighterTakeHit,
+        stunnedSrc: fighterStunned,
+        controlFreeze: null,
+      });
+
+      const enemy = new Fighter({
+        position: {
+          x: 280,
+          y: 100,
+        },
+        velocity: {
+          x: 0,
+          y: 0,
+        },
+        offset: {
+          x: -50,
+          y: 0,
+        },
+        ctx,
+
+        scale: 1.5,
+        offset: {
+          x: 10,
+          y: 70,
+        },
+        idleSrc: enemyIdle,
+        framesMax: 6,
+        jumpSrc: enemyJump,
+        fallSrc: enemyFall,
+        runLeftSrc: enemyRunLeft,
+        runSrc: enemyRunRight,
+        flashSrc: enemyFlash,
+        throwSrc: enemyThrow,
+        flashEffect: flashEffect,
+        takeHitSrc: enemyTakeHit,
+        target: player,
+      });
+
+      const keys = {
+        ArrowRight: { pressed: false },
+        ArrowLeft: { pressed: false },
+      };
+
+      function determineWinner({ player, enemy, timerId }) {
+        clearTimeout(timerId);
+        gameActive = false;
+        if (player.health === enemy.health) {
+          setGameResult("tie");
+        } else if (player.health > enemy.health) {
+          setGameResult("playerWins");
+        } else {
+          setGameResult("enemyWins");
+        }
       }
 
+      const timerId = setInterval(() => {
+        setTimer((prevTimer) => {
+          if (prevTimer > 1) return prevTimer - 1;
+          clearInterval(timerId);
+          gameActive = false;
+          determineWinner({ player, enemy, timerId });
+          return 0;
+        });
+      }, 1000);
 
+      function animate() {
+        if (!gameActive || !canvasRef.current) {
+          audioRef.current.pause();
+          audioRef.current.currentTime = 0;
+          return;
+        }
+        window.requestAnimationFrame(animate);
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        background.update();
+        enemy.aiUpdate(player);
 
-      if (enemy.health <= 0 || player.health <= 0) {
-        determineWinner({ player, enemy, timerId });
-      }
-      if (
-        rectangularCollision({
-          rect1: enemy,
-          rect2: player,
-        }) &&
-        enemy.isAttacking
-      ) {
-        player.health -= 5;
-        document.getElementById("player-health").style.width =
-          player.health + "%";
-        player.changeSprite("takeHit");
-        enemy.damageDealt = true;
-        enemy.isAttacking = false;
+        let newAction = "idle";
+
+        if (player.isAttacking) {
+          if (player.lastAttackType === "punch") {
+            newAction = "punch";
+          } else if (player.lastAttackType === "kick") {
+            newAction = "kick";
+          }
+        } else {
+          if (freezeControls) {
+            player.velocity.x = 0;
+            newAction = "stunned";
+            ///////////////////////////////////////////////////////////////
+            // NEED TO ADJUST THIS PART FOR MORE FLUID MOVEMENT //////////////////////////////////////////////////////////////////
+            ///////////////////////////////////////////////////////////////
+            keys.ArrowRight.pressed = false;
+            keys.ArrowLeft.pressed = false;
+          } else {
+            if (player.velocity.y < 0) {
+              newAction = "jump";
+            } else if (player.velocity.y > 0) {
+              newAction = "fall";
+            } else {
+              if (keys.ArrowRight.pressed) {
+                player.velocity.x = 5;
+                newAction = "run";
+              } else if (keys.ArrowLeft.pressed) {
+                player.velocity.x = -5;
+                newAction = "runLeft";
+              } else {
+                newAction = "idle";
+              }
+            }
+          }
+          player.changeSprite(newAction);
+        }
+
+        player.changeSprite(newAction);
+        player.update();
+        enemy.update();
+        if (enemy.bombs.length > 0) {
+          const bomb = enemy.bombs[0];
+          bomb.update();
+          bomb.draw();
+        
+          // Ensure bomb continues to animate after collision
+          if (!bomb.hasCollided && bomb.animationCompleted) {
+            // Check for collisions and flag the bomb
+            if (rectangularCollision({ rect1: bomb.attackBox, rect2: player })) {
+              player.health -= 15; // Apply damage
+              document.getElementById("player-health").style.width = player.health + "%";
+              player.changeSprite("takeHit"); // Trigger hit animation
+              bomb.hasCollided = true; // Flag the bomb as collided
+        
+              // Check if the game should end due to health conditions
+              if (player.health <= 0) {
+                determineWinner({ player, enemy, timerId });
+              }
+            }
+        
+            bomb.active = false; // Mark the bomb as inactive after collision detection
+          }
+        
+          // Remove inactive bombs
+          if (!bomb.active) {
+            enemy.bombs = []; // Remove inactive bombs
+          }
+        }
+
+        if (
+          rectangularCollision({ rect1: player, rect2: enemy }) &&
+          player.isAttacking &&
+          !player.damageDealt
+        ) {
+          enemy.takeHit();
+
+          document.getElementById("enemy-health").style.width =
+            enemy.health + "%";
+          player.damageDealt = true;
+        }
+
+        if (
+          player.isAttacking &&
+          player.framesCurrent ===
+            player.sprites[player.lastAttackType].framesMax - 1
+        ) {
+          setTimeout(() => {
+            if (player.isAttacking) {
+              player.isAttacking = false;
+              player.changeSprite("idle");
+              player.damageDealt = false;
+            }
+          }, 100);
+        }
+
         if (enemy.health <= 0 || player.health <= 0) {
           determineWinner({ player, enemy, timerId });
         }
+        // if (
+        //   rectangularCollision({
+        //     rect1: enemy,
+        //     rect2: player,
+        //   }) &&
+        //   enemy.isAttacking
+        // ) {
+        //   player.health -= 5;
+        //   document.getElementById("player-health").style.width =
+        //     player.health + "%";
+        //   player.changeSprite("takeHit");
+        //   enemy.damageDealt = true;
+        //   enemy.isAttacking = false;
+        //   if (enemy.health <= 0 || player.health <= 0) {
+        //     determineWinner({ player, enemy, timerId });
+        //   }
+        // }
       }
-    }
-  
-    
 
-    animate();
-    audioRef.current.play();
+      animate();
+      audioRef.current.play();
 
-    window.addEventListener("keydown", handleKeyDown);
-    window.addEventListener("keyup", handleKeyUp);
+      window.addEventListener("keydown", handleKeyDown);
+      window.addEventListener("keyup", handleKeyUp);
 
-    function handleKeyDown(e) {
-      if (!gameActive || freezeControls) return;
-    
-      switch (e.key) {
-        case "ArrowRight":
-          keys.ArrowRight.pressed = true;
-          break;
-        case "ArrowLeft":
-          keys.ArrowLeft.pressed = true;
-          break;
-        case " ":
-          player.jump();
-          break;
-        case "d":
-          if (!player.isAttacking && !player.freezeControls) {
-            player.attack();
-            player.isAttacking = true;
-          }
-          break;
-        case "a":
-          if (!player.isAttacking && !player.freezeControls) {
-            player.kick();
-            player.isAttacking = true;
-          }
-          break;
+      function handleKeyDown(e) {
+        if (!gameActive || freezeControls) return;
+
+        switch (e.key) {
+          case "ArrowRight":
+            keys.ArrowRight.pressed = true;
+            break;
+          case "ArrowLeft":
+            keys.ArrowLeft.pressed = true;
+            break;
+          case " ":
+            player.jump();
+            break;
+          case "d":
+            if (!player.isAttacking && !player.freezeControls) {
+              player.attack();
+              player.isAttacking = true;
+            }
+            break;
+          case "a":
+            if (!player.isAttacking && !player.freezeControls) {
+              player.kick();
+              player.isAttacking = true;
+            }
+            break;
+        }
       }
-    }
-    
 
-    function handleKeyUp(e) {
-      if (!gameActive || freezeControls) return;
+      function handleKeyUp(e) {
+        if (!gameActive || freezeControls) return;
 
-      switch (e.key) {
-        case "ArrowRight":
-          keys.ArrowRight.pressed = false;
-          player.velocity.x = 0;
+        switch (e.key) {
+          case "ArrowRight":
+            keys.ArrowRight.pressed = false;
+            player.velocity.x = 0;
 
-          break;
-        case "ArrowLeft":
-          keys.ArrowLeft.pressed = false;
-          player.velocity.x = 0;
-          break;
+            break;
+          case "ArrowLeft":
+            keys.ArrowLeft.pressed = false;
+            player.velocity.x = 0;
+            break;
+        }
       }
+
+      return () => {
+        window.removeEventListener("keydown", handleKeyDown);
+        window.removeEventListener("keyup", handleKeyUp);
+
+        clearInterval(timerId);
+        window.cancelAnimationFrame(animationFrameId);
+
+        audioRef.current.pause();
+        audioRef.current.currentTime = 0;
+      };
     }
-
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown);
-      window.removeEventListener("keyup", handleKeyUp);
-
-      clearInterval(timerId);
-      window.cancelAnimationFrame(animationFrameId);
-
-      audioRef.current.pause(); 
-      audioRef.current.currentTime = 0;
-    };
-  }
   }, [screen]);
 
   useEffect(() => {
-    if (screen === 'loading') {
+    if (screen === "loading") {
       // After 2.5 seconds, begin to transition to the title screen
       const timer = setTimeout(() => {
-        setScreen('title');  // Change screen to 'title'
-      }, 2500);  // Delay for loading screen before fading
+        setScreen("title"); // Change screen to 'title'
+      }, 3000); // Delay for loading screen before fading
       return () => clearTimeout(timer);
     }
   }, [screen]);
@@ -363,53 +386,97 @@ const Game = () => {
     audioRef.current.play();
   };
 
+  const resetGame = () => {
+    localStorage.setItem("resetToGame", "true");
+    window.cancelAnimationFrame(animationFrameId);
+    audioRef.current.pause();
+    audioRef.current.currentTime = 0;
+
+    // Set a flag in local storage
+
+    setTimeout(() => {
+      window.location.reload();
+    }, 10);
+  };
+
   return (
     <div className="game-container">
-      {screen === 'loading' && (
+      {screen === "loading" && (
         <div className="loading-screen">
-          Loading...
+          <h1>
+            <u>FLASH WARNING</u>
+          </h1>
+          <h2>
+            This application contains occasional flash effects that may effect
+            some users
+          </h2>
+          <br />
+          <p>
+            <i>This game is best played on a desktop or laptop computer</i>
+          </p>
+          <h4>All artwork by Daniel Liljegren</h4>
+          <h4>Music by Vierre Cloud</h4>
+          <p>Copyright for this does not exist. @2024</p>
         </div>
       )}
-      {screen === 'title' && (
+      {screen === "title" && (
         <div className="title-screen">
           <h1>Game Title</h1>
           <button onClick={startGame}>Play</button>
         </div>
       )}
 
-    {screen === "game" && (
-    <div className="game-canvas">
-    <div className="game-header">
-      <div className="player-health-divs">
-        <div className="player-health">player Health</div>
-        <div className="player-health-decrease" id="player-health"></div>
-      </div>
-      <div className="timer" id="timer">
-        {timer}
-      </div>
-      <div className="enemy-health-divs">
-        <div className="enemy-health">Enemy Health</div>
-        <div className="enemy-health-decrease" id="enemy-health"></div>
-      </div>
+      {screen === "game" && (
+        <div className="game-canvas">
+          <div className="game-header">
+            <div className="player-health-divs">
+              <div className="player-health">player Health</div>
+              <div className="player-health-decrease" id="player-health"></div>
+            </div>
+            <div className="timer" id="timer">
+              {timer}
+            </div>
+            <div className="enemy-health-divs">
+              <div className="enemy-health">Enemy Health</div>
+              <div className="enemy-health-decrease" id="enemy-health"></div>
+            </div>
+          </div>
+          <div className={`game-results ${gameResult === "tie" ? "show" : ""}`}>
+            <div className="game-over">
+              <h2>Tie</h2>
+              <button className="play-again" onClick={resetGame}>
+                Play Again
+              </button>
+            </div>
+          </div>
+          <div
+            className={`game-results ${
+              gameResult === "playerWins" ? "show" : ""
+            }`}
+          >
+            <div className="game-over">
+              <h2>You Win!</h2>
+              <button className="play-again" onClick={resetGame}>
+                Play Again
+              </button>
+            </div>
+          </div>
+          <div
+            className={`game-results ${
+              gameResult === "enemyWins" ? "show" : ""
+            }`}
+          >
+            <div className="game-over">
+              <h2>You Lose!</h2>
+              <button className="play-again" onClick={resetGame}>
+                Play Again
+              </button>
+            </div>
+          </div>
+          <canvas ref={canvasRef} />
+        </div>
+      )}
     </div>
-    <div className={`game-results ${gameResult === "tie" ? "show" : ""}`}>
-      Tie
-    </div>
-    <div
-      className={`game-results ${gameResult === "playerWins" ? "show" : ""}`}
-    >
-      Player Wins
-    </div>
-    <div
-      className={`game-results ${gameResult === "enemyWins" ? "show" : ""}`}
-    >
-      Enemy Wins
-    </div>
-    <canvas ref={canvasRef} />
-  </div>
-    )}
-  </div>
-
   );
 };
 

@@ -52,6 +52,10 @@ export class Sprite {
         frameWidth = this.sprites.kick.width * this.scale * 1; 
       }
 
+      if (this.currentAction === "punch") {
+        frameWidth = this.sprites.punch.width * this.scale * 1.1;
+      }
+
       this.ctx.drawImage(
         this.image,
         this.framesCurrent * (this.image.width / this.framesMax),
@@ -112,6 +116,7 @@ export class Fighter extends Sprite {
     flashEffect,
     flashSrc,
     throwSrc,
+    stunnedSrc,
     options,
     target,
   }) {
@@ -166,6 +171,7 @@ export class Fighter extends Sprite {
       enemyRunLeft: { imageSrc: runLeftSrc, framesMax: 6, framesHold: 10, width: 75 },
       flash: { imageSrc: flashSrc, framesMax: 8, framesHold: 10, width: 75 },
       throw: { imageSrc: throwSrc, framesMax: 10, framesHold: 10, width: 75 },
+      stunned: { imageSrc: stunnedSrc, framesMax: 4, framesHold: 10, width: 75}
     };
   }
 
@@ -360,45 +366,34 @@ moveToThrowPosition() {
   this.targetX = throwPositionX;
   this.velocity.x =0;
 }
-
-
 throwAttack() {
-
-    
-  if (!gameActive || this.isAttacking) return;
+  if (!gameActive || this.isAttacking || this.bombs.length > 0) return;
   this.isAttacking = true;
   this.velocity.x = 0;
   this.changeSprite("throw");
   this.lastAttackType = "throw";
 
   setTimeout(() => {
-        this.launchBomb({
+      this.launchBomb({
           bombPosition: { x: this.position.x + this.width - 30, y: this.position.y + this.height / 4 },
-          bombVelocity: { x: -5, y: -15 }
+          bombVelocity: { x: -7, y: -15 }
       });
       this.isAttacking = false;
       this.changeSprite("idle");
   }, 700);
 }
 
-launchBomb({ bombPosition, bombVelocity, player }) {
-
+launchBomb({ bombPosition, bombVelocity }) {
   const newBomb = new Bomb({
-    position: bombPosition,
-    velocity: bombVelocity,
-    width: 40,
-    height: 40,
-    ctx: this.ctx,
-    imageSrc: loveBomb,
-    collisionCheck: rectangularCollision,
-    target: player,
-    scale: 1.5,
-    framesMax: 14
+      position: { ...bombPosition },
+      velocity: { ...bombVelocity },
+      ctx: this.ctx,
+      imageSrc: loveBomb,
+      scale: 1.5,
+      framesMax: 14
   });
-
-  this.bombs.push(newBomb);
+  this.bombs = [newBomb]; // Ensure only one bomb is created
 }
-
 
 
   updateSprite() {
@@ -505,22 +500,27 @@ launchBomb({ bombPosition, bombVelocity, player }) {
   }
 }
 
-export class Bomb extends Sprite {
-  constructor({ position, velocity, ctx, imageSrc, scale, framesMax, framesHold=11 }) {
-    super({ position, ctx, imageSrc, scale, framesMax, });
+let bombId = 0; // Initialize a bomb ID counter
+
+class Bomb extends Sprite {
+  constructor({ position, velocity, ctx, imageSrc, scale, framesMax, framesHold = 11 }) {
+    super({ position, ctx, imageSrc, scale, framesMax });
     this.velocity = velocity;
     this.active = true;
-    this.gravity = .7;
-    this.attackBox = {
-      position: {x: 0,
-        y: 0
-      },
-      width: this.width * scale,
-      height: this.height * scale
-    };
-    this.offset = { x: 0, y: 0 };
+    this.gravity = 0.7;
     this.framesHold = framesHold;
     this.framesElapsed = 0;
+    this.id = bombId++; // Assign a unique ID to each bomb
+    this.hasCollided = false; // Flag to indicate collision
+    this.animationCompleted = false; // Flag to indicate if the animation is completed
+    
+    // Define a larger attack box
+    this.attackBox = {
+      position: { x: this.position.x, y: this.position.y },
+      offset: { x: -10, y: -10 }, // Offset the attack box position slightly if needed
+      width: this.width * scale + 25, // Increase the width by 20 pixels
+      height: this.height * scale + 25, // Increase the height by 20 pixels
+    };
   }
 
   update() {
@@ -535,28 +535,34 @@ export class Bomb extends Sprite {
       this.velocity.y = 0;
       this.velocity.x = 0;
       if (this.deactivationTimer === undefined) {
-        this.deactivationTimer = 30;
-    }
+        this.deactivationTimer = this.framesMax * this.framesHold; // Ensure full animation duration
+      }
     }
 
     if (this.deactivationTimer !== undefined) {
       this.deactivationTimer--;
       if (this.deactivationTimer <= 0) {
-          this.active = false;
+        this.active = false;
       } else {
-          this.animateFrames();
+        this.animateFrames();
       }
-  } else {
+    } else {
       this.animateFrames();
-  }
+    }
 
-    this.animateFrames();
-    this.draw();
+    if (this.framesCurrent === this.framesMax - 1) {
+      this.animationCompleted = true; // Mark animation as completed
+    }
+
+    // Update the attack box position
+    this.attackBox.position.x = this.position.x + this.attackBox.offset.x;
+    this.attackBox.position.y = this.position.y + this.attackBox.offset.y;
+
+    console.log(`Bomb updated [ID: ${this.id}] at position:`, this.position, 'Active:', this.active, 'Animation Completed:', this.animationCompleted, 'Attack Box:', this.attackBox);
   }
 
   draw() {
     if (!this.active && this.deactivationTimer <= 0) return;
-    
     const frameWidth = this.image.width / this.framesMax;
     const frameHeight = this.image.height;
     const sx = this.framesCurrent * frameWidth;
@@ -567,9 +573,6 @@ export class Bomb extends Sprite {
       this.position.x, this.position.y,
       frameWidth * this.scale, frameHeight * this.scale
     );
+    console.log(`Bomb drawn [ID: ${this.id}] at position:`, this.position, 'Active:', this.active, 'Animation Completed:', this.animationCompleted, 'Attack Box:', this.attackBox);
   }
-
-
 }
-
-
