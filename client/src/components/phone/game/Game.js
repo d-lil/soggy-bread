@@ -19,6 +19,7 @@ import enemyThrow from "./assets/phone_game_enemy_throw.png";
 import enemyTakeHit from "./assets/phone_game_enemy_takehit.png";
 import enemyJump from "./assets/phone_game_enemy_jump.png";
 import enemyFall from "./assets/phone_game_enemy_fall.png";
+import gameSong from "./assets/Vierre_Cloud_moment.mp3";
 
 
 let animationFrameId
@@ -27,10 +28,19 @@ let freezeControls = false;
 
 const Game = () => {
   const canvasRef = useRef(null);
+  const audioRef = useRef(new Audio(gameSong));
+  const [volume, setVolume] = useState(0.06); 
   const [gameResult, setGameResult] = useState("");
   const [timer, setTimer] = useState(60);
+  const [screen, setScreen] = useState("loading");
+  const [fade, setFade] = useState(true);
 
   useEffect(() => {
+    audioRef.current.volume = volume;  // Apply volume from state to audio element
+  }, [volume]);
+
+  useEffect(() => {
+    if (screen === "game") {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
     const width = 553;
@@ -275,6 +285,7 @@ const Game = () => {
     
 
     animate();
+    audioRef.current.play();
 
     window.addEventListener("keydown", handleKeyDown);
     window.addEventListener("keyup", handleKeyUp);
@@ -330,39 +341,75 @@ const Game = () => {
 
       clearInterval(timerId);
       window.cancelAnimationFrame(animationFrameId);
+
+      audioRef.current.pause(); 
+      audioRef.current.currentTime = 0;
     };
-  }, []);
+  }
+  }, [screen]);
+
+  useEffect(() => {
+    if (screen === 'loading') {
+      // After 2.5 seconds, begin to transition to the title screen
+      const timer = setTimeout(() => {
+        setScreen('title');  // Change screen to 'title'
+      }, 2500);  // Delay for loading screen before fading
+      return () => clearTimeout(timer);
+    }
+  }, [screen]);
+
+  const startGame = () => {
+    setScreen("game");
+    audioRef.current.play();
+  };
 
   return (
+    <div className="game-container">
+      {screen === 'loading' && (
+        <div className="loading-screen">
+          Loading...
+        </div>
+      )}
+      {screen === 'title' && (
+        <div className="title-screen">
+          <h1>Game Title</h1>
+          <button onClick={startGame}>Play</button>
+        </div>
+      )}
+
+    {screen === "game" && (
     <div className="game-canvas">
-      <div className="game-header">
-        <div className="player-health-divs">
-          <div className="player-health">player Health</div>
-          <div className="player-health-decrease" id="player-health"></div>
-        </div>
-        <div className="timer" id="timer">
-          {timer}
-        </div>
-        <div className="enemy-health-divs">
-          <div className="enemy-health">Enemy Health</div>
-          <div className="enemy-health-decrease" id="enemy-health"></div>
-        </div>
+    <div className="game-header">
+      <div className="player-health-divs">
+        <div className="player-health">player Health</div>
+        <div className="player-health-decrease" id="player-health"></div>
       </div>
-      <div className={`game-results ${gameResult === "tie" ? "show" : ""}`}>
-        Tie
+      <div className="timer" id="timer">
+        {timer}
       </div>
-      <div
-        className={`game-results ${gameResult === "playerWins" ? "show" : ""}`}
-      >
-        Player Wins
+      <div className="enemy-health-divs">
+        <div className="enemy-health">Enemy Health</div>
+        <div className="enemy-health-decrease" id="enemy-health"></div>
       </div>
-      <div
-        className={`game-results ${gameResult === "enemyWins" ? "show" : ""}`}
-      >
-        Enemy Wins
-      </div>
-      <canvas ref={canvasRef} />
     </div>
+    <div className={`game-results ${gameResult === "tie" ? "show" : ""}`}>
+      Tie
+    </div>
+    <div
+      className={`game-results ${gameResult === "playerWins" ? "show" : ""}`}
+    >
+      Player Wins
+    </div>
+    <div
+      className={`game-results ${gameResult === "enemyWins" ? "show" : ""}`}
+    >
+      Enemy Wins
+    </div>
+    <canvas ref={canvasRef} />
+  </div>
+    )}
+  </div>
+
   );
 };
 

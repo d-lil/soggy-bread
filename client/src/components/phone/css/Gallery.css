@@ -1,142 +1,174 @@
 .gallery-container {
-    background-color: white;
-    min-height: 550px;
-    margin-top: -22px;
-    overflow: hidden;
+  background-color: white;
+  min-height: 550px;
+  margin-top: -22px;
+  overflow: hidden;
 }
 
 .gallery-h1 {
-    font-family: "Righteous", cursive;
-    color: rgb(243, 253, 199);
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-    background-color: rgba(97, 177, 150, 0.541);
-    width: 100%;
-    border-radius: 5px 5px 0 0;
-    text-align: center;
-    padding: 5px;
+  font-family: "Righteous", cursive;
+  color: rgb(243, 253, 199);
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  background-color: rgba(97, 177, 150, 0.541);
+  width: 100%;
+  border-radius: 5px 5px 0 0;
+  text-align: center;
+  padding: 5px;
 }
 
 .gallery {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-    align-items: flex-start;
-    flex-direction: row;
-    margin-left: 20px;
-    overflow: auto;
-    min-height: 470px;
-    padding: 5px;
-    overflow: auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-direction: row;
+  margin-left: 20px;
+  overflow: auto;
+  min-height: 470px;
+  padding: 5px;
+  overflow: auto;
 }
 
 .gallery-item {
-    flex: 0 0 auto;
-    position: relative;
-    display: inline-block; /* Or flex, depending on your layout */
-    width: 100px;
-    height: 100px;
-    margin: 10px;
-    margin-left: 20px;
-    border-radius: 5px;
-    cursor: pointer;
-  }
+  flex: 0 0 auto;
+  position: relative;
+  display: inline-block; /* Or flex, depending on your layout */
+  width: 100px;
+  height: 100px;
+  margin: 10px;
+  margin-left: 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
 
-  .gallery-item img {
-    width: auto;
-    height: 100px;
-    border-radius: 2px;
+.gallery-item img {
+  width: auto;
+  height: 100px;
+  border-radius: 2px;
 
-  }
+}
 
-  .gallery-delete-button {
-    position: absolute;
-    bottom: 0;
-    left: 100px;
-    width: 25px;
-    height: 25px;
-    background-color: rgb(255, 255, 255);
-    border-radius: 5px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    font-size: 20px;
-  }
+.gallery-image.hidden {
+  visibility: hidden;
+}
 
-    .gallery-delete-button:hover {
-        background-color: rgb(255, 0, 0);
-        color: white;
-    }
+.gallery-delete-button {
+  position: absolute;
+  bottom: 0;
+  left: 100px;
+  width: 25px;
+  height: 25px;
+  background-color: rgb(255, 255, 255);
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  font-size: 20px;
+}
 
-    .gallery-delete-button:active {
-        background-color: rgb(124, 0, 0);
-        color: white;
-    }
-  
-  .gallery-delete-confirmation {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 100;
-    background: rgb(0, 215, 253);
-    border: 2px solid #2600ff;
-    border-radius: 5px;
-    padding: 20px;
-    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.589);
-    cursor: pointer;
-  }
-  
+.gallery-delete-button:hover {
+  background-color: rgb(255, 0, 0);
+  color: white;
+}
 
-.gallery-delete-yes, .gallery-delete-no {
-    cursor: pointer;
-    margin: 5px;
-    padding: 5px;
-    border-radius: 5px;
-  }
+.gallery-delete-button:active {
+  background-color: rgb(124, 0, 0);
+  color: white;
+}
 
-  .gallery-delete-yes, .gallery-delete-no{
-    font-weight: bold;
-  }
-  
-  .gallery-delete-yes:hover {
-    background-color: rgb(113, 212, 0);
-    color: white;
-    cursor: pointer;
+.gallery-delete-confirmation {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 100;
+  background: rgb(0, 215, 253);
+  border: 2px solid #2600ff;
+  border-radius: 5px;
+  padding: 20px;
+  box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.589);
+  cursor: pointer;
+}
 
-  }
-  
-  .gallery-delete-no:hover {
-    background-color: rgb(158, 0, 105);
-    color: white;
-    cursor: pointer;
+.gallery-delete-yes,
+.gallery-delete-no {
+  cursor: pointer;
+  margin: 5px;
+  padding: 5px;
+  border-radius: 5px;
+}
 
-  }
-  
-  .enlarged-image-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 100; /* Above other content */
-    background-color: rgba(0, 0, 0, 0.5); /* Optional background */
-  }
-  
-  .enlarged-image {
-    max-width: 90%; /* Adjust as needed */
-    max-height: 90%; /* Adjust as needed */
-    z-index: 101;
-  }
-  
-  .blur {
-    filter: blur(5px);
-  }
-  
+.gallery-delete-yes,
+.gallery-delete-no {
+  font-weight: bold;
+}
+
+.gallery-delete-yes:hover {
+  background-color: rgb(113, 212, 0);
+  color: white;
+  cursor: pointer;
+}
+
+.gallery-delete-no:hover {
+  background-color: rgb(158, 0, 105);
+  color: white;
+  cursor: pointer;
+}
+
+.enlarged-image-container {
+  position: relative;
+  top: 0;
+  left: 0;
+  width: 360px;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  z-index: 100; /* Above other content */
+}
+
+.enlarged-image {
+  width: 100%; /* Adjust as needed */
+  max-height: 90%; /* Adjust as needed */
+  z-index: 101;
+  border: 2px solid black;
+}
+
+
+
+.enlarged-image-container button {
+  top: 0;
+  right: 0;
+  width: 20%;
+  height: 25px;
+  background-color: white;
+  border-radius: 0px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+.enlarged-image-container button:hover {
+  background-color: rgb(155, 99, 99);
+  color: white;
+}
+
+.blur {
+  position: absolute;
+  filter: blur(5px);
+  top: 0;
+  background-color: rgba(0, 0, 0, 0.722); /* Optional background */
+  width: 97%;
+  height: 102%;
+  margin-top: 0;
+  margin-left: 0;
+  z-index: 99; /* Below other content */
+}

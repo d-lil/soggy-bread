@@ -1,3 +1,32 @@
+.loading-screen, .title-screen {
+    position: relative;
+    display: block;    
+    width: 550px;
+    height: 363px;
+    background-color: #000;
+    transform: rotate(-90deg) translateX(-17%) translateY(-26%);
+    transform-origin: center center; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 1s ease-in-out;
+}
+
+.loading-screen {
+  background-color: blueviolet;
+  opacity: 1;  
+}
+
+.title-screen {
+  background-color: black;
+  color: white;
+  opacity: 1; 
+}
+
+.fade-out {
+  opacity: 0; 
+}
+
 .game-canvas {
     position: relative;
     display: block;

@@ -10,9 +10,8 @@
 .phone-landscape {
     transform: rotate(90deg);
     transform-origin: center center;
-    width: 100vh; /* Assuming you want to take the full viewport height after rotation */
-    height: 100vw; /* Assuming you want to take the full viewport width after rotation */
-    /* You may need to adjust the position after rotation */
+    width: 100vh;
+    height: 100vw;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -48,6 +47,27 @@
     background-color: black;
     margin-right: -3px;
     border: 1px solid black;
+  }
+
+  .phone-power-button {
+    position: absolute;
+    top: 20%; /* Center it vertically */
+    right: -15px; /* Adjust this value based on your layout needs */
+    transform: translateY(-50%); /* Ensure it is perfectly centered no matter the height */
+    background: linear-gradient(rgba(192, 192, 192, 0.779), black); /* Red background for visibility */
+    border-left: 4px solid red;
+    border-top: 1px solid white;
+    border-right: 1px solid white;
+    color: white;
+    border-radius: 0 5px 5px 0;
+    width: 10px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2); /* Optional: add shadow for better visibility */
+    z-index: 1; /* Ensure it is above other elements */
   }
 
 .phone-container {
@@ -131,8 +151,8 @@
 .phone-camera {
     width: 18px;
     height: 15px;
-    position: absolute; /* Absolutely position the camera div */
-    left: 50%; /* Set left to 50% of the parent container */
+    position: absolute; 
+    left: 50%;
     transform: translateX(-50%);
 
 }
@@ -155,7 +175,7 @@
 .phone-app-container {
     position: relative;
     display: grid;
-    grid-template-columns: 1fr 1fr; /* Creates a 2-column grid */
+    grid-template-columns: 1fr 1fr; 
     grid-gap: 10px; 
     flex-direction: column;
     flex-grow: 1;
@@ -238,9 +258,7 @@
 
 
 @media (max-width: 600px) {
-    /* This will apply to screens with a width of 600px or less */
     .phone-landscape {
-      /* Reset any rotation styles you added for landscape mode */
       transform: none;
       position: static;
       width: auto;

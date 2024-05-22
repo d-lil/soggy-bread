@@ -1,0 +1,41 @@
+.fake-popup {
+    position: absolute;
+    width: 300px;
+    background-color: rgb(210, 210, 210);
+    padding: 2px;
+    border: 1px solid black;
+    box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.2);
+    font-size: 14px;
+}
+
+.cascading .popup-window {
+    background-color: rgb(210, 210, 210); /* Style for cascading */
+}
+
+.random .popup-window {
+    background-color: rgb(210, 210, 210); /* Style for random */
+}
+
+.virus-title-bar {
+    display: flex;
+    justify-content: space-between;
+
+    color: white;
+    padding: 5px;
+}
+
+.cascading .virus-title-bar {
+    background-color: red;
+}
+
+.random .virus-title-bar {
+    background-color: rgb(0, 96, 214);
+}
+
+.close-button, .virus-button {
+    cursor: pointer;
+}
+
+.virus-button {
+    margin-top: 10px;
+}

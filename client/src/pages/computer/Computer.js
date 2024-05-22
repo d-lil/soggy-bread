@@ -13,6 +13,7 @@ import folderLogo from "./assets/folder.png";
 import danLogo from "./assets/dan_logo.png";
 import signoutLogo from "./assets/signout_logo.png";
 import documentLogo from "./assets/document_logo.png";
+import FakeVirus from "../../components/computer/FakeVirus";
 
 function Clock() {
   const [currentTime, setCurrentTime] = useState(new Date());
@@ -218,6 +219,8 @@ const renderTaskbarTabs = () => {
                 Resume
                 </Link>
                 </div>
+
+
               {/* </>
             )} */}
               <Routes>

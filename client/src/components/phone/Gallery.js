@@ -44,7 +44,8 @@ const Gallery = () => {
             alt={`Enlarged capture`}
             className="enlarged-image"
           />
-          <button className="enlarged-close-btn" onClick={() => setEnlargedImageIndex(null)}>X</button>
+          <button onClick={() => setEnlargedImageIndex(null)}>X</button>
+
         </div>
       )}
       <div className={`gallery ${enlargedImageIndex !== null ? 'blur' : ''}`}>
@@ -53,7 +54,7 @@ const Gallery = () => {
             <img
               src={photo.data}
               alt={`Captured ${index}`}
-              className="gallery-image"
+              className={`gallery-image ${enlargedImageIndex !== null ? 'hidden' : ''}`}
               onClick={() => handleImageClick(index)}
             />
             <button onClick={() => handleDeleteButtonClick(index)} className="gallery-delete-button">🗑</button>

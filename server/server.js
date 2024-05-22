@@ -3,6 +3,10 @@ const express = require('express');
 const cors = require('cors');
 const SibApiV3Sdk = require('sib-api-v3-sdk');
 const { OpenAI } = require('openai');
+// const fetch = require('node-fetch');
+// const createDOMPurify = require('dompurify');
+// const { JSDOM } = require('jsdom');
+
 const app = express();
 
 app.use(cors());
@@ -62,7 +66,47 @@ app.post('/generate-response', async (req, res) => {
   }
 });
 
+// List of allowed URLs
+const allowedDomains = [
+  'https://example.com',
+  'https://news.example.com',
+  'https://info.example.com'
+];
 
+
+app.get('/api/content', async (req, res) => {
+  const { url } = req.query;
+
+  if (!url) {
+      return res.status(400).json({ error: 'URL parameter is required' });
+  }
+
+  let hostname;
+  try {
+      // Parse the URL to get the hostname
+      hostname = new URL(url).hostname;
+  } catch (error) {
+      return res.status(400).json({ error: 'Invalid URL' });
+  }
+
+  // Check if the hostname is in the allowed domains list
+  if (!allowedDomains.includes(hostname)) {
+      return res.status(403).json({ error: 'Access to the requested domain is denied' });
+  }
+
+  try {
+      const response = await fetch(url);
+      const html = await response.text();
+      const window = new JSDOM('').window;
+      const DOMPurify = createDOMPurify(window);
+
+      const cleanHTML = DOMPurify.sanitize(html);
+      
+      res.send(cleanHTML);
+  } catch (error) {
+      res.status(500).json({ error: 'Failed to fetch content' });
+  }
+});
 
 
 

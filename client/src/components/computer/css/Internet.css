@@ -74,6 +74,14 @@
 
 }
 
+.minimize-button-internet {
+    height: 41px;
+}
+
+.minimize-button-internet:hover {
+    background-color: rgb(93, 172, 170);
+}
+
 .internet-close a {
     cursor: pointer;
     font-size: 1.5rem;
