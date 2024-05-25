@@ -392,7 +392,7 @@ launchBomb({ bombPosition, bombVelocity }) {
       scale: 1.5,
       framesMax: 14
   });
-  this.bombs = [newBomb]; // Ensure only one bomb is created
+  this.bombs = [newBomb]; 
 }
 
 
@@ -500,7 +500,7 @@ launchBomb({ bombPosition, bombVelocity }) {
   }
 }
 
-let bombId = 0; // Initialize a bomb ID counter
+let bombId = 0;
 
 class Bomb extends Sprite {
   constructor({ position, velocity, ctx, imageSrc, scale, framesMax, framesHold = 11 }) {
@@ -510,16 +510,15 @@ class Bomb extends Sprite {
     this.gravity = 0.7;
     this.framesHold = framesHold;
     this.framesElapsed = 0;
-    this.id = bombId++; // Assign a unique ID to each bomb
-    this.hasCollided = false; // Flag to indicate collision
-    this.animationCompleted = false; // Flag to indicate if the animation is completed
-    
-    // Define a larger attack box
+    this.id = bombId++;
+    this.hasCollided = false;
+    this.animationCompleted = false; 
+
     this.attackBox = {
       position: { x: this.position.x, y: this.position.y },
-      offset: { x: -10, y: -10 }, // Offset the attack box position slightly if needed
-      width: this.width * scale + 25, // Increase the width by 20 pixels
-      height: this.height * scale + 25, // Increase the height by 20 pixels
+      offset: { x: -10, y: -10 }, 
+      width: this.width * scale + 25, 
+      height: this.height * scale + 25,
     };
   }
 
@@ -535,7 +534,7 @@ class Bomb extends Sprite {
       this.velocity.y = 0;
       this.velocity.x = 0;
       if (this.deactivationTimer === undefined) {
-        this.deactivationTimer = this.framesMax * this.framesHold; // Ensure full animation duration
+        this.deactivationTimer = this.framesMax * this.framesHold;
       }
     }
 
@@ -551,10 +550,9 @@ class Bomb extends Sprite {
     }
 
     if (this.framesCurrent === this.framesMax - 1) {
-      this.animationCompleted = true; // Mark animation as completed
+      this.animationCompleted = true;
     }
 
-    // Update the attack box position
     this.attackBox.position.x = this.position.x + this.attackBox.offset.x;
     this.attackBox.position.y = this.position.y + this.attackBox.offset.y;
 

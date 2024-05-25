@@ -47,7 +47,7 @@ const InternetHome = () => {
         <div className="home-page">
         <h1>Welcome to the Internet</h1>
         <ExternalContent />
-        <FakeVirus />
+        {/* <FakeVirus /> */}
         </div>
     );
     }

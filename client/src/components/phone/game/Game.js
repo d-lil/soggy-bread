@@ -34,14 +34,14 @@ const Game = () => {
   const [gameResult, setGameResult] = useState("");
   const [timer, setTimer] = useState(60);
 
-  // Check localStorage immediately before setting initial state
+  
   const initialScreen =
     localStorage.getItem("resetToGame") === "true" ? "game" : "loading";
-  localStorage.removeItem("resetToGame"); // Clean up the flag regardless of its value
+  localStorage.removeItem("resetToGame"); 
   const [screen, setScreen] = useState(initialScreen);
 
   useEffect(() => {
-    audioRef.current.volume = volume; // Apply volume from state to audio element
+    audioRef.current.volume = volume; 
   }, [volume]);
 
   useEffect(() => {
@@ -239,27 +239,25 @@ const Game = () => {
           bomb.update();
           bomb.draw();
         
-          // Ensure bomb continues to animate after collision
+
           if (!bomb.hasCollided && bomb.animationCompleted) {
-            // Check for collisions and flag the bomb
             if (rectangularCollision({ rect1: bomb.attackBox, rect2: player })) {
-              player.health -= 15; // Apply damage
+              player.health -= 15;
               document.getElementById("player-health").style.width = player.health + "%";
-              player.changeSprite("takeHit"); // Trigger hit animation
-              bomb.hasCollided = true; // Flag the bomb as collided
+              player.changeSprite("takeHit"); 
+              bomb.hasCollided = true;
         
-              // Check if the game should end due to health conditions
+             
               if (player.health <= 0) {
                 determineWinner({ player, enemy, timerId });
               }
             }
         
-            bomb.active = false; // Mark the bomb as inactive after collision detection
+            bomb.active = false; 
           }
         
-          // Remove inactive bombs
           if (!bomb.active) {
-            enemy.bombs = []; // Remove inactive bombs
+            enemy.bombs = []; 
           }
         }
 
@@ -376,10 +374,9 @@ const Game = () => {
 
   useEffect(() => {
     if (screen === "loading") {
-      // After 2.5 seconds, begin to transition to the title screen
       const timer = setTimeout(() => {
-        setScreen("title"); // Change screen to 'title'
-      }, 3000); // Delay for loading screen before fading
+        setScreen("title");
+      }, 3000); 
       return () => clearTimeout(timer);
     }
   }, [screen]);
@@ -394,8 +391,6 @@ const Game = () => {
     window.cancelAnimationFrame(animationFrameId);
     audioRef.current.pause();
     audioRef.current.currentTime = 0;
-
-    // Set a flag in local storage
 
     setTimeout(() => {
       window.location.reload();

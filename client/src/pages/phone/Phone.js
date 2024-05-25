@@ -224,22 +224,6 @@ const Phone = () => {
                   }
                 />
                 <Route
-                  path="contacts/*"
-                  element={
-                    <div className="overlay-component">
-                      <Contacts />
-                    </div>
-                  }
-                />
-                <Route
-                  path="someapp/*"
-                  element={
-                    <div className="overlay-component">
-                      <SomeApp />
-                    </div>
-                  }
-                />
-                <Route
                   path="emailphone/*"
                   element={
                     <div className="overlay-component">

@@ -57,7 +57,7 @@
     z-index: 0;
 }
 
-.desktop-internet, .desktop-contract, .desktop-chat, .desktop-resume {
+.desktop-internet, .desktop-contract, .desktop-chat, .desktop-resume, .desktop-virus {
     position: relative;
     z-index: 1;
     display: flex;
@@ -68,7 +68,7 @@
     margin: 10px;
     margin-bottom: 20px;
     text-shadow: 2px 2px 4px rgb(0, 0, 0);
-    width: 90px;
+    width: 96px;
 }
 
 .hidden {
@@ -76,14 +76,15 @@
 
 }
 
-.desktop-internet a, .desktop-contract a, .desktop-chat a, .desktop-resume a {
+.desktop-internet a, .desktop-contract a, .desktop-chat a, .desktop-resume a, .desktop-virus a {
     color: rgb(255, 167, 3)
 }
 
-.desktop-internet:hover, .desktop-contract:hover, .desktop-chat:hover, .desktop-resume:hover {
+.desktop-internet:hover, .desktop-contract:hover, .desktop-chat:hover, .desktop-resume:hover, .desktop-virus:hover {
     background-color: rgba(255, 255, 255, 0.5);
     cursor: pointer;
 }
+
 
 .right-buttons {
     display: flex;
@@ -172,6 +173,8 @@
     width: auto;
 
 }
+
+
 
 
 .taskbar {
@@ -285,6 +288,8 @@ z-index:3
     font-weight: bold;
     font-size: 12px;
 }
+
+
 
 .keyboard {
     background: linear-gradient(to top, rgba(0, 0, 0, 0.747), silver) ;
