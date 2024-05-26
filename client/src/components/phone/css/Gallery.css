@@ -1,32 +1,40 @@
+@import url('https://fonts.googleapis.com/css2?family=Freeman&display=swap');
+
+
 .gallery-container {
   background-color: white;
   min-height: 550px;
   margin-top: -22px;
   overflow: hidden;
+  text-align: center;
 }
 
 .gallery-h1 {
   font-family: "Righteous", cursive;
   color: rgb(243, 253, 199);
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-  background-color: rgba(97, 177, 150, 0.541);
+  background-color:rgb(97, 177, 150, 0.541);
   width: 100%;
   border-radius: 5px 5px 0 0;
   text-align: center;
   padding: 5px;
+  z-index: 5;
+  border-bottom: 2px solid rgb(70, 42, 96);
 }
 
 .gallery {
+  position: relative;
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;
   align-items: flex-start;
   flex-direction: row;
-  margin-left: 20px;
-  overflow: auto;
-  min-height: 470px;
+  margin-top: -22px;
+  min-height: 490px;
   padding: 5px;
-  overflow: auto;
+  padding-left: 30px;
+  overflow: hidden;
+  
 }
 
 .gallery-item {
@@ -145,20 +153,27 @@
 .enlarged-image-container button {
   top: 0;
   right: 0;
-  width: 20%;
-  height: 25px;
+  width: 30%;
+  height: 30px;
   background-color: white;
   border-radius: 0px;
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
+  font-family: "Freeman", sans-serif;
   font-size: 20px;
+  font-weight: bold;
+  color:rgb(57, 48, 71);
+  box-shadow: 2px 2px 4px black;
+  border-radius: 10px;
 }
 
 .enlarged-image-container button:hover {
   background-color: rgb(155, 99, 99);
+  text-shadow: 1px 2px 2px black;
   color: white;
+
 }
 
 .blur {
@@ -171,4 +186,99 @@
   margin-top: 0;
   margin-left: 0;
   z-index: 99; /* Below other content */
+}
+
+
+.ghost-img {
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  animation: float 3s ease-in-out infinite;
+
+}
+
+@keyframes float {
+  0% {
+    transform: translateX(-50%) translateY(0);
+  }
+  50% {
+    transform: translateX(-50%) translateY(-15px);
+  }
+  100% {
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+.no-pic-img {
+
+  width: 90%;
+
+  height: auto;
+  z-index: 2;
+  pointer-events: none;
+  border-radius: 10px;
+}
+
+.rain {
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.rain-container {
+  position: absolute;
+
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: linear-gradient(rgb(40, 39, 73), black);
+}
+
+.raindrop {
+  position: absolute;
+  bottom: 100%;
+  width: 2px;
+  height: 10px;
+  background: linear-gradient(rgb(186, 245, 255), rgb(27, 124, 146));
+  animation: fall linear infinite;
+}
+
+@keyframes fall {
+  to {
+    transform: translateY(100vh);
+  }
+}
+
+.images-present .bubble-container {
+
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: linear-gradient(rgb(173, 216, 230), white);
+}
+
+.bubble {
+  position: absolute;
+  bottom: 0;
+  width: 10px;
+  height: 10px;
+  background: rgba(173, 216, 230, 0.8);
+  border-radius: 50%;
+  animation: rise linear infinite;
+}
+
+@keyframes rise {
+  to {
+    transform: translateY(-100vh);
+  }
 }

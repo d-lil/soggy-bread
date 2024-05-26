@@ -7,6 +7,7 @@ import Camera from "../../components/phone/Camera";
 import Game from "../../components/phone/game/Game";
 import Contacts from "../../components/phone/Contacts";
 import SomeApp from "../../components/phone/Shopping";
+import Instagram from "../../components/phone/Instagram";
 import EmailPhone from "../../components/phone/EmailPhone";
 import "./css/Phone.css";
 import fiveBars from "./assets/5_bars.png";
@@ -180,6 +181,13 @@ const Phone = () => {
                   Email
                 </Link>
               </div>
+              <div className="phone-instagram-app">
+                <Link to="instagram">
+                  <img src="" alt="instagram logo" className="instagram-logo-phone" />
+                  <br />
+                  Instagram
+                </Link>
+              </div>
 
               <Routes>
                 <Route
@@ -228,6 +236,14 @@ const Phone = () => {
                   element={
                     <div className="overlay-component">
                       <EmailPhone />
+                    </div>
+                  }
+                />
+                <Route
+                  path="instagram/*"
+                  element={
+                    <div className="overlay-component">
+                      <Instagram />
                     </div>
                   }
                 />
