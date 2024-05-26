@@ -410,7 +410,7 @@ const Game = () => {
           </h2>
           <br />
           <p>
-            <i>This game is best played on a desktop or laptop computer</i>
+            <i>This game is designed to be played on a desktop or laptop computer</i>
           </p>
           <h4>All artwork by Daniel Liljegren</h4>
           <h4>Music by Vierre Cloud</h4>

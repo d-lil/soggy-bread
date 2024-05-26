@@ -180,7 +180,7 @@
     flex-direction: column;
     flex-grow: 1;
     cursor: default;
-    background: url("../assets/apothecary_diaries.jpg") no-repeat center center;
+    background: url("../assets/phone_background.gif") no-repeat center center;
     background-size: cover;
     overflow: auto;
     margin-bottom: auto;
@@ -195,7 +195,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(255, 255, 255, 0.582);
+    background: rgba(255, 255, 255, 0.09);
     z-index: 2;
 
 }
@@ -211,15 +211,16 @@
     align-items: center;
     flex-direction: column;
     cursor: pointer;
-    margin-left: 30px;
-    margin-right: 30px;
-    margin-top: 50px;
-    margin-bottom: 50px;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-top: 20px;
+    margin-bottom: 20px;
     text-align: center;
+    
 }
 
 .phone-weather-app a, .phone-camera-app a, .phone-gallery-app a, .phone-game-app a, .phone-email-app a, .phone-instagram-app a {
-    color: rgb(43, 43, 43);
+    color: white;
     text-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
 
 }
@@ -230,7 +231,7 @@
 }
 
 .phone-weather-app:hover a, .phone-camera-app:hover a, .phone-gallery-app:hover a, .phone-game-app:hover a, .phone-email-app:hover a, .phone-instagram-app:hover a {
-    color: white;
+    color: rgb(244, 210, 75);
 }
 
 .phone-footer {
@@ -263,6 +264,34 @@
     height: 100%;
     overflow-y: hidden;
     overflow-x: hidden;
+
+  }
+
+
+  .game-instructions {
+    
+    display: none;
+    color: white;
+    transform: rotate(270deg);
+  }
+
+  .game-instructions.show-instructions {
+    display: block;
+    text-align: center;
+  }
+
+  .instructions-container {
+    display: flex;
+    flex-direction: row;
+
+  }
+
+  .left-instructions {
+    margin-right: 10px;
+  }
+
+  .right-instructions {
+    margin-left: 10px;
   }
 
 

@@ -1,12 +1,12 @@
 import React from "react";
 import { Route, Routes, Link, useLocation } from "react-router-dom";
-import { useRef, useCallback } from "react";
+// import { useRef, useCallback } from "react";
 import { useState, useEffect } from "react";
 import Weather from "../../components/phone/Weather";
 import Camera from "../../components/phone/Camera";
 import Game from "../../components/phone/game/Game";
-import Contacts from "../../components/phone/Contacts";
-import SomeApp from "../../components/phone/Shopping";
+// import Contacts from "../../components/phone/Contacts";
+// import SomeApp from "../../components/phone/Shopping";
 import Instagram from "../../components/phone/Instagram";
 import EmailPhone from "../../components/phone/EmailPhone";
 import "./css/Phone.css";
@@ -20,6 +20,8 @@ import Gallery from "../../components/phone/Gallery";
 import cameraIcon from "./assets/camera_logo.png";
 import galleryIcon from "./assets/gallery_logo.png";
 import weatherIcon from "./assets/weather_logo.png";
+import instagramIcon from "./assets/instagram.png";
+import gameIcon from "./assets/game_logo.png";
 
 function PhoneClock() {
   const [currentTime, setCurrentTime] = useState(new Date());
@@ -49,19 +51,15 @@ function PhoneClock() {
 const barImages = [fiveBars, fourBars, threeBars, twoBars, oneBar];
 
 const RandomImage = () => {
-  // State to store the index of the current image
   const [imageIndex, setImageIndex] = useState(
     Math.floor(Math.random() * barImages.length)
   );
 
   useEffect(() => {
-    // Set up an interval to change the image every 5 seconds
     const intervalId = setInterval(() => {
-      // Update the image index with a new random number
       setImageIndex(Math.floor(Math.random() * barImages.length));
     }, 2000);
 
-    // Clean up the interval on component unmount
     return () => clearInterval(intervalId);
   }, []);
 
@@ -72,7 +70,6 @@ const RandomImage = () => {
         src={barImages[imageIndex]}
         alt={`${imageIndex + 1} bars`}
       />
-      {/* Assuming PhoneClock is another component */}
       <PhoneClock />
     </div>
   );
@@ -88,12 +85,10 @@ const Phone = () => {
     setPhotos((currentPhotos) => currentPhotos.filter((_, i) => i !== index));
   };
 
-  // Example function to simulate photo addition
   const addPhoto = (newPhoto) => {
     setPhotos((prevPhotos) => [...prevPhotos, newPhoto]);
   };
 
-  // Load photos from localStorage when component mounts
   useEffect(() => {
     const savedPhotos = localStorage.getItem("photos");
     if (savedPhotos) {
@@ -101,18 +96,17 @@ const Phone = () => {
     }
   }, []);
 
-  // Save photos to localStorage whenever photos state changes
   useEffect(() => {
     localStorage.setItem("photos", JSON.stringify(photos));
   }, [photos]);
 
   return (
     <div className={`phone-page ${isGameRoute ? "phone-landscape" : ""}`}>
+      <div className="phone-container">
+        <Link to="/">
+          <div className="phone-power-button"> </div>
+        </Link>
 
-      <div className="phone-container">      
-      
-        <Link to="/"><div className="phone-power-button"> </div></Link>
-      
         <div className="phone-bezel">
           <div className="phone-screen">
             <div className="phone-header">
@@ -134,17 +128,25 @@ const Phone = () => {
                 isGameRoute ? "no-overflow" : ""
               }`}
             >
-              <div className="phone-weather-app">
-                <Link to="weather">
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+
+              <div className="phone-game-app">
+                <Link to="game">
                   <img
-                    src={weatherIcon}
-                    alt="weather app"
-                    className="weather-logo-phone"
+                    src={gameIcon}
+                    alt="game logo"
+                    className="game-logo-phone"
                   />
                   <br />
-                  Weather
+                  Hanabi's
+                  <br />
+                  Stalker
                 </Link>
               </div>
+
               <div className="phone-camera-app">
                 <Link to="camera">
                   <img
@@ -156,6 +158,7 @@ const Phone = () => {
                   Camera
                 </Link>
               </div>
+
               <div className="phone-gallery-app">
                 <Link to="gallery">
                   <img
@@ -167,13 +170,7 @@ const Phone = () => {
                   Gallery
                 </Link>
               </div>
-              <div className="phone-game-app">
-                <Link to="game">
-                  <img src="" alt="game logo" className="game-logo-phone" />
-                  <br />
-                  Game
-                </Link>
-              </div>
+
               <div className="phone-email-app">
                 <Link to="emailphone">
                   <img src="" alt="email logo" className="email-logo-phone" />
@@ -181,9 +178,26 @@ const Phone = () => {
                   Email
                 </Link>
               </div>
+
+              <div className="phone-weather-app">
+                <Link to="weather">
+                  <img
+                    src={weatherIcon}
+                    alt="weather app"
+                    className="weather-logo-phone"
+                  />
+                  <br />
+                  Weather
+                </Link>
+              </div>
+
               <div className="phone-instagram-app">
                 <Link to="instagram">
-                  <img src="" alt="instagram logo" className="instagram-logo-phone" />
+                  <img
+                    src={instagramIcon}
+                    alt="instagram logo"
+                    className="instagram-logo-phone"
+                  />
                   <br />
                   Instagram
                 </Link>
@@ -253,6 +267,23 @@ const Phone = () => {
               <Link to="">□</Link>
             </div>
           </div>
+        </div>
+      </div>
+      <div
+        className={`game-instructions ${
+          isGameRoute ? "show-instructions" : ""
+        }`}
+      >
+        <h2>Instructions</h2>
+        <div className="instructions-container">
+        <div className="left-instructions">
+          <p>"D" Key = Punch</p>
+          <p>"A" Key = Kick</p>
+        </div>
+        <div className="right-instructions">
+          <p>Space Bar = Jump</p>
+          <p>Use the arrow keys to move <br /> the player left and right</p>
+        </div>
         </div>
       </div>
     </div>
