@@ -1,9 +1,10 @@
 .room-container {
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     flex-direction: column;
-    background-color: black;
+    min-height: 120vh;
+    background-color: rgb(27, 26, 29);
 
 }
 
@@ -11,7 +12,7 @@
 
     position: relative;
     background: url('../assets/wall_paint.jpg')center center fixed;
-    height: 100vh;
+    min-height: 660px;
     width: 900px;
     display: flex;
     /* justify-content: center; */
@@ -20,6 +21,17 @@
 }
 
 .room::before {
+    z-index: 1;
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0));
+}
+
+.room::after {
     z-index: 0;
     content: '';
     position: absolute;
@@ -27,7 +39,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(to top, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0));
+    background-color: rgba(176, 56, 250, 0.164);
 }
 
 .upper-room-container {
@@ -53,15 +65,17 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: white;
+
+    background: linear-gradient(to top, rgb(188, 188, 188), white);
     width: 445px;
-    height: 259px;
+    height: 260px;
     margin-top: 30px;
     border: 1px solid black;
 }
 
+
 .window {
-   width: 93%;
+   width: 94%;
     height: 90%;
 }
 
@@ -84,8 +98,8 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(to right, transparent 49.5%, #fff 49.5%, #fff 50.5%, transparent 50.5%),
-               linear-gradient(to bottom, transparent 49.5%, #fff 49.5%, #fff 50.5%, transparent 50.5%);
+    background: linear-gradient(to right, transparent 49.5%, #fff 49.5%, #a3a3a3 50.5%, transparent 50.5%),
+               linear-gradient(to bottom, transparent 49.5%, #fff 49.5%, #9d9d9d 50.5%, transparent 50.5%);
     background-repeat: no-repeat;
     pointer-events: none; /* Allow interaction with the video */
   }
@@ -93,17 +107,24 @@
   
 
 .window-sill-1 {
-    height: 15px;
+    height: 12px;
     width: 465px;
-    background: linear-gradient(rgb(172, 172, 172),rgb(241, 234, 234));
+    background: linear-gradient(rgb(172, 172, 172),rgb(255, 255, 255));
     border-bottom: 1px solid rgb(183, 183, 183);
 }
 .window-sill-2 {
     height: 10px;
     width: 465px;
-    background: linear-gradient(white, rgb(162, 162, 162));
+    background: linear-gradient(rgb(219, 219, 219), rgb(100, 99, 99));
     border-bottom: 1px solid black;
-    margin-bottom: 30px;
+
+}
+
+.window-sill-shadow {
+    height: 15px;
+    width: 465px;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), transparent);
+    /* margin-bottom: 30px; */
 }
 
 .cert-container {
@@ -124,6 +145,13 @@
     cursor: pointer;
 }
 
+.cert-container:hover {
+    transform: scale(1.1);
+    transition: transform 0.2s;
+    filter: drop-shadow(0.35rem 0.35rem 0.4rem rgba(0, 0, 0, 0.5));
+
+}
+
 .cert-enlarged {
     transform: scale(3);
     z-index: 99;
@@ -134,6 +162,7 @@
 }
 
 .lower-room-container {
+    position: relative;
     z-index: 1;
     width: 100%;
     display: flex;
@@ -154,56 +183,92 @@
 }
 
 .desk-left {
+    position: relative;
     margin-top: 30px;
     bottom: 0;
     height: 100%;
     width: 5%;
-    background: linear-gradient(to bottom, rgb(85, 28, 28), rgb(127, 91, 38));
+    background: url("../assets/wood.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    /* background-position: center; */
+    
     clip-path: polygon(100% 0, 0 100%, 100% 100%); 
 }
-
-/* .desk-right::before {
+.desk-left::before {
     content: "";
     position: absolute;
+    z-index: 5;
     top: 0;
     left: 0;
-    width: 5%;
+    width: 100%;
     height: 100%;
-    background: linear-gradient(to bottom, black, black, transparent);
-    clip-path: polygon(100% 0, 0 100%, 100% 100%); 
-} */
+    background: linear-gradient(to bottom, rgba(60, 20, 20, 0.871), rgba(113, 77, 22, 0.299));
+    /* clip-path: polygon(100% 0, 0 100%, 100% 100%);  */
+}
 
+.desk-left::after {
+    content: "";
+    position: absolute;
+    
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, rgba(85, 28, 28, 0.584), rgba(127, 91, 38, 0.299));
+    /* clip-path: polygon(100% 0, 0 100%, 100% 100%);  */
+}
 
 .desk {
     position: relative;
     overflow: hidden;
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
     flex-direction: row;
     margin-top: 30px;
     bottom: 0;
     height: 100%;
-    width: 90vw;
-    background: linear-gradient(to bottom, rgb(85, 28, 28), rgb(127, 91, 38));
+    width: 813px;
+    background: url("../assets/wood.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
-/* .desk::before, .desk-left::before {
+.desk::before {
+    
     content: "";
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(to bottom, black, black, transparent);
-} */
+    background: linear-gradient(to bottom, rgba(62, 21, 21, 0.584), rgba(127, 91, 38, 0.299));
+
+ }
 
 .desk-right {
+    position: relative;
     margin-top: 30px;
     bottom: 0;
     height: 100%;
     width: 5%;
-    background: linear-gradient(to bottom, rgb(85, 28, 28), rgb(127, 91, 38));
+    background: url("../assets/wood.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    /* background-position: center; */
     clip-path: polygon(0 0, 100% 100%, 0 100%);
+}
+
+.desk-right::after, .desk-right::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, rgba(105, 34, 34, 0.326), rgba(175, 113, 21, 0.299));
+
 }
 
 .desk-bottom {
@@ -216,12 +281,12 @@
 .window-video-reflection {
     position: relative;
     bottom: 0;
-    right: 0;
+    right: 30px;
     width: 420px;
     height: 235px;
     overflow: hidden;
     transform: scaleY(-1);
-    opacity: 0.5;
+    opacity: 0.4;
     z-index: 3;
 }
 
@@ -266,23 +331,49 @@
     display: flex;
     right: 30px;
     z-index: 4;
+    right: 90px;
+    bottom: 80px;
     justify-content: center;
     align-items: center;
     height: 20vh;
     width: 150px;
-    background: linear-gradient(to right, rgb(42, 2, 117), rgb(247, 0, 255));
+}
+
+.computer img {
+    width: 350px;
+    height: auto;
+}
+
+.computer img:hover {
+    transform: scale(1.1);
+    transition: transform 0.2s;
+    filter: drop-shadow(0rem 0.35rem 0.4rem rgba(0, 221, 255, 0.81));
 }
 
 .phone {
+    position: absolute;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 20vh;
     width: 150px;
-    background: linear-gradient(to right, rgb(44, 117, 2), rgb(217, 255, 0));
+    left: 40px;
+    bottom: 10px;
     color: white;
     font-family: "Righteous", cursive;
+    z-index: 4;
 }
+
+.phone img {
+    width: 200px;
+    height: auto;
+
+}
+
+.phone img:hover {
+    transform: scale(1.1);
+    transition: transform 0.2s;
+    filter: drop-shadow(0rem 0.35rem 0.4rem rgba(234, 0, 255, 0.722));}
 
 /* .mirror {
     display: flex;
