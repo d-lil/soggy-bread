@@ -3,7 +3,7 @@
     justify-content: flex-start;
     align-items: center;
     flex-direction: column;
-    min-height: 120vh;
+    min-height: 100vh;
     background-color: rgb(27, 26, 29);
 
 }
@@ -11,8 +11,8 @@
 .room {
 
     position: relative;
-    background: url('../assets/wall_paint.jpg')center center fixed;
-    min-height: 660px;
+    background: url('../assets/wall_paint.jpg')center center;
+    flex-grow: 1;
     width: 900px;
     display: flex;
     /* justify-content: center; */
@@ -145,20 +145,25 @@
     cursor: pointer;
 }
 
-.cert-container:hover {
-    transform: scale(1.1);
-    transition: transform 0.2s;
-    filter: drop-shadow(0.35rem 0.35rem 0.4rem rgba(0, 0, 0, 0.5));
-
-}
-
 .cert-enlarged {
-    transform: scale(3);
+    transform: scale(2.5);
     z-index: 99;
     position: absolute;
     top: 40%;
     left: 35%;
     background-color: rgba(0, 0, 0, 0.388);
+}
+
+.enlarged-placeholder {
+    width: 203px;
+    height: auto;
+    padding: 10px;
+    display: none;
+
+}
+
+.is-enlarged {
+    display: block;
 }
 
 .lower-room-container {
@@ -169,6 +174,7 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    margin-top: 45px;
     margin-bottom: 5px;
 }
 
@@ -233,6 +239,8 @@
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
+    border-top: 1px solid rgb(56, 29, 29);
+    border-bottom: 1px solid rgb(143, 120, 78);
 }
 
 .desk::before {
@@ -272,6 +280,7 @@
 }
 
 .desk-bottom {
+    border-top: 1px solid rgb(143, 120, 78);
     margin-top: 15px;
     height: 15px;
     background: linear-gradient(to top, rgb(16, 3, 3),rgb(69, 30, 8));
@@ -279,6 +288,7 @@
 }
 
 .window-video-reflection {
+    margin-top: 40px;
     position: relative;
     bottom: 0;
     right: 30px;
@@ -291,9 +301,11 @@
 }
 
 .window-video-reflection video {
+    
     width: 100%;
     height: 100%;
-
+    opacity: 0.8;
+    mask: linear-gradient(to bottom, rgba(0, 0, 0, 0.053), rgba(0, 0, 0, 0.874));
 }
 
 .window-video-reflection::before {
@@ -303,7 +315,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(to bottom, black, rgba(0, 0, 0, 0.225));
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.488), rgba(0, 0, 0, 0.225));
     pointer-events: none;
     /* transform: skewX(); */
 
@@ -317,7 +329,7 @@
     width: 100%;
     height: 100%;
     background: linear-gradient(to right, transparent 49.5%, #2b2727 49.5%, #2d2929 50.5%, transparent 50.5%),
-               linear-gradient(to bottom, transparent 49.5%, #2b2727 49.5%, #2b2727 50.5%, transparent 50.5%);
+               linear-gradient(to bottom, transparent 49.5%, #2b2727 49.5%, #2b2727eb 50.5%, transparent 50.5%);
     background-repeat: no-repeat;
     pointer-events: none;
     pointer-events: none;
@@ -340,15 +352,29 @@
 }
 
 .computer img {
-    width: 350px;
+    width: 370px;
     height: auto;
+    filter: drop-shadow(0rem 0.35rem 0.2rem rgba(2, 2, 2, 0.81));
 }
-
 .computer img:hover {
     transform: scale(1.1);
     transition: transform 0.2s;
     filter: drop-shadow(0rem 0.35rem 0.4rem rgba(0, 221, 255, 0.81));
 }
+
+.computer-reflection {
+    position: absolute;
+    margin-top: 95px;
+    right: -25px;
+    width: 370px;
+    height: 80px;
+    background: url("../assets/laptop_model.png") no-repeat;
+    transform: scaleY(-1);
+    opacity: 0.7;
+    mask: linear-gradient(to bottom, rgba(0, 0, 0, 0.093), rgba(0, 0, 0, 0.466));
+    z-index: 3;
+}
+
 
 .phone {
     position: absolute;
@@ -367,11 +393,12 @@
 .phone img {
     width: 200px;
     height: auto;
+    filter: drop-shadow(0rem 0.35rem 0.2rem rgba(2, 2, 2, 0.81));
 
 }
 
 .phone img:hover {
-    transform: scale(1.1);
+    transform: scale(1.2);
     transition: transform 0.2s;
     filter: drop-shadow(0rem 0.35rem 0.4rem rgba(234, 0, 255, 0.722));}
 

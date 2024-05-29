@@ -27,6 +27,7 @@ const Home = () => {
             onClick={handleEnlarge}
           />
         </div>
+        <div className={`enlarged-placeholder  ${isEnlarged ? 'is-enlarged' : ''}`}></div>
         <div className="window-container">
           <div className="window-frame">
             <div className="window">
@@ -53,6 +54,7 @@ const Home = () => {
             <Link to="computer">
               <img src={computerModel} alt="computer model" />
             </Link>
+           
           </div>
         <div className="desk-top">
         <div className="desk-left"></div>
@@ -63,7 +65,7 @@ const Home = () => {
                 <source src={rain} type="video/mp4" />
               </video>
             </div>
-
+            <div className="computer-reflection">xxxxxxxx</div>
         </div>
         <div className="desk-right"></div>
       </div>

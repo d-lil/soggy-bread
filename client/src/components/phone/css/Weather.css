@@ -1,10 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Della+Respira&family=Sixtyfour&display=swap');
 
 .weather-container {
+  min-height: 550px;
   overflow: auto;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   margin: 0;
   padding: 10px;
@@ -13,6 +14,7 @@
   font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
     "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
   text-align: center;
+  overflow-x: hidden;
 }
 
 .weather-container hr {
@@ -111,6 +113,16 @@
     background: linear-gradient(to bottom, rgba(22, 22, 109, 0.555), rgba(171, 99, 185, 0.712));
     padding: 15px;
     border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 152, 253, 0.774);
+    border: 2px solid rgb(255, 255, 255);
+    color: white;
+
+}
+
+.city-name {
+    background: linear-gradient(to bottom, rgba(22, 22, 109, 0.555), black);
+    padding: 5px;
+    border-radius: 50px;
     box-shadow: 0 0 5px rgba(0, 152, 253, 0.774);
     border: 2px solid rgb(255, 255, 255);
     color: white;

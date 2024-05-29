@@ -10,19 +10,18 @@ import cloudy from './assets/cloudy.png';
 import lightning from './assets/lightning.png';
 import weatherLogo from './assets/weather_logo.png';
 
-const APIKey = '5d745a3ade61e4675aff85b5370d16a9';
+const APIKey = '5d745a3ade61e4675aff85b5370d16a9'
+// const APIKey = process.env.WEATHER_API;
+console.log(APIKey)
 const WeatherHeader = () => {
     const icons = [rain, snow, wind, sun, cloudy, lightning];
     const [currentIcon, setCurrentIcon] = useState(0);
   
     useEffect(() => {
-      // This function will be called every time the currentIcon changes
       const intervalId = setInterval(() => {
-        // Increment the current icon index after the interval
         setCurrentIcon((prevIcon) => (prevIcon + 1) % icons.length);
-      }, 2000); // The interval is the time each icon is fully visible plus fade time
+      }, 2000);
   
-      // Clear the interval when the component is unmounted or before setting a new one
       return () => clearInterval(intervalId);
     }, [currentIcon]);
   
@@ -79,7 +78,9 @@ const Weather = () => {
       const url = `http://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${APIKey}&units=imperial`;
       const response = await fetch(url);
       const data = await response.json();
+      console.log(data)
       setCurrentWeather({
+        name: data.name,
         temp: data.main.temp,
         wind: data.wind.speed,
         humidity: data.main.humidity,
@@ -96,15 +97,19 @@ const Weather = () => {
       const url = `http://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${APIKey}&units=imperial`;
       const response = await fetch(url);
       const data = await response.json();
-      setForecast(
-        data.list.filter((_, index) => index % 8 === 0).map((item) => ({
-          date: dayjs(item.dt_txt).format('dddd MM/DD/YYYY'),
-          temp: item.main.temp,
-          wind: item.wind.speed,
-          humidity: item.main.humidity,
-          icon: item.weather[0].icon,
-        }))
-      );
+      if (data.list && data.list.length > 0) {
+        setForecast(
+          data.list.filter((_, index) => index % 8 === 0).map((item) => ({
+            date: dayjs(item.dt_txt).format('dddd MM/DD/YYYY'),
+            temp: item.main.temp,
+            wind: item.wind.speed,
+            humidity: item.main.humidity,
+            icon: item.weather[0].icon,
+          }))
+        );
+      } else {
+        setForecast([]);
+      }
     } catch (error) {
       setError(error.message);
     }
@@ -147,8 +152,10 @@ const Weather = () => {
       <br />
       <hr />
       <div>
-        {error && <p>Error: {error}</p>}
-        {Object.keys(currentWeather).length > 0 && (
+      {Object.keys(currentWeather).length > 0 && (
+        <h3 className='city-name'>{currentWeather.name}</h3>
+      )}
+      {Object.keys(currentWeather).length > 0 && (
           <div className='forecast-today'>
             <h4>Today's Weather</h4>
             <WeatherCard {...currentWeather} date={dayjs().format('dddd MM/DD/YYYY')} />
