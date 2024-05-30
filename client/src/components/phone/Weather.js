@@ -12,7 +12,7 @@ import weatherLogo from './assets/weather_logo.png';
 
 const APIKey = '5d745a3ade61e4675aff85b5370d16a9'
 // const APIKey = process.env.WEATHER_API;
-console.log(APIKey)
+
 const WeatherHeader = () => {
     const icons = [rain, snow, wind, sun, cloudy, lightning];
     const [currentIcon, setCurrentIcon] = useState(0);

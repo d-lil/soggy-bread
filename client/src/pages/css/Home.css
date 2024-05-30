@@ -338,44 +338,6 @@
 
 
 
-.computer {
-    position: absolute;
-    display: flex;
-    right: 30px;
-    z-index: 4;
-    right: 90px;
-    bottom: 80px;
-    justify-content: center;
-    align-items: center;
-    height: 20vh;
-    width: 150px;
-}
-
-.computer img {
-    width: 370px;
-    height: auto;
-    filter: drop-shadow(0rem 0.35rem 0.2rem rgba(2, 2, 2, 0.81));
-}
-.computer img:hover {
-    transform: scale(1.1);
-    transition: transform 0.2s;
-    filter: drop-shadow(0rem 0.35rem 0.4rem rgba(0, 221, 255, 0.81));
-}
-
-.computer-reflection {
-    position: absolute;
-    margin-top: 95px;
-    right: -25px;
-    width: 370px;
-    height: 80px;
-    background: url("../assets/laptop_model.png") no-repeat;
-    transform: scaleY(-1);
-    opacity: 0.7;
-    mask: linear-gradient(to bottom, rgba(0, 0, 0, 0.093), rgba(0, 0, 0, 0.466));
-    z-index: 3;
-}
-
-
 .phone {
     position: absolute;
     display: flex;
@@ -400,7 +362,74 @@
 .phone img:hover {
     transform: scale(1.2);
     transition: transform 0.2s;
-    filter: drop-shadow(0rem 0.35rem 0.4rem rgba(234, 0, 255, 0.722));}
+    filter: drop-shadow(0rem 0.35rem 0.4rem rgba(234, 0, 255, 0.722));
+}
+
+.computer {
+    position: absolute;
+    display: flex;
+    right: 30px;
+    z-index: 4;
+    right: 90px;
+    bottom: 80px;
+    justify-content: center;
+    align-items: center;
+    height: 20vh;
+    width: 150px;
+}
+
+.computer img {
+    width: 370px;
+    height: auto;
+    filter: drop-shadow(0rem 0.35rem 0.2rem rgba(2, 2, 2, 0.81));
+}
+.computer img:hover {
+    transform: scale(1.1);
+    z-index: 10;
+    transition: transform 0.2s;
+    filter: drop-shadow(0rem 0.35rem 0.4rem rgba(0, 221, 255, 0.81));
+}
+
+.computer-reflection {
+    position: absolute;
+    margin-top: 95px;
+    right: -25px;
+    width: 370px;
+    height: 80px;
+    background: url("../assets/laptop_model.png") no-repeat;
+    transform: scaleY(-1);
+    opacity: 0.7;
+    mask: linear-gradient(to bottom, rgba(0, 0, 0, 0.093), rgba(0, 0, 0, 0.466));
+    z-index: 3;
+}
+
+.screen-saver{
+    position: absolute;
+    z-index: 5;
+    right: 70px;
+    bottom: 125px;
+    width: 207px;
+    height: 135px;
+
+    transform: skew(6deg, 0deg);
+    overflow: hidden;
+    background: url("../assets/rei-ayanami.gif") no-repeat center center;
+    background-size: cover;
+}
+
+
+/* .screen-saver video {
+    width: 118%;
+    height: 100%;
+} */
+
+.screen-saver:hover {
+    display: none;
+}
+
+.hidden {
+    display: none;
+}
 
 /* .mirror {
     display: flex;

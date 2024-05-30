@@ -11,10 +11,34 @@ import computerModel from "./assets/laptop_model.png";
 
 const Home = () => {
   const [isEnlarged, setIsEnlarged] = useState(false);
+  const [showScreenSaver, setShowScreenSaver] = useState(true);
+  const [computerHover, setComputerHover] = useState(false);
+
+
+  const handleMouseOver = () => {
+    setShowScreenSaver(false);
+  }
+
+  const handleMouseOut = () => {
+    if (!computerHover) {
+      setShowScreenSaver(false);
+    }
+  }
+
+  const handleMouseOverComputer = () => {
+    setComputerHover(true);
+    setShowScreenSaver(false); // Automatically hide the screensaver
+  };
+
+  const handleMouseOutComputer = () => {
+    setComputerHover(false);
+    setShowScreenSaver(true); // Automatically show the screensaver again if necessary
+  };
 
   const handleEnlarge = () => {
     setIsEnlarged(!isEnlarged);
   }
+
   return (
     <div className="room-container">
     <div className="room">
@@ -50,11 +74,16 @@ const Home = () => {
               <img src={phoneModel} alt="phone model" />
              </Link>
           </div>
-          <div className="computer">
+          <div className="computer" onMouseOver={handleMouseOverComputer} onMouseOut={handleMouseOutComputer}>
             <Link to="computer">
               <img src={computerModel} alt="computer model" />
             </Link>
            
+          </div>
+          <div className={`screen-saver ${showScreenSaver ? '' : 'hidden'}`} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut}>
+              {/* <video autoPlay loop muted>
+                <source src={screensaver} type="video/mp4" />
+              </video> */}
           </div>
         <div className="desk-top">
         <div className="desk-left"></div>
@@ -65,7 +94,7 @@ const Home = () => {
                 <source src={rain} type="video/mp4" />
               </video>
             </div>
-            <div className="computer-reflection">xxxxxxxx</div>
+            <div className="computer-reflection"></div>
         </div>
         <div className="desk-right"></div>
       </div>
