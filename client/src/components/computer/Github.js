@@ -1,15 +1,24 @@
-import React from 'react';
+import React from "react"
+import styles from "./css/Github.css"
+import GetRepo from "./GetRepo"
 
-function Github({ src, height, width }) {
+const Github = ({
+  userName,
+  numOfrepos,
+  showStars,
+  showLanguage
+}) => {
   return (
-    <iframe
-      src={src}
-      height={height}
-      width={width}
-      frameBorder="0"
-      allowFullScreen
-    ></iframe>
-  );
+    <div className={styles.container}>
+      {" "}
+      <GetRepo
+        showStars={showStars}
+        numOfrepos={numOfrepos}
+        userName={userName}
+        showLanguage={showLanguage}
+      />
+    </div>
+  )
 }
 
-export default Github;
+export default Github

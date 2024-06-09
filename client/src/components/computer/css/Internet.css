@@ -46,7 +46,7 @@
     width: 100%;
 
     padding-top: 3px;
-    padding-bottom: 3px;
+    padding-bottom: 6px;
     border-top: 2px solid black;
     border-bottom: 2px solid black;
 }
@@ -103,8 +103,8 @@
 
     color: white;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-    left: 50%;
-    top: 50px;
+    left: 52%;
+    top: 58px;
     transform: translateX(-50%);
     cursor: default;
 }

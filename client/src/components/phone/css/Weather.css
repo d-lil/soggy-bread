@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Della+Respira&family=Sixtyfour&display=swap');
 
 .weather-container {
-  min-height: 550px;
+  min-height: 530px;
   overflow: auto;
   display: flex;
   flex-direction: column;
@@ -18,7 +18,8 @@
 }
 
 .weather-container hr {
-  width: 100%;
+  
+  width: 99.4%;
   margin: 0;
   padding: 0;
 }

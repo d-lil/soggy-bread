@@ -43,6 +43,7 @@
 }
 
 .upper-room-container {
+    margin-top: -25px;
     flex-grow: 1;
     position: relative;
     z-index: 1;
@@ -300,6 +301,23 @@
     z-index: 3;
 }
 
+.sticky-notes {
+    z-index: 5;
+    position: absolute;
+    left: 120px;
+    width: 120px;
+    bottom: 0;
+}
+
+.notepad-img {
+    z-index: 4;
+    position: absolute;
+    right: 100px;
+    height: 200px;
+    top: 10px;
+    filter: drop-shadow(0rem 0.15rem 0.1rem rgba(2, 2, 2, 0.81));
+}
+
 .window-video-reflection video {
     
     width: 100%;
@@ -343,17 +361,17 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 20vh;
+    height: 170px;
     width: 150px;
     left: 40px;
-    bottom: 10px;
+    bottom: 5px;
     color: white;
     font-family: "Righteous", cursive;
     z-index: 4;
 }
 
 .phone img {
-    width: 200px;
+    width: 180px;
     height: auto;
     filter: drop-shadow(0rem 0.35rem 0.2rem rgba(2, 2, 2, 0.81));
 
@@ -369,18 +387,18 @@
     position: absolute;
     display: flex;
     right: 30px;
-    z-index: 4;
+    z-index: 5;
     right: 90px;
-    bottom: 80px;
+    bottom: 30px;
     justify-content: center;
     align-items: center;
-    height: 20vh;
+    height: 240px;
     width: 150px;
 }
 
 .computer img {
     width: 370px;
-    height: auto;
+    height: 235px;
     filter: drop-shadow(0rem 0.35rem 0.2rem rgba(2, 2, 2, 0.81));
 }
 .computer img:hover {
@@ -411,7 +429,7 @@
     width: 207px;
     height: 135px;
 
-    transform: skew(6deg, 0deg);
+    transform: skew(6deg, -.5deg);
     overflow: hidden;
     background: url("../assets/rei-ayanami.gif") no-repeat center center;
     background-size: cover;

@@ -1,13 +1,13 @@
 import React from "react";
 import "./css/Home.css";
 import { Link } from "react-router-dom";
-import { Route, Routes } from "react-router-dom";
 import { useState, useEffect } from "react";
 import certificate from "./assets/certificate.png";
 import rain from "./assets/rain.mp4";
 import phoneModel from "./assets/phone_model.png";
 import computerModel from "./assets/laptop_model.png";
-
+import stickyNotes from "./assets/sticky_notes2.png";
+import notepadImg from "./assets/notepad_img2.png";
 
 const Home = () => {
   const [isEnlarged, setIsEnlarged] = useState(false);
@@ -27,12 +27,12 @@ const Home = () => {
 
   const handleMouseOverComputer = () => {
     setComputerHover(true);
-    setShowScreenSaver(false); // Automatically hide the screensaver
+    setShowScreenSaver(false); 
   };
 
   const handleMouseOutComputer = () => {
     setComputerHover(false);
-    setShowScreenSaver(true); // Automatically show the screensaver again if necessary
+    setShowScreenSaver(true);
   };
 
   const handleEnlarge = () => {
@@ -88,7 +88,8 @@ const Home = () => {
         <div className="desk-top">
         <div className="desk-left"></div>
         <div className="desk">
-
+          <img src={stickyNotes} alt="sticky notes" className="sticky-notes" />
+          <img src={notepadImg} alt="notepad" className="notepad-img" />
           <div className="window-video-reflection">
               <video autoPlay loop muted>
                 <source src={rain} type="video/mp4" />

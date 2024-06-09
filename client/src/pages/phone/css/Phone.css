@@ -51,10 +51,10 @@
 
   .phone-power-button {
     position: absolute;
-    top: 20%; /* Center it vertically */
-    right: -15px; /* Adjust this value based on your layout needs */
-    transform: translateY(-50%); /* Ensure it is perfectly centered no matter the height */
-    background: linear-gradient(rgba(192, 192, 192, 0.779), black); /* Red background for visibility */
+    top: 20%; 
+    right: -15px;
+    transform: translateY(-50%);
+    background: linear-gradient(rgba(192, 192, 192, 0.779), black); 
     border-left: 4px solid red;
     border-top: 1px solid white;
     border-right: 1px solid white;
@@ -66,8 +66,12 @@
     justify-content: center;
     align-items: center;
     cursor: pointer;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2); /* Optional: add shadow for better visibility */
-    z-index: 1; /* Ensure it is above other elements */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2); 
+    z-index: 1; 
+  }
+
+  .phone-power-button:hover {
+    filter: drop-shadow(.7rem 0.15rem .4rem rgba(0, 255, 221, 0.722)); /* Optional: add hover effect */
   }
 
 .phone-container {
@@ -217,6 +221,12 @@
     margin-bottom: 20px;
     text-align: center;
     
+}
+
+.phone-weather-app img, .phone-camera-app img, .phone-gallery-app img, .phone-game-app img, .phone-email-app img, .phone-instagram-app img {
+    width: 50px;
+    height: 50px;
+
 }
 
 .phone-weather-app a, .phone-camera-app a, .phone-gallery-app a, .phone-game-app a, .phone-email-app a, .phone-instagram-app a {
