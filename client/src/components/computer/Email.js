@@ -1,5 +1,11 @@
 import React, { useState } from 'react';
 import './css/Email.css';
+import emailGif from "./assets/email_gif.gif"
+import eIcon from "./assets/e.png"
+import mIcon from "./assets/m.png"
+import aIcon from "./assets/a.png"
+import iIcon from "./assets/i.png"
+import lIcon from "./assets/l.png"
 
 const Email = () => {
    const [email, setEmail] = useState('');
@@ -27,12 +33,21 @@ const Email = () => {
 
   return (
     <div className="email-page">
+    <img src={emailGif} alt="email gif" className='email-gif'/>
+    <div className='email-icons'>
+    <img src={eIcon} alt="e icon" className='email-icon'/>
+    <img src={mIcon} alt="m icon" className='email-icon'/>
+    <img src={aIcon} alt="a icon" className='email-icon'/>
+    <img src={iIcon} alt="i icon" className='email-icon'/>
+    <img src={lIcon} alt="l icon" className='email-icon'/>
+    </div>
       <h2 className='email-h2'>If you'd like to email me, please fill out the form below</h2>
     <form onSubmit={handleSubmit} className='email-form'>
       <label htmlFor="email" className='email-label'>Your email so I can respond to you:</label>
       <br />
         <input
             type="email"
+            className='email-input'
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="Your email"
@@ -43,6 +58,7 @@ const Email = () => {
       <br />
       <textarea
         value={message}
+        className='email-textarea'
         onChange={(e) => setMessage(e.target.value)}
         placeholder="Send me a message!"
         required

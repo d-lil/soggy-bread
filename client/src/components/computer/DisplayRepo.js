@@ -16,7 +16,7 @@ const DisplayRepo = ({ repoData, userName, numOfrepos, showStars, showLanguage }
       <div className="repoContainer">
         <h1 className="github-intro"><u>List Does Not Include Private Repos</u></h1>
         <a href="https://www.github.com/d-lil" target="_blank" rel="noopener noreferrer" className="github-intro-a">Click Here To View Github Page</a>
-        <h2 className="github-intro2">(Link opens in new browser window outside of this page)</h2>
+        <h2 className="github-intro2"><marquee>Link opens in new browser window outside of this page</marquee></h2>
         <hr />
         {sortedAndReducedRepos
           ? sortedAndReducedRepos.map((repo) => (
