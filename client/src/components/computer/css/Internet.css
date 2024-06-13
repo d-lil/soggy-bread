@@ -7,7 +7,8 @@
     border: 2px solid black;
     border-radius: 10px;
     padding: 2px;
-    height: calc(72vh - 4px);
+    flex-grow: 1;
+    height: calc(78vh - 4px);
     box-sizing: border-box;
     overflow: hidden;
 }
@@ -105,7 +106,7 @@
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
     left: 52%;
     top: 58px;
-    transform: translateX(-50%);
+    transform: translateX(-57%);
     cursor: default;
 }
 

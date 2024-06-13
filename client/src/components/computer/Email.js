@@ -65,7 +65,7 @@ const Email = () => {
     />
     <span className='required'>*required</span>
       <br />
-      <button type="submit">Send</button>
+      <button type="submit" className='email-submit-button'>Send</button>
     </form>
     </div>
   );

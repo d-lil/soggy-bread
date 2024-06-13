@@ -4,6 +4,8 @@
     position: relative;
     display: flex;
     flex-direction: column;
+    padding-left: 80px;
+    padding-right: 80px;
     min-height: 100vh;
     cursor: none;
     background-color: rgb(47, 46, 51);
@@ -21,15 +23,15 @@
     padding: 5px;
     border: 1px solid black;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    min-height: 75vh;
-
+    min-height: 85vh;
+    
 }
 
 .bezel {
     background-color: black;
     border: 5px solid black;
     border-radius: 10px;
-    min-height: 75vh;
+    min-height: 85vh;
     padding: 10px;
 }
 
@@ -41,7 +43,7 @@
     flex-direction: column;
     flex-grow: 1;
     cursor: default;
-    min-height: 75vh;
+    min-height: 85vh;
     background: url("../assets/desktop_background.png");
     background-size: cover;
     overflow: hidden;
@@ -299,6 +301,7 @@ z-index:3
     border: 1px solid black;
     min-height: 10vh;
     padding-top:15px;
+
 }
 
 
@@ -314,6 +317,9 @@ z-index:3
 }
 
 .key {
+    margin-left: 1px;
+    margin-right: 1px;
+    flex-grow: 1;
     background-color: black;
     color: white;
     padding: 5px;
@@ -324,6 +330,9 @@ z-index:3
 }
 
 .key2 {
+    margin-left: 1px;
+    margin-right: 1px;
+    flex-grow: 1;
     background-color: black;
     color: white;
     padding: 5px;
@@ -334,6 +343,9 @@ z-index:3
 }
 
 .key3 {
+    margin-left: 1px;
+    margin-right: 1px;
+    flex-grow: 1;
     background-color: black;
     color: white;
     padding-top: 15px;

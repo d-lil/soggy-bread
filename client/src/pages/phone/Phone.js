@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import Weather from "../../components/phone/Weather";
 import Camera from "../../components/phone/Camera";
 import Game from "../../components/phone/game/Game";
-// import Contacts from "../../components/phone/Contacts";
+import Telephone from "../../components/phone/Telephone";
 // import SomeApp from "../../components/phone/Shopping";
 import Instagram from "../../components/phone/Instagram";
 import EmailPhone from "../../components/phone/EmailPhone";
@@ -22,6 +22,7 @@ import galleryIcon from "./assets/gallery_logo.png";
 import weatherIcon from "./assets/weather_logo.png";
 import instagramIcon from "./assets/instagram.png";
 import gameIcon from "./assets/game_logo.png";
+
 
 function PhoneClock() {
   const [currentTime, setCurrentTime] = useState(new Date());
@@ -172,10 +173,10 @@ const Phone = () => {
               </div>
 
               <div className="phone-email-app">
-                <Link to="emailphone">
+                <Link to="telephone">
                   <img src="" alt="email logo" className="email-logo-phone" />
                   <br />
-                  Email
+                  Phone
                 </Link>
               </div>
 
@@ -246,10 +247,10 @@ const Phone = () => {
                   }
                 />
                 <Route
-                  path="emailphone/*"
+                  path="telephone/*"
                   element={
                     <div className="overlay-component">
-                      <EmailPhone />
+                      <Telephone />
                     </div>
                   }
                 />

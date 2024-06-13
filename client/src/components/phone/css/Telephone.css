@@ -1,0 +1,17 @@
+.call-button {
+    display: inline-block;
+    background-color: #4CAF50; /* Green background */
+    color: white; /* White text */
+    padding: 10px 20px; /* Padding for size */
+    text-align: center; /* Center the text */
+    text-decoration: none; /* No underline */
+    font-size: 16px; /* Font size */
+    margin: 4px 2px; /* Some margin */
+    cursor: pointer; /* Cursor appears as a pointer */
+    border-radius: 5px; /* Rounded corners */
+    border: none; /* No borders */
+}
+
+.call-button:hover {
+    background-color: #45a049; /* Darker green background on hover */
+}

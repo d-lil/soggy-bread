@@ -3,14 +3,94 @@ const express = require('express');
 const cors = require('cors');
 const SibApiV3Sdk = require('sib-api-v3-sdk');
 const { OpenAI } = require('openai');
-// const fetch = require('node-fetch');
-// const createDOMPurify = require('dompurify');
-// const { JSDOM } = require('jsdom');
-
+const { Vonage } = require("@vonage/server-sdk");
 const app = express();
+const fs = require('fs');
+const WebSocket = require('ws');
+const wss = new WebSocket.Server({ port: 8080 });
+
+
+// This callback function is called every time a new client connects
+wss.on('connection', function connection(ws) {
+  console.log('A new client connected.');
+
+  // Here, 'ws' represents the WebSocket connection to a single client
+  ws.on('message', function incoming(message, isBinary) {
+      if (isBinary) {
+          console.log('Binary data received');
+          // You can handle binary data here
+      } else {
+          console.log("text data received")
+      }
+  });
+
+  // Optionally, handle close events
+  ws.on('close', function close() {
+      console.log('Client disconnected.');
+  });
+});
+
+console.log('WebSocket server is running on port 8080.');
 
 app.use(cors());
 app.use(express.json());
+
+const privateKey = fs.readFileSync(process.env.VONAGE_APPLICATION_PRIVATE_KEY_PATH, 'utf8');
+
+const vonage = new Vonage({
+  apiKey: process.env.VONAGE_API_KEY,
+  apiSecret: process.env.VONAGE_API_SECRET,
+  applicationId: process.env.VONAGE_APPLICATION_ID,
+  privateKey: privateKey,
+});
+
+
+app.post('/api/make-call', (req, res) => {
+
+
+  vonage.voice.createOutboundCall({
+      to: [{ type: 'phone', number: "13038815725" }], // Now dynamically using the userNumber
+      from: { type: 'phone', number: "16503311418" },
+      ncco: [{
+          action: 'talk',
+          text: 'Connecting you to a live session.'
+      }, {
+          action: 'connect',
+          endpoint: [{
+              type: 'websocket',
+              uri: 'wss://a4dd-2601-283-5002-eda0-1d5c-85b0-6f12-2d24.ngrok-free.app/socket',
+              "content-type": 'audio/l16;rate=16000',
+              headers: {
+                  'Conversation-ID': 'unique-conversation-id'
+              }
+          }]
+      }]
+  }, (error, response) => {
+      if (error) {
+          console.error(error);
+          return res.status(500).send(error);
+      }
+      res.send({ message: 'Call initiated successfully', data: response });
+  });
+});
+
+
+
+app.post('/api/end-call', (req, res) => {
+  const { uuid } = req.body; // You need the UUID of the call to terminate it
+
+  vonage.calls.update(uuid, { action: 'hangup' }, (error, response) => {
+      if (error) {
+          console.error(error);
+          res.status(500).send({ message: 'Failed to end the call', error: error });
+      } else {
+          res.send({ message: 'Call ended successfully' });
+      }
+  });
+});
+
+
+
 
 const sendinblueClient = SibApiV3Sdk.ApiClient.instance;
 const apiKey = sendinblueClient.authentications['api-key'];
@@ -22,14 +102,14 @@ const transactionalEmailsApi = new SibApiV3Sdk.TransactionalEmailsApi();
 app.post('/api/send-email', (req, res) => {
   const { email, message } = req.body;
 
-  // Configuring the email to be sent
+
   let sendSmtpEmail = new SibApiV3Sdk.SendSmtpEmail();
   sendSmtpEmail.sender = { "name": "User", "email": process.env.SENDINBLUE_EMAIL }; // Use a general sender email you've verified with Sendinblue
   sendSmtpEmail.to = [{ "email": process.env.EMAIL_ADDRESS }]; // Your personal email
   sendSmtpEmail.subject = "New Message from Your Crush";
   sendSmtpEmail.textContent = `Message from: ${email}\n\n${message}`; // Include the sender's email in the message body
 
-  // Sending the email
+
   transactionalEmailsApi.sendTransacEmail(sendSmtpEmail).then(function(data) {
     console.log('API called successfully. Returned data: ' + data);
     res.status(200).send('Email sent successfully');
@@ -54,61 +134,14 @@ app.post('/generate-response', async (req, res) => {
       ],
     });
 
-    // Access the message content directly without the data property
     const messageContent = response.choices[0].message.content.trim();
 
-    // Send the message content to the frontend
     res.json({ aiResponse: messageContent });
   } catch (error) {
     console.error('Error calling OpenAI API:', error);
-    // Send back the error for debugging
     res.status(500).send(`Error generating AI response: ${error.message}`);
   }
 });
-
-// List of allowed URLs
-const allowedDomains = [
-  'https://example.com',
-  'https://news.example.com',
-  'https://info.example.com'
-];
-
-
-app.get('/api/content', async (req, res) => {
-  const { url } = req.query;
-
-  if (!url) {
-      return res.status(400).json({ error: 'URL parameter is required' });
-  }
-
-  let hostname;
-  try {
-      // Parse the URL to get the hostname
-      hostname = new URL(url).hostname;
-  } catch (error) {
-      return res.status(400).json({ error: 'Invalid URL' });
-  }
-
-  // Check if the hostname is in the allowed domains list
-  if (!allowedDomains.includes(hostname)) {
-      return res.status(403).json({ error: 'Access to the requested domain is denied' });
-  }
-
-  try {
-      const response = await fetch(url);
-      const html = await response.text();
-      const window = new JSDOM('').window;
-      const DOMPurify = createDOMPurify(window);
-
-      const cleanHTML = DOMPurify.sanitize(html);
-      
-      res.send(cleanHTML);
-  } catch (error) {
-      res.status(500).json({ error: 'Failed to fetch content' });
-  }
-});
-
-
 
 
 

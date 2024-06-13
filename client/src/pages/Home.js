@@ -8,9 +8,15 @@ import phoneModel from "./assets/phone_model.png";
 import computerModel from "./assets/laptop_model.png";
 import stickyNotes from "./assets/sticky_notes2.png";
 import notepadImg from "./assets/notepad_img2.png";
+import photo1 from "./assets/photo1.jpg";
+import photo2 from "./assets/photo2.jpg";
+import pinkPin from "./assets/pink_pin.png";
+import purplePin from "./assets/purple_pin.png";
 
 const Home = () => {
   const [isEnlarged, setIsEnlarged] = useState(false);
+  const [isEnlargedPhoto1, setIsEnlargedPhoto1] = useState(false);
+  const [isEnlargedPhoto2, setIsEnlargedPhoto2] = useState(false);
   const [showScreenSaver, setShowScreenSaver] = useState(true);
   const [computerHover, setComputerHover] = useState(false);
 
@@ -36,14 +42,53 @@ const Home = () => {
   };
 
   const handleEnlarge = () => {
+    if (isEnlargedPhoto1 || isEnlargedPhoto2) {
+      setIsEnlargedPhoto1(false);
+      setIsEnlargedPhoto2(false);
+    }
     setIsEnlarged(!isEnlarged);
   }
+
+  const handleEnlargePhoto = (e) => {
+    if (e.target.src.includes('photo1')) {
+      if (isEnlargedPhoto2 || isEnlarged) {
+        setIsEnlargedPhoto2(false); 
+        setIsEnlarged(false);
+      }
+      setIsEnlargedPhoto1(!isEnlargedPhoto1); 
+    } else if (e.target.src.includes('photo2')) {
+      if (isEnlargedPhoto1 || isEnlarged) {
+        setIsEnlargedPhoto1(false);
+        setIsEnlarged(false);
+      }
+      setIsEnlargedPhoto2(!isEnlargedPhoto2); 
+    }
+  }
+  
+
+  useEffect(() => {
+    function handleClickOutside(event) {
+        const target = event.target;
+
+        if (!target.closest('.enlargeable') && (isEnlarged || isEnlargedPhoto1 || isEnlargedPhoto2)) {
+            setIsEnlarged(false);
+            setIsEnlargedPhoto1(false);
+            setIsEnlargedPhoto2(false);
+        }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside);
+
+    return () => {
+        document.removeEventListener('mousedown', handleClickOutside);
+    };
+}, [isEnlarged, isEnlargedPhoto1, isEnlargedPhoto2]);
 
   return (
     <div className="room-container">
     <div className="room">
-      <div className="upper-room-container">
-        <div className={`cert-container  ${isEnlarged ? 'cert-enlarged' : ''}`}>
+      <div className={`upper-room-container ${isEnlarged ? 'upper-room-container2' : ''}`}>
+        <div className={`cert-container  enlargeable ${isEnlarged ? 'cert-enlarged' : ''}`}>
           <img
             src={certificate}
             className={`certificate`}
@@ -51,7 +96,7 @@ const Home = () => {
             onClick={handleEnlarge}
           />
         </div>
-        <div className={`enlarged-placeholder  ${isEnlarged ? 'is-enlarged' : ''}`}></div>
+        <div className={`enlarged-placeholder  enlargeable ${isEnlarged ? 'is-enlarged' : ''}`}></div>
         <div className="window-container">
           <div className="window-frame">
             <div className="window">
@@ -67,7 +112,18 @@ const Home = () => {
           <div className="window-sill-2"></div>
           <div className="window-sill-shadow"></div>
         </div>
+
       </div>
+      <div className="photo-frame-container">
+          <div className={`photo-frame1 enlargeable ${isEnlargedPhoto1 ? 'photo-enlarged' : ''}`}>
+            <img src={pinkPin} alt="pink pin" className="pin" />
+            <img src={photo1} alt="photo1" onClick={handleEnlargePhoto} className="photo" />
+          </div>
+          <div className={`photo-frame2 enlargeable ${isEnlargedPhoto2 ? 'photo-enlarged' : ''}`}>
+            <img src={purplePin} alt="purple pin" className="pin" />
+            <img src={photo2} alt="photo2" onClick={handleEnlargePhoto} className="photo" />
+          </div>
+        </div>
       <div className="lower-room-container">
       <div className="phone">
              <Link to ="/phone">

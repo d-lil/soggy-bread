@@ -5,8 +5,6 @@ import { Route, Routes } from "react-router-dom";
 import { useEffect, useState } from "react";
 import internetLogo from "./assets/internet_logo.png";
 import Github from "./Github";
-import FakeVirus from "./FakeVirus";
-
 import Email from "./Email";
 import EmbeddedWebsite from "./Website";
 
@@ -47,7 +45,6 @@ const InternetHome = () => {
         <div className="home-page">
         <h1>Welcome to the Internet</h1>
         <ExternalContent />
-        {/* <FakeVirus /> */}
         </div>
     );
     }
@@ -66,7 +63,6 @@ const Internet = ({ handleMinimizeComponent, isMinimized, handleCloseComponent }
           <Link to="">Home</Link>
           <Link to="email">Email</Link>
           <Link to="github">GitHub</Link>
-          {/* <Link to="/call">Call</Link> */}
         </div>
         <div className="right-buttons">
         <button  className="minimize-button-internet" onClick={() => handleMinimizeComponent('internet')}>_</button>

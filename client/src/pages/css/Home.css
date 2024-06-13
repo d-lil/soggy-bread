@@ -9,7 +9,7 @@
 }
 
 .room {
-
+    
     position: relative;
     background: url('../assets/wall_paint.jpg')center center;
     flex-grow: 1;
@@ -46,13 +46,17 @@
     margin-top: -25px;
     flex-grow: 1;
     position: relative;
-    z-index: 1;
+    z-index: 3;
     width: 100%;
     display: flex;
     justify-content: space-around;
     align-items: center;
     flex-direction: row;
 
+}
+
+.upper-room-container2 {
+    z-index: 4;
 }
 .window-container {
     display: flex;
@@ -129,6 +133,8 @@
 }
 
 .cert-container {
+
+    position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -147,6 +153,7 @@
 }
 
 .cert-enlarged {
+    z-index: 99;
     transform: scale(2.5);
     z-index: 99;
     position: absolute;
@@ -165,6 +172,86 @@
 
 .is-enlarged {
     display: block;
+}
+
+.photo-frame-container {
+    z-index: 3;
+    position: relative;
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: row;
+    width: 100%;
+    margin-top: 15px;
+}
+
+.photo-frame1 {
+    position: absolute;
+    left: 50px;
+    top: -25px;
+    background-color: white;
+    width: 85px;
+    height: 90px;
+    padding-bottom: 7px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    transform:rotate(5deg);
+    transform: center;
+    filter: drop-shadow(0rem 0.15rem 0.1rem rgba(2, 2, 2, 0.81));
+}
+
+/* .photo-frame1:hover {
+    transform: scale(1.1);
+    transition: transform 0.2s;
+    filter: drop-shadow(0rem 0.35rem 0.4rem rgba(255, 174, 0, 0.722));
+} */
+
+.photo-frame2 {
+    position: absolute;
+    left: 200px;
+    bottom: -10px;
+    background-color: white;
+    width: 85px;
+    height: 90px;
+    padding-bottom: 7px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transform:rotate(-5deg);
+    transform: center;
+    filter: drop-shadow(0rem 0.15rem 0.1rem rgba(2, 2, 2, 0.81));
+
+}
+
+/* .photo-frame2:hover {
+    transform: scale(1.1);
+    transition: transform 0.2s;
+    filter: drop-shadow(0rem 0.35rem 0.4rem rgba(255, 174, 0, 0.722));
+} */
+
+.photo-enlarged {
+    transform: scale(5.5);
+    z-index: 99;
+    position: absolute;
+    top: 0;
+    left: 35%;
+}
+
+.pin {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    top: 0px;
+}
+
+.photo {
+
+    width: 75px;
+    height: auto;
+    padding: 10px;
+    cursor: pointer;
 }
 
 .lower-room-container {
