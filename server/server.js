@@ -3,92 +3,18 @@ const express = require('express');
 const cors = require('cors');
 const SibApiV3Sdk = require('sib-api-v3-sdk');
 const { OpenAI } = require('openai');
-const { Vonage } = require("@vonage/server-sdk");
+const accountSid = process.env.TWILIO_ACCOUNT_SID;
+const authToken = process.env.TWILIO_TOKEN;
+const twilio = require("twilio");
+const ClientCapability = twilio.jwt.ClientCapability;
+
 const app = express();
-const fs = require('fs');
-const WebSocket = require('ws');
-const wss = new WebSocket.Server({ port: 8080 });
 
+const twilioNumber = "18556056985"
 
-// This callback function is called every time a new client connects
-wss.on('connection', function connection(ws) {
-  console.log('A new client connected.');
-
-  // Here, 'ws' represents the WebSocket connection to a single client
-  ws.on('message', function incoming(message, isBinary) {
-      if (isBinary) {
-          console.log('Binary data received');
-          // You can handle binary data here
-      } else {
-          console.log("text data received")
-      }
-  });
-
-  // Optionally, handle close events
-  ws.on('close', function close() {
-      console.log('Client disconnected.');
-  });
-});
-
-console.log('WebSocket server is running on port 8080.');
 
 app.use(cors());
 app.use(express.json());
-
-const privateKey = fs.readFileSync(process.env.VONAGE_APPLICATION_PRIVATE_KEY_PATH, 'utf8');
-
-const vonage = new Vonage({
-  apiKey: process.env.VONAGE_API_KEY,
-  apiSecret: process.env.VONAGE_API_SECRET,
-  applicationId: process.env.VONAGE_APPLICATION_ID,
-  privateKey: privateKey,
-});
-
-
-app.post('/api/make-call', (req, res) => {
-
-
-  vonage.voice.createOutboundCall({
-      to: [{ type: 'phone', number: "13038815725" }], // Now dynamically using the userNumber
-      from: { type: 'phone', number: "16503311418" },
-      ncco: [{
-          action: 'talk',
-          text: 'Connecting you to a live session.'
-      }, {
-          action: 'connect',
-          endpoint: [{
-              type: 'websocket',
-              uri: 'wss://a4dd-2601-283-5002-eda0-1d5c-85b0-6f12-2d24.ngrok-free.app/socket',
-              "content-type": 'audio/l16;rate=16000',
-              headers: {
-                  'Conversation-ID': 'unique-conversation-id'
-              }
-          }]
-      }]
-  }, (error, response) => {
-      if (error) {
-          console.error(error);
-          return res.status(500).send(error);
-      }
-      res.send({ message: 'Call initiated successfully', data: response });
-  });
-});
-
-
-
-app.post('/api/end-call', (req, res) => {
-  const { uuid } = req.body; // You need the UUID of the call to terminate it
-
-  vonage.calls.update(uuid, { action: 'hangup' }, (error, response) => {
-      if (error) {
-          console.error(error);
-          res.status(500).send({ message: 'Failed to end the call', error: error });
-      } else {
-          res.send({ message: 'Call ended successfully' });
-      }
-  });
-});
-
 
 
 
@@ -98,6 +24,38 @@ apiKey.apiKey = process.env.SENDINBLUE_API_KEY;
 
 
 const transactionalEmailsApi = new SibApiV3Sdk.TransactionalEmailsApi();
+
+
+app.get('/token', (req, res) => {
+  const capability = new twilio.jwt.ClientCapability({
+      accountSid: process.env.TWILIO_ACCOUNT_SID,
+      authToken: process.env.TWILIO_AUTH_TOKEN,
+  });
+
+  capability.addScope(new twilio.jwt.ClientCapability.OutgoingClientScope({
+      applicationSid: process.env.TWILIO_APP_SID
+  }));
+
+  const token = capability.toJwt();
+  res.send({ token });
+});
+
+app.post('/make-call', (req, res) => {
+  const twilio = require('twilio');
+  const VoiceResponse = twilio.twiml.VoiceResponse;
+  const twiml = new VoiceResponse();
+  
+  console.log('Making call to:', req.body.number);  // Debug log
+
+  twiml.say({voice: 'alice'}, 'Hello, you are connecting to Danny');
+  twiml.dial({callerId: twilioNumber}, req.body.number);
+  
+  console.log('TwiML response:', twiml.toString());  // Debug log
+
+  res.type('text/xml');
+  res.send(twiml.toString());
+});
+
 
 app.post('/api/send-email', (req, res) => {
   const { email, message } = req.body;

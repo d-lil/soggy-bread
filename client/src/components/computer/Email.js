@@ -35,15 +35,16 @@ const Email = () => {
     <div className="email-page">
     <img src={emailGif} alt="email gif" className='email-gif'/>
     <div className='email-icons'>
-    <img src={eIcon} alt="e icon" className='email-icon'/>
-    <img src={mIcon} alt="m icon" className='email-icon'/>
-    <img src={aIcon} alt="a icon" className='email-icon'/>
-    <img src={iIcon} alt="i icon" className='email-icon'/>
-    <img src={lIcon} alt="l icon" className='email-icon'/>
+    <img src={eIcon} alt="e icon" className='email-icon e1'/>
+    <img src={mIcon} alt="m icon" className='email-icon e2'/>
+    <img src={aIcon} alt="a icon" className='email-icon e3'/>
+    <img src={iIcon} alt="i icon" className='email-icon e4'/>
+    <img src={lIcon} alt="l icon" className='email-icon e5'/>
     </div>
       <h2 className='email-h2'>If you'd like to email me, please fill out the form below</h2>
     <form onSubmit={handleSubmit} className='email-form'>
       <label htmlFor="email" className='email-label'>Your email so I can respond to you:</label>
+      <span className='required'>*required</span>
       <br />
         <input
             type="email"
@@ -52,9 +53,10 @@ const Email = () => {
             onChange={(e) => setEmail(e.target.value)}
             placeholder="Your email"
             required
-        /><span className='required'>*required</span>
+        />
       <br />
       <label htmlFor="message" className='email-label'>Message:</label>
+      <span className='required'>*required</span>
       <br />
       <textarea
         value={message}
@@ -63,7 +65,7 @@ const Email = () => {
         placeholder="Send me a message!"
         required
     />
-    <span className='required'>*required</span>
+
       <br />
       <button type="submit" className='email-submit-button'>Send</button>
     </form>

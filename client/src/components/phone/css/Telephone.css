@@ -1,17 +1,83 @@
+.telephone {
+    border-top: 1px solid black;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    min-height: 550px;
+    width: 100%;
+    background-color: #37415f;
+}
+
+.telephone-header {
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+    margin-top: 30px;
+}
+
+.danny-picture {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+
+}
+
+.phone-buttons {
+    margin-top: 20px;
+}
+
 .call-button {
     display: inline-block;
-    background-color: #4CAF50; /* Green background */
-    color: white; /* White text */
-    padding: 10px 20px; /* Padding for size */
-    text-align: center; /* Center the text */
-    text-decoration: none; /* No underline */
-    font-size: 16px; /* Font size */
-    margin: 4px 2px; /* Some margin */
-    cursor: pointer; /* Cursor appears as a pointer */
-    border-radius: 5px; /* Rounded corners */
-    border: none; /* No borders */
+    background-color: #4CAF50;
+    color: white; 
+    padding: 10px 20px; 
+    text-align: center; 
+    text-decoration: none;
+    font-size: 16px; 
+    margin: 4px 2px; 
+    cursor: pointer; 
+    border-radius: 5px;
+    border: none; 
+    font-weight: bold;
+}
+
+.call-button:disabled {
+    background-color: #cccccc; /* Grey background */
+    color: #666666; /* Dark grey text */
+    cursor: not-allowed; /* Cursor shows it's not allowed */
 }
 
 .call-button:hover {
-    background-color: #45a049; /* Darker green background on hover */
+    background-color: #45a049;
+}
+
+.end-connected {
+    display: inline-block;
+    background-color: #cf2e22; 
+    color: white; 
+    padding: 10px 20px; 
+    text-align: center; 
+    text-decoration: none;
+    font-size: 16px;
+    margin: 4px 2px; 
+    cursor: pointer; 
+    border-radius: 5px; 
+    border: none; 
+    font-weight: bold;
+}
+
+.end-connected:disabled {
+    background-color: #cccccc; /* Grey background */
+    color: #666666; /* Dark grey text */
+    cursor: not-allowed; /* Cursor shows it's not allowed */
+}
+
+.call-status {
+    color: white;
+    font-size: 20px;
+    margin-top: 15px;
 }
