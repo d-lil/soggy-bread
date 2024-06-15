@@ -8,43 +8,12 @@ import Github from "./Github";
 import Email from "./Email";
 import EmbeddedWebsite from "./Website";
 
-function ExternalContent() {
-  const [url, setUrl] = useState('');
-  const [htmlContent, setHtmlContent] = useState('');
-  const allowedLinks = [
-      'https://example.com/somepage',
-      'https://news.example.com/article',
-      'https://info.example.com/contact'
-  ];
-
-  const fetchContent = () => {
-      fetch(`/api/content?url=${encodeURIComponent(url)}`)
-          .then(res => res.text())
-          .then(setHtmlContent)
-          .catch(error => console.error('Failed to fetch content', error));
-  };
-
-  return (
-      <div>
-          <select value={url} onChange={e => setUrl(e.target.value)}>
-              <option value="">Select a URL</option>
-              {allowedLinks.map(link => (
-                  <option key={link} value={link}>
-                      {link}
-                  </option>
-              ))}
-          </select>
-          <button onClick={fetchContent}>Fetch Content</button>
-          <div dangerouslySetInnerHTML={{ __html: htmlContent }} />
-      </div>
-  );
-}
 
 const InternetHome = () => {
     return (
         <div className="home-page">
         <h1>Welcome to the Internet</h1>
-        <ExternalContent />
+
         </div>
     );
     }

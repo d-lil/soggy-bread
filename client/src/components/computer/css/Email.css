@@ -1,8 +1,63 @@
+.email-page {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 0;
+  padding-top: 20px;
+  text-align: center;
+  flex-direction: column;
+  flex-grow: 1;
+  width: 100%;
+  background: 
+    repeating-radial-gradient(#000 0 0.0001%,#fff 0 0.0002%) 50% 0/2500px 2500px,
+    repeating-conic-gradient(#000 0 0.0001%,#fff 0 0.0002%) 60% 60%/2500px 2500px;
+  background-blend-mode: difference;
+  animation: noise .3s infinite alternate;
+}
+
+@keyframes noise{
+  100% {background-position: 50% 0, 60% 50%}
+}
+
+.email-page::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(137, 136, 136, 0.114);
+  z-index: 1;
+}
+
+.email-upper {
+  background-color: white;
+  width: 95%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 15px;
+  margin-bottom: 20px;
+  padding-top: 10px;
+  border: 4px solid black;
+  z-index: 2;
+}
+
+
+.email-header {
+  background: linear-gradient(#b2bebc, rgb(4, 4, 59));
+  border-radius: 2px;
+  padding: 0 10px 10px 10px;
+  border: 2px solid white;
+  width: 400px;
+}
+
 .email-gif {
   z-index: 3;
   padding-top: 20px;
-  width: 300px;
-  height: 250px;
+  width: 250px;
+  height: 200px;
   object-fit: cover;
   filter: drop-shadow(0 0 0.75rem rgb(0, 255, 13));
 }
@@ -36,14 +91,7 @@
 
 }
 
-.email-submit-button {
-  cursor: pointer;
-}
 
-.email-submit-button:hover {
-  background-color: rgb(93, 172, 170);
-  border-radius: 3px;
-}
 
 @keyframes moveUpDown {
   0%,
@@ -76,6 +124,33 @@
   background-color: rgb(255, 165, 218);
 }
 
+.email-lower {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 95%;
+  background-color: white;
+  padding-top: 20px;
+  border: 4px solid black;
+  z-index: 2;
+}
+
+.email-form {
+  
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 20px 20px 0 20px;
+  border: 2px solid turquoise;
+  background-color: rgb(79, 42, 145);
+  border-radius: 10px;
+  width: 75%;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
 .email-label {
   font-size: clamp(1rem, 2vw, 1.5rem);
   color: white;
@@ -84,51 +159,56 @@
 }
 
 .email-input {
-  width: 100%;
+  width: 95%;
   padding: 10px;
-  margin: 10px 0;
-  border: 1px solid #ccc;
+  
+  border: 4px solid#c6fd01;
+  background-color: rgb(15, 13, 31);
   border-radius: 5px;
-  background-color: #c6fd01;
-}
-
-.email-page {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 0;
-  padding-top: 20px;
-  background-color: #f5f5f5;
-  text-align: center;
-  flex-direction: column;
-  flex-grow: 1;
-}
-
-.email-form {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 20px;
-  border: 2px solid turquoise;
-  background-color: rgb(132, 0, 255);
-  border-radius: 10px;
-  width: 75%;
-  margin-bottom: 10px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  color: white;
 }
 
 .email-textarea {
-  width: 100%;
+  width: 95%;
   height: 100px;
   padding: 10px;
   margin: 10px 0;
-  border: 1px solid #ccc;
-  background-color: #c6fd01;
+  border: 4px solid#c6fd01;
+  background-color: rgb(15, 13, 31);
   border-radius: 5px;
   resize: auto;
+  color: white;
 }
 
 .required {
   color: rgb(255, 145, 145);
+  font-size: 10px;
+}
+.email-submit-button {
+  cursor: pointer;
+  background: linear-gradient(rgb(63, 218, 185),rgb(21, 124, 121));
+  border-radius: 3px;
+  padding: 10px;
+  color: white;
+  border-bottom: rgb(11, 101, 92) 4px solid;
+  border-right: turquoise 4px solid;
+  border-left: rgb(211, 211, 211) 4px solid;
+  border-top: white 4px solid;
+  font-weight: bold;
+  font-family: "comic sans ms";
+  font-size: 1.5rem;
+
+}
+
+.email-submit-button:hover {
+  background: linear-gradient(rgb(30, 98, 83),rgb(3, 51, 49));
+
+  border-top: rgb(0, 132, 119) 4px solid;
+  border-left: turquoise 4px solid;
+  border-right: rgb(167, 254, 116) 4px solid;
+  border-bottom: rgb(204, 255, 128) 4px solid;
+}
+
+.email-form p {
+  color: rgb(49, 0, 128);
 }

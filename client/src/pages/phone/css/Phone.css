@@ -161,7 +161,7 @@
 
 }
 
-.phone-weather-app, .phone-camera-app, .phone-gallery-app, .phone-game-app, .phone-email-app, .phone-instagram-app {
+.phone-weather-app, .phone-camera-app, .phone-gallery-app, .phone-game-app, .phone-telephone-app, .phone-instagram-app {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -208,7 +208,7 @@
     overflow: hidden;
 }
 
-.phone-weather-app, .phone-camera-app, .phone-gallery-app, .phone-game-app, .phone-email-app, .phone-instagram-app {
+.phone-weather-app, .phone-camera-app, .phone-gallery-app, .phone-game-app, .phone-telephone-app, .phone-instagram-app {
     z-index: 2;
     display: flex;
     justify-content: center;
@@ -223,24 +223,56 @@
     
 }
 
-.phone-weather-app img, .phone-camera-app img, .phone-gallery-app img, .phone-game-app img, .phone-email-app img, .phone-instagram-app img {
+.phone-weather-app img, .phone-camera-app img, .phone-gallery-app img, .phone-game-app img, .phone-instagram-app img {
     width: 50px;
     height: 50px;
 
 }
 
-.phone-weather-app a, .phone-camera-app a, .phone-gallery-app a, .phone-game-app a, .phone-email-app a, .phone-instagram-app a {
+
+.phone-telephone-app img {
+    width: 50px;
+    height: 50px;
+    border-radius: 5px;
+    border-bottom: 2px solid turquoise;
+    border-left: 2px solid turquoise;
+    border-right: 2px solid rgba(247, 0, 255, 0.467);
+    border-top: 2px solid rgba(247, 0, 255, 0.23);}
+
+.phone-telephone-app-img {
+    position: relative;
+    width: 52px;
+    height: 54px;
+    border-radius: 5px;
+    border: 2px solid black;
+}
+
+.phone-telephone-app-img::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(to bottom left, rgba(249, 249, 249, 0.63), transparent, rgba(255, 255, 255, 0.362));
+    z-index: 1;
+    border-radius: 5px;
+
+}
+
+
+.phone-weather-app a, .phone-camera-app a, .phone-gallery-app a, .phone-game-app a, .phone-telephone-app a, .phone-instagram-app a {
     color: white;
     text-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
 
 }
 
-.phone-weather-app:hover, .phone-camera-app:hover, .phone-gallery-app:hover, .phone-game-app:hover, .phone-email-app:hover, .phone-instagram-app:hover {
+.phone-weather-app:hover, .phone-camera-app:hover, .phone-gallery-app:hover, .phone-game-app:hover, .phone-telephone-app:hover, .phone-instagram-app:hover {
     background-color: rgba(0, 0, 0, 0.329);
     border-radius: 5px;
 }
 
-.phone-weather-app:hover a, .phone-camera-app:hover a, .phone-gallery-app:hover a, .phone-game-app:hover a, .phone-email-app:hover a, .phone-instagram-app:hover a {
+.phone-weather-app:hover a, .phone-camera-app:hover a, .phone-gallery-app:hover a, .phone-game-app:hover a, .phone-telephone-app:hover a, .phone-instagram-app:hover a {
     color: rgb(244, 210, 75);
 }
 

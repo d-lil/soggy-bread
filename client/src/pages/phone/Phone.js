@@ -22,7 +22,7 @@ import galleryIcon from "./assets/gallery_logo.png";
 import weatherIcon from "./assets/weather_logo.png";
 import instagramIcon from "./assets/instagram.png";
 import gameIcon from "./assets/game_logo.png";
-
+import phoneIcon from "./assets/phone_icon.png";
 
 function PhoneClock() {
   const [currentTime, setCurrentTime] = useState(new Date());
@@ -172,9 +172,11 @@ const Phone = () => {
                 </Link>
               </div>
 
-              <div className="phone-email-app">
+              <div className="phone-telephone-app">
                 <Link to="telephone">
-                  <img src="" alt="email logo" className="email-logo-phone" />
+                <div className="phone-telephone-app-img">
+                  <img src={phoneIcon} alt="email logo" className="email-logo-phone" />
+                </div>
                   <br />
                   Phone
                 </Link>

@@ -101,7 +101,7 @@
 .computer-logo {
     position: absolute;
     font-family: "Righteous", cursive;
-
+    z-index: 5;
     color: white;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
     left: 51%;
