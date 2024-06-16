@@ -1,5 +1,4 @@
 import loveBomb from "./assets/phone_game_love_bomb.png"
-import { rectangularCollision } from "./utils/RectangularCollision";
 
 const gravity = 0.7;
 const enemySpeed = 4;
@@ -200,11 +199,21 @@ export class Fighter extends Sprite {
     return false;
 }
 
-  
-  
+
+reset() {
+  this.health = 100; 
+  this.position = { x: 0, y: 0 };
+  this.velocity = { x: 0, y: 0 };
+  this.isAttacking = false;
+  this.lastAttackType = null;
+
+}  
+ 
 
 changeSprite(action) {
-  if (this.currentAction === action) return;
+  //////////////////////////////////////////////////////
+  // added second condition to prevent sprite change if already in the desired action
+  if (this.currentAction === action && this.framesCurrent !== 0) return;
   if (this.currentAction === 'takeHit' && this.framesCurrent < this.sprites['takeHit'].framesMax - 1) {
 
     return;

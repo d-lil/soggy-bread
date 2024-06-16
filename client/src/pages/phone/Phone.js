@@ -5,10 +5,9 @@ import { useState, useEffect } from "react";
 import Weather from "../../components/phone/Weather";
 import Camera from "../../components/phone/Camera";
 import Game from "../../components/phone/game/Game";
+import GameLoading from "../../components/phone/game/GameLoading";
 import Telephone from "../../components/phone/Telephone";
-// import SomeApp from "../../components/phone/Shopping";
 import Instagram from "../../components/phone/Instagram";
-import EmailPhone from "../../components/phone/EmailPhone";
 import "./css/Phone.css";
 import fiveBars from "./assets/5_bars.png";
 import fourBars from "./assets/4_bars.png";
@@ -135,7 +134,7 @@ const Phone = () => {
               <div></div>
 
               <div className="phone-game-app">
-                <Link to="game">
+                <Link to="game-loading">
                   <img
                     src={gameIcon}
                     alt="game logo"
@@ -241,13 +240,14 @@ const Phone = () => {
                   }
                 />
                 <Route
-                  path="game/*"
+                  path="game-loading/*"
                   element={
                     <div className="overlay-component">
-                      <Game />
+                      <GameLoading />
                     </div>
                   }
                 />
+
                 <Route
                   path="telephone/*"
                   element={

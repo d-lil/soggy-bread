@@ -45,6 +45,7 @@
     background-color: #000;
 }
 
+
 .game-header {
     position: absolute;
     display: flex;
@@ -141,12 +142,37 @@
     width: 400px;
     height: 300px;
     text-align: center;
-    background-color: rgb(0, 0, 0);
+    
     color: white;
-    border: 3px solid gold;
+    border: 3px solid rgb(153, 255, 1);
     border-radius: 10px;
     z-index: 99;
-    /* Add more styles as needed */
+  }
+
+  .game-results h2 {
+    font-size: 2em;
+    padding: 10px;
+    color: black;
+    margin-top: 0;
+  }
+
+  .play-again {
+    z-index: 50;
+    background: linear-gradient(rgba(7, 197, 255, 0.934),  rgb(249, 0, 212, 0.744));
+    color: white;
+    font-size: 1.5em;
+    font-weight: bold;
+    text-shadow: 0 0 5px black;
+    padding: 10px;
+    border-radius: 15px;
+    border: 3px solid black;
+    cursor: pointer;
+    margin-bottom: 10px;
+  }
+
+  .play-again:hover {
+    background: linear-gradient(rgba(0, 99, 129, 0.934), rgb(176, 108, 119));
+
   }
   
   .game-over {
@@ -154,10 +180,47 @@
     height: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-end;
     align-items: center;
+    border: 3px solid rgb(153, 255, 1);
+    z-index: 3;
   }
+
+  .winner {
+    position: relative;
+    border-radius: 10px;
+    background: url('../assets/beat.gif') no-repeat center;
+  }
+
+  .loser {
+    position: relative;
+    border-radius: 10px;
+    background: url('../assets/van.gif') no-repeat center;
+  }
+
+  .loser::before, .winner::before {
+    position: absolute;
+    background-color: rgba(0, 0, 255, 0.33);
+    content: '';
+    width: 100%;
+    height: 100%;
+    opacity: 0.5;
+  }
+
   .game-results.show {
     display: block;
+    
+  }
+
+  .game-results.show::before {
+    position: absolute;
+    content: '';
+    background-color: rgba(0, 0, 0, 0.823);
+    width: 555px;
+    height: 367px;
+    z-index: -1;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
   }
   

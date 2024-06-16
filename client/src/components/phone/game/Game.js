@@ -2,6 +2,7 @@ import React, { useRef, useState, useEffect } from "react";
 import "./css/Game.css";
 import { Sprite, Bomb, Fighter } from "./GameClasses";
 import { rectangularCollision } from "./utils/RectangularCollision";
+
 import gameBackground from "./assets/phone_game_background.png";
 import fighterIdle from "./assets/phone_fighter_idle.png";
 import fighterJump from "./assets/phone_fighter_jumping.png";
@@ -27,21 +28,33 @@ let animationFrameId;
 let gameActive = true;
 let freezeControls = false;
 
+const imagesToPreload = [
+  gameBackground, fighterIdle, fighterJump, fighterFall, fighterRunLeft,
+  fighterPunch, fighterKick, fighterRunRight, fighterTakeHit, fighterStunned,
+  enemyIdle, enemyRunRight, enemyRunLeft, enemyFlash, enemyThrow, enemyTakeHit,
+  enemyJump, enemyFall
+];
+
 const Game = () => {
   const canvasRef = useRef(null);
   const audioRef = useRef(new Audio(gameSong));
   const [volume, setVolume] = useState(0.06);
   const [gameResult, setGameResult] = useState("");
   const [timer, setTimer] = useState(60);
+  const [screen, setScreen] = useState("title");
 
-  
-  const initialScreen =
-    localStorage.getItem("resetToGame") === "true" ? "game" : "loading";
-  localStorage.removeItem("resetToGame"); 
-  const [screen, setScreen] = useState(initialScreen);
+  const playerRef = useRef(null);
+  const enemyRef = useRef(null);
 
   useEffect(() => {
-    audioRef.current.volume = volume; 
+    imagesToPreload.forEach(src => {
+      const img = new Image();
+      img.src = src;
+    });
+  }, []);
+
+  useEffect(() => {
+    audioRef.current.volume = volume;
   }, [volume]);
 
   useEffect(() => {
@@ -66,7 +79,7 @@ const Game = () => {
 
       const flashEffect = () => {
         if (!canvasRef.current) return;
-
+    
         freezeControls = true;
         const ctx = canvasRef.current.getContext("2d");
         ctx.save();
@@ -153,6 +166,9 @@ const Game = () => {
         target: player,
       });
 
+      playerRef.current = player;
+      enemyRef.current = enemy;
+
       const keys = {
         ArrowRight: { pressed: false },
         ArrowLeft: { pressed: false },
@@ -206,9 +222,6 @@ const Game = () => {
           if (freezeControls) {
             player.velocity.x = 0;
             newAction = "stunned";
-            ///////////////////////////////////////////////////////////////
-            // NEED TO ADJUST THIS PART FOR MORE FLUID MOVEMENT //////////////////////////////////////////////////////////////////
-            ///////////////////////////////////////////////////////////////
             keys.ArrowRight.pressed = false;
             keys.ArrowLeft.pressed = false;
           } else {
@@ -238,26 +251,27 @@ const Game = () => {
           const bomb = enemy.bombs[0];
           bomb.update();
           bomb.draw();
-        
 
           if (!bomb.hasCollided && bomb.animationCompleted) {
-            if (rectangularCollision({ rect1: bomb.attackBox, rect2: player })) {
-              player.health -= 15;
-              document.getElementById("player-health").style.width = player.health + "%";
-              player.changeSprite("takeHit"); 
+            if (
+              rectangularCollision({ rect1: bomb.attackBox, rect2: player })
+            ) {
+              player.health -= 25;
+              document.getElementById("player-health").style.width =
+                player.health + "%";
+              player.changeSprite("takeHit");
               bomb.hasCollided = true;
-        
-             
+
               if (player.health <= 0) {
                 determineWinner({ player, enemy, timerId });
               }
             }
-        
-            bomb.active = false; 
+
+            bomb.active = false;
           }
-        
+
           if (!bomb.active) {
-            enemy.bombs = []; 
+            enemy.bombs = [];
           }
         }
 
@@ -290,23 +304,6 @@ const Game = () => {
         if (enemy.health <= 0 || player.health <= 0) {
           determineWinner({ player, enemy, timerId });
         }
-        // if (
-        //   rectangularCollision({
-        //     rect1: enemy,
-        //     rect2: player,
-        //   }) &&
-        //   enemy.isAttacking
-        // ) {
-        //   player.health -= 5;
-        //   document.getElementById("player-health").style.width =
-        //     player.health + "%";
-        //   player.changeSprite("takeHit");
-        //   enemy.damageDealt = true;
-        //   enemy.isAttacking = false;
-        //   if (enemy.health <= 0 || player.health <= 0) {
-        //     determineWinner({ player, enemy, timerId });
-        //   }
-        // }
       }
 
       animate();
@@ -358,74 +355,48 @@ const Game = () => {
             break;
         }
       }
-
-      return () => {
-        window.removeEventListener("keydown", handleKeyDown);
-        window.removeEventListener("keyup", handleKeyUp);
-
-        clearInterval(timerId);
-        window.cancelAnimationFrame(animationFrameId);
-
-        audioRef.current.pause();
-        audioRef.current.currentTime = 0;
-      };
-    }
-  }, [screen]);
-
-  useEffect(() => {
-    if (screen === "loading") {
-      const timer = setTimeout(() => {
-        setScreen("title");
-      }, 3000); 
-      return () => clearTimeout(timer);
     }
   }, [screen]);
 
   const startGame = () => {
     setScreen("game");
+    gameActive = true;
     audioRef.current.play();
   };
 
   const resetGame = () => {
-    localStorage.setItem("resetToGame", "true");
     window.cancelAnimationFrame(animationFrameId);
+
+    if (playerRef.current && enemyRef.current) {
+      playerRef.current.reset();
+      enemyRef.current.reset();
+    }
+
+    setGameResult("");
+    setTimer(60);
+    gameActive = true;
+    freezeControls = false;
+    window.cancelAnimationFrame(animationFrameId);
+
     audioRef.current.pause();
     audioRef.current.currentTime = 0;
 
-    setTimeout(() => {
-      window.location.reload();
-    }, 10);
+    document.getElementById("player-health").style.width = "100%";
+    document.getElementById("enemy-health").style.width = "100%";
+
+    setScreen("title");
   };
 
   return (
     <div className="game-container">
-      {screen === "loading" && (
-        <div className="loading-screen">
-          <h1>
-            <u>FLASH WARNING</u>
-          </h1>
-          <h2>
-            This application contains occasional flash effects that may effect
-            some users
-          </h2>
-          <br />
-          <p>
-            <i>This game is designed to be played on a desktop or laptop computer</i>
-          </p>
-          <h4>All artwork by Daniel Liljegren</h4>
-          <h4>Music by Vierre Cloud</h4>
-          <p>Copyright for this does not exist. @2024</p>
-        </div>
-      )}
       {screen === "title" && (
         <div className="title-screen">
           <h1>Game Title</h1>
           <button onClick={startGame}>Play</button>
         </div>
       )}
-
       {screen === "game" && (
-        <div className="game-canvas">
+        <div className={"game-canvas"}>
           <div className="game-header">
             <div className="player-health-divs">
               <div className="player-health"></div>
@@ -440,7 +411,7 @@ const Game = () => {
             </div>
           </div>
           <div className={`game-results ${gameResult === "tie" ? "show" : ""}`}>
-            <div className="game-over">
+            <div className="game-over tie">
               <h2>Tie</h2>
               <button className="play-again" onClick={resetGame}>
                 Play Again
@@ -452,7 +423,7 @@ const Game = () => {
               gameResult === "playerWins" ? "show" : ""
             }`}
           >
-            <div className="game-over">
+            <div className="game-over winner">
               <h2>You Win!</h2>
               <button className="play-again" onClick={resetGame}>
                 Play Again
@@ -464,8 +435,8 @@ const Game = () => {
               gameResult === "enemyWins" ? "show" : ""
             }`}
           >
-            <div className="game-over">
-              <h2>You Lose!</h2>
+            <div className="game-over loser">
+              <h2>You Lose</h2>
               <button className="play-again" onClick={resetGame}>
                 Play Again
               </button>
