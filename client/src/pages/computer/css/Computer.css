@@ -24,6 +24,7 @@
     border: 1px solid black;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     min-height: 85vh;
+    min-width: 705px;
     
 }
 
@@ -295,13 +296,17 @@ z-index:3
 
 
 .keyboard {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
     background: linear-gradient(to top, rgba(0, 0, 0, 0.747), silver) ;
     margin: 0 5px 0 5px;
     border-radius: 10px 10px 0 0;
     border: 1px solid black;
     min-height: 10vh;
     padding-top:15px;
-
+    position: relative;
+    min-width: 715px;
 }
 
 
@@ -310,7 +315,7 @@ z-index:3
     display: flex;
     justify-content: space-between;
     align-items: center;
-
+    flex-grow: 1;
     border-radius: 10px;
     padding: 10px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -323,8 +328,8 @@ z-index:3
     background-color: black;
     color: white;
     padding: 5px;
-    padding-left: 15px;
-    padding-right: 15px;
+    /*padding-left: 15px;
+    padding-right: 15px; */
     border-radius: 5px;
     font-size: clamp(.6rem, 2vw, 1rem);
 }
@@ -336,8 +341,8 @@ z-index:3
     background-color: black;
     color: white;
     padding: 5px;
-    padding-left: 15px;
-    padding-right: 15px;
+    /* padding-left: 15px;
+    padding-right: 15px; */
     border-radius: 5px;
     font-size: clamp(.6rem, 2vw, 1rem);
 }
@@ -350,12 +355,12 @@ z-index:3
     color: white;
     padding-top: 15px;
     padding-bottom: 15px;
-    padding-left: 15px;
-    padding-right: 15px;
+    /* padding-left: 15px;
+    padding-right: 15px; */
     border-radius: 5px;
     font-size: clamp(.6rem, 2vw, 1rem);
 }
-
+/* 
 @media screen and (max-width: 877px) {
     .keys {
         padding: 5px;
@@ -398,4 +403,4 @@ z-index:3
         padding-left: 3px;
         padding-right: 3px;
     }
-}
+} */

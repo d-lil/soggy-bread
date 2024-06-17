@@ -46,9 +46,9 @@
 }
 
 .call-button:disabled {
-    background-color: #cccccc; /* Grey background */
-    color: #666666; /* Dark grey text */
-    cursor: not-allowed; /* Cursor shows it's not allowed */
+    background-color: #cccccc; 
+    color: #666666; 
+    cursor:default;
 }
 
 .call-button:hover {
@@ -71,9 +71,9 @@
 }
 
 .end-connected:disabled {
-    background-color: #cccccc; /* Grey background */
-    color: #666666; /* Dark grey text */
-    cursor: not-allowed; /* Cursor shows it's not allowed */
+    background-color: #cccccc;
+    color: #666666;
+   cursor:default;
 }
 
 .call-status {

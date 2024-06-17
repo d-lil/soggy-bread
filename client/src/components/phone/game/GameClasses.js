@@ -186,11 +186,9 @@ export class Fighter extends Sprite {
         console.error("Action not defined in sprites:", action);
         return false;
     }
-
-    if (this.isTakingHit && this.framesCurrent < this.sprites["takeHit"].framesMax - 1) {
+    if (this.isTakingHit) {
         return true;
     }
-
    
     if (this.isAttacking && this.lastAttackType && this.sprites[this.lastAttackType] && this.framesCurrent < this.sprites[this.lastAttackType].framesMax - 1) {
         return true;
@@ -210,16 +208,18 @@ reset() {
 }  
  
 
+
 changeSprite(action) {
   //////////////////////////////////////////////////////
   // added second condition to prevent sprite change if already in the desired action
   if (this.currentAction === action && this.framesCurrent !== 0) return;
-  if (this.currentAction === 'takeHit' && this.framesCurrent < this.sprites['takeHit'].framesMax - 1) {
 
+  if (this.framesCurrent < this.sprites['takeHit'].framesMax - 1) {
+    setTimeout(() => {
     return;
+    }, 1000);
   }
   if (!this.sprites[action]) {
-    console.log("Attempted to change to undefined sprite:", action);
     return;
   }
 
@@ -357,7 +357,7 @@ updateMotionSprite() {
 
                 this.flashEffect();
                 this.isAttacking = false;
-                this.changeSprite('idle');
+                // this.changeSprite('idle');
                 this.moveToThrowPosition();
 
             setTimeout(() => {
@@ -375,6 +375,8 @@ moveToThrowPosition() {
   this.targetX = throwPositionX;
   this.velocity.x =0;
 }
+
+
 throwAttack() {
   if (!gameActive || this.isAttacking || this.bombs.length > 0) return;
   this.isAttacking = true;
@@ -450,9 +452,11 @@ launchBomb({ bombPosition, bombVelocity }) {
     }
   }
 
-  takeHit() {
-    this.health -= 10;
+  takeHit() { 
+    this.isTakingHit = true;
     this.changeSprite("takeHit");
+    this.health -= 10;
+
   }
 
   animateFrames() {
@@ -461,13 +465,14 @@ launchBomb({ bombPosition, bombVelocity }) {
     if (this.framesElapsed % this.framesHold === 0) {
 
       if (this.isTakingHit) {
-        if (this.framesCurrent < this.sprites["takeHit"].framesMax - 1) {
+        if (this.isTakingHit && this.framesCurrent < this.sprites["takeHit"].framesMax - 1) {
           this.framesCurrent++;
         } else {
-
+          
           this.framesCurrent = 0;
           this.isTakingHit = false;
           this.changeSprite("idle");
+
         }
       }
 

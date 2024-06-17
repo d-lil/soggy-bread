@@ -1,23 +1,37 @@
 import React from "react";
 import "./css/Internet.css"
-import { Link } from "react-router-dom";
-import { Route, Routes } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { Link, NavLink, Route, Routes } from "react-router-dom";
 import internetLogo from "./assets/internet_logo.png";
 import Github from "./Github";
 import Email from "./Email";
 import EmbeddedWebsite from "./Website";
+import HomeTab from "./subcomponents/HomeTab";
+import AboutTab from "./subcomponents/AboutTab";
+
 
 
 const InternetHome = () => {
-    return (
-        <div className="home-page">
-        <h1>Welcome to the Internet</h1>
-
-        </div>
-    );
-    }
-
+  const [activeTab, setActiveTab] = useState('home');
+  return (
+      <div className="home-page">
+          <div className="tabs">
+          <div className={activeTab === 'home' ? 'tab active' : 'tab'}>
+              <Link to="home" onClick={() => setActiveTab('home')}>Home Tab</Link>
+            </div>
+            <div className={activeTab === 'about' ? 'tab active' : 'tab'}>
+              <Link to="about" onClick={() => setActiveTab('about')}>About Tab</Link>
+            </div>
+          </div>
+          <div className="tab-content">
+              <Routes>
+                  <Route path="/home" element={<HomeTab />} />
+                  <Route path="/about" element={<AboutTab />} />
+              </Routes>
+          </div>
+      </div>
+  );
+};
 
 
 const Internet = ({ handleMinimizeComponent, isMinimized, handleCloseComponent }) => {
@@ -46,10 +60,10 @@ const Internet = ({ handleMinimizeComponent, isMinimized, handleCloseComponent }
       </div>
       <div className="content">
         <Routes>
-          <Route index element={<InternetHome />} />
-          <Route path="email" element={<Email />} />
-          <Route path="website" element={<EmbeddedWebsite src="https://gravel-sandwich-cdd2ca40b2a9.herokuapp.com/" height="100%" width="100%" />} />
-          <Route path="github" element={<Github />} />
+          <Route path="/*" element={<InternetHome />} />
+          <Route path="/email" element={<Email />} />
+          <Route path="/website" element={<EmbeddedWebsite src="https://gravel-sandwich-cdd2ca40b2a9.herokuapp.com/" height="100%" width="100%" />} />
+          <Route path="/github" element={<Github />} />
         </Routes>
       </div>
     </div>

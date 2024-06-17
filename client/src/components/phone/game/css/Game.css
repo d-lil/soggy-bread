@@ -198,7 +198,13 @@
     background: url('../assets/van.gif') no-repeat center;
   }
 
-  .loser::before, .winner::before {
+  .tie {
+    position: relative;
+    border-radius: 10px;
+    background: url('../assets/tie.gif') no-repeat center;
+  }
+
+  .loser::before, .winner::before, .tie::before {
     position: absolute;
     background-color: rgba(0, 0, 255, 0.33);
     content: '';
@@ -206,6 +212,7 @@
     height: 100%;
     opacity: 0.5;
   }
+
 
   .game-results.show {
     display: block;

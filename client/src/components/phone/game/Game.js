@@ -47,9 +47,17 @@ const Game = () => {
   const enemyRef = useRef(null);
 
   useEffect(() => {
-    imagesToPreload.forEach(src => {
+    const loadedImages = imagesToPreload.map(src => {
       const img = new Image();
       img.src = src;
+      return new Promise(resolve => {
+        img.onload = () => resolve(img);
+      });
+    });
+  
+    Promise.all(loadedImages).then(() => {
+      // Images are preloaded
+      console.log("All images preloaded successfully.");
     });
   }, []);
 
@@ -128,7 +136,6 @@ const Game = () => {
         runSrc: fighterRunRight,
         punchSrc: fighterPunch,
         kickSrc: fighterKick,
-        takeHitSrc: fighterTakeHit,
         stunnedSrc: fighterStunned,
         controlFreeze: null,
       });
@@ -259,7 +266,7 @@ const Game = () => {
               player.health -= 25;
               document.getElementById("player-health").style.width =
                 player.health + "%";
-              player.changeSprite("takeHit");
+              player.changeSprite("stunned");
               bomb.hasCollided = true;
 
               if (player.health <= 0) {
