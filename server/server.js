@@ -3,19 +3,15 @@ const express = require('express');
 const cors = require('cors');
 const SibApiV3Sdk = require('sib-api-v3-sdk');
 const { OpenAI } = require('openai');
-const accountSid = process.env.TWILIO_ACCOUNT_SID;
-const authToken = process.env.TWILIO_TOKEN;
-const twilio = require("twilio");
-const ClientCapability = twilio.jwt.ClientCapability;
 
 const app = express();
-
-const twilioNumber = "18556056985"
-
-
 app.use(cors());
 app.use(express.json());
 
+
+///////////////////////////////////////////////////////////
+// Sendinblue API
+///////////////////////////////////////////////////////////
 
 
 const sendinblueClient = SibApiV3Sdk.ApiClient.instance;
@@ -24,38 +20,6 @@ apiKey.apiKey = process.env.SENDINBLUE_API_KEY;
 
 
 const transactionalEmailsApi = new SibApiV3Sdk.TransactionalEmailsApi();
-
-
-app.get('/token', (req, res) => {
-  const capability = new twilio.jwt.ClientCapability({
-      accountSid: process.env.TWILIO_ACCOUNT_SID,
-      authToken: process.env.TWILIO_AUTH_TOKEN,
-  });
-
-  capability.addScope(new twilio.jwt.ClientCapability.OutgoingClientScope({
-      applicationSid: process.env.TWILIO_APP_SID
-  }));
-
-  const token = capability.toJwt();
-  res.send({ token });
-});
-
-app.post('/make-call', (req, res) => {
-  const twilio = require('twilio');
-  const VoiceResponse = twilio.twiml.VoiceResponse;
-  const twiml = new VoiceResponse();
-  
-  console.log('Making call to:', req.body.number);  // Debug log
-
-  twiml.say({voice: 'alice'}, 'Hello, you are connecting to Danny');
-  twiml.dial({callerId: twilioNumber}, req.body.number);
-  
-  console.log('TwiML response:', twiml.toString());  // Debug log
-
-  res.type('text/xml');
-  res.send(twiml.toString());
-});
-
 
 app.post('/api/send-email', (req, res) => {
   const { email, message } = req.body;
