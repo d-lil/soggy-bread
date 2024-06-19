@@ -4,7 +4,6 @@ import { Route, Routes, Link, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Weather from "../../components/phone/Weather";
 import Camera from "../../components/phone/Camera";
-import Game from "../../components/phone/game/Game";
 import GameLoading from "../../components/phone/game/GameLoading";
 import Telephone from "../../components/phone/Telephone";
 import Instagram from "../../components/phone/Instagram";
