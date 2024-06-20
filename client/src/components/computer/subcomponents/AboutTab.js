@@ -1,16 +1,85 @@
-import React from "react";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import "../css/Internet.css"
+import mePic from "../assets/me2.jpg";
+import mePic2 from "../assets/me1.jpg";
 
 const AboutTab = () => {
-    return (
-        <div className="about-tab">
-            <h1>About</h1>
-            <p>
-                This is a portfolio project created by Danny.
-            </p>
-            
-            </div>
-    );
+  const [iframeSrc, setIframeSrc] = useState("");
+  const [iframeVisible, setIframeVisible] = useState(false);
+
+  const openIframe = (src) => {
+    setIframeSrc(src);
+    setIframeVisible(true);
+  };
+
+  const closeIframe = () => {
+    setIframeSrc("");
+    setIframeVisible(false);
+  };
+  const text = "PORTFOLIO";
+  return (
+    <div className="about-tab">
+    <div className="about-wrapper">
+      <h1 className="staggered-text st1">
+        Welcome to my 
+      </h1>
+        <h1 className="staggered-text st2">
+        <span className="color-change color-change-1">P</span>
+          <span className="color-change color-change-2">O</span>
+          <span className="color-change color-change-3">R</span>
+          <span className="color-change color-change-4">T</span>
+          <span className="color-change color-change-5">F</span>
+          <span className="color-change color-change-6">O</span>
+          <span className="color-change color-change-7">L</span>
+          <span className="color-change color-change-8">I</span>
+          <span className="color-change color-change-1">O</span>
+        </h1>
+    </div>
+      <div className="about-tab-content">
+        <div className="about-tab-header">
+        <h2>
+          I am Danny, a full-stack developer from Denver, Colorado.
+        </h2>
+        </div>
+        <div className="about-tab-images">
+        {/* <img src={mePic} alt="me" className="me-pic" /> */}
+        <img src={mePic2} alt="me" className="me-pic" />
+        </div>
+        <h3>
+          I don't have much as far as professional experience, but I have done contract work with a translation software company called{" "}
+          <button onClick={() => openIframe("https://www.letzchat.com")} className="letzchat-button">
+            LetzChat
+          </button>
+          . You can read about some projects I have worked on and see a couple of the products in the 'Contracts' folder on this desktop.
+        </h3>
+        {iframeVisible && (
+        <div className="iframe-container">
+          <button onClick={closeIframe} className="letzchat-close-button">Close</button>
+          <iframe
+            src={iframeSrc}
+            height="500"
+            width="100%"
+            frameBorder="0"
+            allowFullScreen
+          ></iframe>
+        </div>
+      )}
+        <h3>
+          I have experience with a variety of technologies with a passion for learning and I am always looking to improve my skills. I spend whatever free time I have learning new technologies and working on projects.
+        </h3>
+        <h3>
+          I am currently looking for a full-time position as a software developer. I am open to any and all opportunities.
+        </h3>
+        <br />
+        <h3>
+          I hope you have fun exploring my portfolio! If you'd like to get in touch, you can email me from the <Link to="/computer/internet/email">Email</Link> link in the nav bar above or you can call me from my{" "}
+          <Link to="/phone/telephone">Phone</Link> component! I hope to hear from you!
+        </h3>
+      </div>
+
+    </div>
+  );
 }
 
 export default AboutTab;

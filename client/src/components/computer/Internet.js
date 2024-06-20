@@ -25,6 +25,7 @@ const InternetHome = () => {
           </div>
           <div className="tab-content">
               <Routes>
+                  <Route path="/" element={<HomeTab />} />
                   <Route path="/home" element={<HomeTab />} />
                   <Route path="/about" element={<AboutTab />} />
               </Routes>

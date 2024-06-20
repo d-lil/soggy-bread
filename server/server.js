@@ -11,19 +11,12 @@ app.use(express.json());
 
 app.get('/config', async (req, res) => {
   try {
-    const response = await axios.post(
-      'https://danny.signalwire.com/api/relay/rest/jwt',
-      '', // Empty string as body
-      {
-        auth: {
-          username: process.env.SIGNALWIRE_PROJECT_ID,
-          password: process.env.SIGNALWIRE_TOKEN,
-        },
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-        },
+    const response = await axios.post('https://danny.signalwire.com/api/relay/rest/jwt', `expires_in=3600`, {
+      auth: {
+        username: process.env.SIGNALWIRE_PROJECT_ID,
+        password: process.env.SIGNALWIRE_TOKEN,
       }
-    );
+    });
 
     const token = response.data.jwt_token;
     res.json({
@@ -33,10 +26,11 @@ app.get('/config', async (req, res) => {
       callerNumber: process.env.CALLER_NUMBER,
     });
   } catch (error) {
-    console.error('Failed to generate token:', error.response ? error.response.data : error.message);
+    console.error('Failed to generate token:', error);
     res.status(500).json({ error: 'Failed to generate token' });
   }
 });
+
 
 ///////////////////////////////////////////////////////////
 // Sendinblue API

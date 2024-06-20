@@ -130,6 +130,159 @@
     flex-grow: 1;
 }
 
+.about-wrapper {
+    display: flex;
+    flex-direction: column;
+    background-color: turquoise;
+}
+
+
+
+.staggered-text {
+    font-size: 3rem;
+    font-weight: bold;
+    color: #fff;
+    position: relative;
+    display: inline-block;
+    text-shadow: 
+      1px 1px 0 indigo,
+      2px 2px 0 violet,
+      3px 3px 0 indigo,
+      4px 4px 0 violet,
+      5px 5px 0 indigo,
+      6px 6px 0 violet,
+      7px 7px 0 indigo,
+      8px 8px 0 violet,
+      9px 9px 0 indigo,
+      10px 10px 0 violet,
+      11px 11px 0 indigo,
+      12px 12px 0 violet,
+      13px 13px 0 indigo,
+      14px 14px 0 violet;
+  }
+  .st1 {
+    color: rgb(255, 247, 0);
+}
+
+.st2 {
+    margin-top: -30px;
+}
+
+  .color-change {
+    animation: color-change 1s infinite alternate;
+  }
+
+  .color-change-1 {
+    animation-delay: 0s;
+  }
+  
+  .color-change-2 {
+    animation-delay: 0.1s;
+  }
+  
+  .color-change-3 {
+    animation-delay: 0.2s;
+  }
+  
+  .color-change-4 {
+    animation-delay: 0.3s;
+  }
+  
+  .color-change-5 {
+    animation-delay: 0.4s;
+  }
+  
+  .color-change-6 {
+    animation-delay: 0.5s;
+  }
+  
+  .color-change-7 {
+    animation-delay: 0.6s;
+  }
+  
+  .color-change-8 {
+    animation-delay: 0.7s;
+  }
+  
+  @keyframes color-change {
+    0% {
+      color: rgb(255, 0, 238);
+    }
+    16% {
+      color: #f90; 
+    }
+    32% {
+      color: #ff0; 
+    }
+    48% {
+      color: #0f0; 
+    }
+    64% {
+      color: rgb(0, 255, 217); 
+    }
+    80% {
+      color: #00f;
+    }
+    100% {
+      color: rgb(255, 0, 238);
+    }
+  }
+  
+.about-tab-header {
+    text-align: center;
+}
+
+.about-tab-content {
+    text-align: left;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.me-pic {
+    width: 200px;
+    height: auto;
+    border-radius: 10%;
+    margin: 0 auto;
+    display: block;
+
+}
+
+.about-tab-content a {
+    font-weight: bold;
+    color: rgb(0, 79, 226);
+    margin-bottom: 10px;
+    text-decoration: underline;
+}
+
+.letzchat-button {
+    background: linear-gradient(rgb(161, 213, 235), rgb(0, 140, 255) );
+    color: white;
+
+    font-size: 15px;
+    border-radius: 30px;
+    padding: 5px;
+    border: 1px solid blue;
+    font-weight: bold;
+    cursor: pointer;
+
+}
+
+.letzchat-button:hover {
+    background:linear-gradient(grey, rgb(2, 50, 84));
+    color: rgb(214, 239, 249);
+}
+
+.letzchat-close-button {
+    background-color: #ff0267;
+    color: white;
+    font-size: 20px;
+    padding: 10px;
+    border: 1px solid black;
+    cursor: pointer;
+    margin-top: 10px;
+    width: 100%;
+
+}
+
 .content {
     margin-top: 5px;
     flex-grow: 1;
