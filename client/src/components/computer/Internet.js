@@ -39,7 +39,7 @@ const InternetHome = () => {
                 {showNo && (
             <div className="showNo">
               <img src={noNo} alt="naughty finger wag" />
-              <h2>Naughty Naughty!</h2>
+              <h2>Naughty Naughty</h2>
             </div>
           )}
         <div className="home-sidebar">
@@ -110,7 +110,7 @@ const InternetHome = () => {
             </div>
             <div className={activeTab === "home" ? "tab active" : "tab"}>
               <Link to="home" onClick={() => setActiveTab("home")}>
-                Home Tab
+                Draw
               </Link>
             </div>
           </div>
@@ -134,30 +134,30 @@ const Internet = ({
 }) => {
   const [showDialup, setShowDialup] = useState(false);
 
-  // useEffect(() => {
-  //   const audio = new Audio(dialUp);
-  //   audio.volume = 0.03;
+  useEffect(() => {
+    const audio = new Audio(dialUp);
+    audio.volume = 0.03;
 
-  //   const playAudio = async () => {
-  //     setShowDialup(true);
-  //     try {
-  //       await audio.play();
-  //       audio.addEventListener("ended", () => {
-  //         setShowDialup(false);
-  //       });
-  //     } catch (error) {
-  //       console.error("Failed to play audio:", error);
-  //     }
-  //   };
+    const playAudio = async () => {
+      setShowDialup(true);
+      try {
+        await audio.play();
+        audio.addEventListener("ended", () => {
+          setShowDialup(false);
+        });
+      } catch (error) {
+        console.error("Failed to play audio:", error);
+      }
+    };
 
-  //   playAudio();
+    playAudio();
 
-  //   return () => {
-  //     audio.pause();
-  //     audio.currentTime = 0; // Reset the audio to the start
-  //     setShowDialup(false);
-  //   };
-  // }, []);
+    return () => {
+      audio.pause();
+      audio.currentTime = 0; // Reset the audio to the start
+      setShowDialup(false);
+    };
+  }, []);
 
   return (
     <div className={`internet-window-border ${isMinimized ? "hidden" : ""}`}>
@@ -187,11 +187,11 @@ const Internet = ({
             </div>
           </div>
         </div>
-        {/* {showDialup && (
+        {showDialup && (
             <div className="dialup">
               <img src={dialupGif} alt="dialup" />
             </div>
-          )} */}
+          )}
         <div
           className={`content ${
             showDialup ? "content-hidden" : "content-display"

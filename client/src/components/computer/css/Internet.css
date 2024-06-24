@@ -530,7 +530,7 @@
     background-color: rgb(153, 158, 160);
 }
 
-.about-tab, .home-tab {
+.about-tab {
     color: black;
 }
   
@@ -542,14 +542,14 @@
     border: 4px inset rgb(185, 178, 178);
 }
 
-.about-tab-content, .home-tab-content {
+.about-tab-content {
     text-align: left;
     font-family:'Courier New', Courier, monospace;
     background-color: rgb(214, 219, 220);
     border: 6px ridge rgb(228, 230, 231);
 }
 
-.about-tab-body, .home-tab-body {
+.about-tab-body {
     padding: 10px;
     margin: 15px;
     background-color:white;
@@ -622,12 +622,132 @@
 
 }
 
+.home-tab {
+    flex-grow: 1;
+    color: black;
+    background: url('../assets/geo1.png');
+    border: 5px ridge rgb(228, 230, 231);
+}
+
+.home-tab-content {
+    padding-left: 13px;
+    padding-right: 14px;
+    text-align: left;
+    font-family:'Courier New', Courier, monospace;
+    /* background-color: rgb(214, 219, 220);
+    border: 6px ridge rgb(228, 230, 231); */
+}
+
+.home-tab-header {
+    background: url("../assets/geo3.png");
+}
+
+.header-font {
+    font-family: 'Times New Roman', Times, serif;
+    color: rgb(85, 0, 255);
+    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);
+}
+
+.home-tab-body {
+
+    padding: 10px;
+    margin: 15px;
+    /* background-color:white;
+    border: 6px ridge rgb(228, 230, 231); */
+    text-align: center;
+}
+
+.paint-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+  }
+  
+  .paint-controls {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    flex-direction: column;
+  }
+
+  .paint-controls-lower {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    flex-direction: row;
+  }
+  
+  .color-palette {
+    display: flex;
+    margin-right: 20px;
+    padding: 5px;
+    background-color: rgb(197, 195, 197);
+    border: 4px ridge rgb(185, 178, 178);
+  }
+  
+  .color-button {
+    width: 30px;
+    height: 30px;
+    margin-right: 5px;
+    border: none;
+    cursor: pointer;
+    border: 1px solid black;
+  }
+  
+  .brush-shapes {
+    display: flex;
+    margin-right: 20px;
+  }
+
+
+  
+  .brush-shape-button {
+    padding: 5px 10px;
+    margin-right: 5px;
+    border: 2px solid grey;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .brush-shape-button.active {
+    border: 1px solid rgb(255, 0, 204);
+    background-color: rgb(0, 255, 238);
+  }
+
+  .paint-controls label {
+    color: white;
+    margin-right: 10px;
+  }
+  
+  .paint-controls input[type="number"] {
+    margin-right: 20px;
+  }
+  
+  .paint-controls button {
+    padding: 5px 10px;
+  }
+  
+  .paint-canvas {
+    border: 4px outset rgb(145, 214, 221);
+    background-color: white;
+    cursor: crosshair;
+  }
+  
+  .paint-instructions {
+    background-color: rgb(250, 251, 196);
+    color: blue;
+    border: 2px solid black;
+  }
+  
+
 /* dialup */
 
 .dialup {
     position: absolute;
     top: 300px;
-    left: 300px;
+    left: 200px;
     z-index: 9;
 }
 

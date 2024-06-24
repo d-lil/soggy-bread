@@ -13,13 +13,41 @@ import photo2 from "./assets/photo2.jpg";
 import pinkPin from "./assets/pink_pin.png";
 import purplePin from "./assets/purple_pin.png";
 
+// const Toast = ({ message, onClose }) => {
+//   useEffect(() => {
+//     const timer = setTimeout(() => {
+//       onClose();
+//     }, 3000); // Toast will auto-close after 3 seconds
+
+//     return () => clearTimeout(timer);
+//   }, [onClose]);
+
+//   return (
+//     <div className="toast">
+//       {message}
+//     </div>
+//   );
+// };
+
 const Home = () => {
   const [isEnlarged, setIsEnlarged] = useState(false);
   const [isEnlargedPhoto1, setIsEnlargedPhoto1] = useState(false);
   const [isEnlargedPhoto2, setIsEnlargedPhoto2] = useState(false);
   const [showScreenSaver, setShowScreenSaver] = useState(true);
   const [computerHover, setComputerHover] = useState(false);
+  const [showToast, setShowToast] = useState(false);
 
+  useEffect(() => {
+    const isToastShown = localStorage.getItem("isToastShown");
+    if (!isToastShown) {
+      setShowToast(true);
+      localStorage.setItem("isToastShown", "true");
+
+      setTimeout(() => {
+        setShowToast(false);
+      }, 2500); 
+    }
+  }, []);
 
   const handleMouseOver = () => {
     setShowScreenSaver(false);
@@ -86,6 +114,9 @@ const Home = () => {
 
   return (
     <div className="room-container">
+      <div className={`toast ${!showToast ? "toast-hide" : ""}`}>
+        <p>Please Note - This page and its contents are designed for desktop users</p>
+      </div>
     <div className="room">
       <div className={`upper-room-container ${isEnlarged ? 'upper-room-container2' : ''}`}>
         <div className={`cert-container  enlargeable ${isEnlarged ? 'cert-enlarged' : ''}`}>
@@ -158,6 +189,7 @@ const Home = () => {
         <div className="desk-bottom"></div>
       </div>
     </div>
+    
   </div>
   );
 };
