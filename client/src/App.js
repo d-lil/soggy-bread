@@ -21,6 +21,7 @@ function App() {
       window.removeEventListener('beforeunload', handleBeforeUnload);
     };
   }, []);
+  
   return (
     <Router>
       <Routes>

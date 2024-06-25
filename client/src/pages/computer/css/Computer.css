@@ -178,8 +178,44 @@
 
 }
 
+.taskbar-tooltip {
+    color: white;
+        position:relative;
+       text-decoration: dotted underline hotpink;
+      
+}
+.taskbar-tooltip:before {
+    content: attr(data-text); /* here's the magic */
+    position:absolute;
+    top:50%;
+    transform:translateY(-50%);
+    left:100%;
+    margin-left:35px; 
 
+    width:200px;
+    padding:10px;
+    border-radius:10px;
+    background:#fff1bb;
+    color: black;
+    text-align:center;
+    display:none;
+  }
 
+  .taskbar-tooltip:after {
+    content: "";
+    position:absolute;
+    left:100%;
+    margin-left:15px;
+    top:50%;
+    transform:translateY(-50%);
+    border:10px solid #fff8af;
+    border-color: transparent #fff1bb transparent transparent;
+    
+    display:none;
+  }
+  .taskbar-tooltip:hover:before, .taskbar-tooltip:hover:after {
+    display:block;
+  }
 
 .taskbar {
     display: flex;

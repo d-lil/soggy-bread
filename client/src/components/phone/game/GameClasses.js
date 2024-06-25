@@ -214,7 +214,7 @@ changeSprite(action) {
   // added second condition to prevent sprite change if already in the desired action
   if (this.currentAction === action && this.framesCurrent !== 0) return;
 
-  if (this.framesCurrent < this.sprites['takeHit'].framesMax - 1) {
+  if (this.framesCurrent < this.sprites['takeHit' || 'stunned'].framesMax - 1) {
     setTimeout(() => {
     return;
     }, 1000);
@@ -455,7 +455,7 @@ launchBomb({ bombPosition, bombVelocity }) {
   takeHit() { 
     this.isTakingHit = true;
     this.changeSprite("takeHit");
-    this.health -= 10;
+    this.health -= 5;
 
   }
 

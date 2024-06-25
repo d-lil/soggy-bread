@@ -264,7 +264,7 @@
   left: 0;
   z-index: 0;
   pointer-events: none;
-  background: linear-gradient(rgb(173, 216, 230), white);
+  background: linear-gradient(rgb(173, 216, 230), rgb(162, 125, 208));
 }
 
 .bubble {

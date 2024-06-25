@@ -88,12 +88,13 @@ const TaskbarMenu = React.forwardRef((props, ref) => {
       <br />
       <br />
       <Link to="/">
+      <span className="taskbar-tooltip" data-text="'Sign Out' to head back to the room">
         <img
           src={signoutLogo}
           alt="signout icon"
           className="signout-logo-desktop-taskbar"
         />
-        Sign Out
+        Sign Out</span>
       </Link>
     </div>
   );

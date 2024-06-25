@@ -398,8 +398,8 @@ const Game = () => {
     <div className="game-container">
       {screen === "title" && (
         <div className="title-screen">
-          <h1>Game Title</h1>
-          <button onClick={startGame}>Play</button>
+          
+          <button onClick={startGame} className="start-game-button">Play</button>
         </div>
       )}
       {screen === "game" && (

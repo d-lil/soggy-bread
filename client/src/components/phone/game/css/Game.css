@@ -24,13 +24,51 @@
 }
 
 .title-screen {
+  position: relative;
   display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  background-color: violet;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  background: url("../assets/game_title.png") no-repeat center;
+  background-size: cover;
   color: white;
   opacity: 1; 
+}
+
+.title-screen::before {
+  position: absolute;
+  content: '';
+  background-color: rgba(255, 255, 255, 0.188);
+  width: 555px;
+  height: 367px;
+  z-index: -1;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.start-game-button {
+  margin-bottom: 40px;
+  width: 200px;
+  height: 50px;
+  background: linear-gradient(to right, rgba(7, 197, 255, 0.947),  rgba(249, 0, 212, 0.875));
+  color: white;
+  font-size: 1.5em;
+  font-weight: bold;
+  text-shadow: 0 0 5px black;
+  padding: 10px;
+  border-radius: 15px;
+  border: 3px solid rgb(255, 255, 252);
+  cursor: pointer;
+  filter: drop-shadow(1px 1px 6px black);
+  box-shadow: 0 0 10px black;
+  background-size: 200% 100%;
+  transition: background-position 0.5s ease;
+}
+
+.start-game-button:hover {
+  background-position: -100% 0;
+  border: 3px solid rgb(0, 255, 60);
 }
 
 .fade-out {

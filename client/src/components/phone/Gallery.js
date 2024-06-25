@@ -54,8 +54,8 @@ const Gallery = () => {
       const raindrop = document.createElement('div');
       raindrop.className = 'raindrop';
       raindrop.style.left = `${Math.random() * 100}%`;
-      raindrop.style.animationDuration = `${Math.random() * 1 + 1.5}s`;
-      raindrop.style.animationDelay = `${Math.random() * 2}s`;
+      raindrop.style.animationDuration = `${Math.random() * 1 + .5}s`;
+      raindrop.style.animationDelay = `${Math.random() * .5}s`;
       container.appendChild(raindrop);
       raindrops.push(raindrop);
     }
