@@ -70,7 +70,9 @@ const InternetHome = () => {
               <br />
               <Link to="website"> Click Here</Link>
               <br />
+              <br />
               To view outside of this application
+              <br />
               <br />
               <a href="https://gravel-sandwich-cdd2ca40b2a9.herokuapp.com/" > Click Here</a>
             </h4>
