@@ -41,7 +41,8 @@ const ChatComponent = ({ handleMinimizeComponent, isMinimized }) => {
 
       try {
         const response = await fetch(
-          "http://localhost:3001/generate-response",
+          // "http://localhost:3001/generate-response",
+          "https://danny-portfolio-708f03535b01.herokuapp.com/generate-response",
           {
             method: "POST",
             headers: {

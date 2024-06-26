@@ -14,7 +14,8 @@ const Email = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const payload = { email, message };
-    const response = await fetch("http://localhost:3001/api/send-email", {
+    // const response = await fetch("http://localhost:3001/api/send-email", {
+    const response = await fetch("https://danny-portfolio-708f03535b01.herokuapp.com/api/send-email", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

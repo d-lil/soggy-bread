@@ -63,7 +63,8 @@ const Weather = () => {
     useEffect(() => {
         const fetchConfig = async () => {
             try {
-                const response = await axios.get('http://localhost:3001/weatherconfig');
+                // const response = await axios.get('http://localhost:3001/weatherconfig');
+                const response = await axios.get('https://danny-portfolio-708f03535b01.herokuapp.com/weatherconfig');
                 const config = response.data;
                 setApiKey(config.apiKey);
             } catch (error) {

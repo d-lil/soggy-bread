@@ -19,7 +19,8 @@ const Telephone = () => {
   useEffect(() => {
     const fetchConfig = async () => {
       try {
-        const response = await axios.get('http://localhost:3001/config');
+        // const response = await axios.get('http://localhost:3001/config');
+        const response = await axios.get('https://danny-portfolio-708f03535b01.herokuapp.com/config');
         const config = response.data;
 
         if (config.project && config.token) {
