@@ -69,6 +69,10 @@ const InternetHome = () => {
               <br />
               <br />
               <Link to="website"> Click Here</Link>
+              <br />
+              To view outside of this application
+              <br />
+              <a href="https://gravel-sandwich-cdd2ca40b2a9.herokuapp.com/" > Click Here</a>
             </h4>
           </div>
           <button className="home-sidebar-content-button" onClick={showNoDiv}>
