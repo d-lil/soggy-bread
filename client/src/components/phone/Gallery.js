@@ -3,6 +3,7 @@ import "./css/Gallery.css";
 import { getPhotos, deletePhoto } from "./cameraUtils/indexedDBUtils";
 import ghost from "./assets/ghost.png";
 import noPictures from "./assets/no_pictures_text.png";
+import backBtn from "./assets/back_button.png";
 
 const Gallery = () => {
   const [enlargedImageIndex, setEnlargedImageIndex] = useState(null);
@@ -82,7 +83,7 @@ const Gallery = () => {
 
   const renderBubbles = () => {
     const bubbles = [];
-    for (let i = 0; i < 50; i++) {
+    for (let i = 0; i < 20; i++) {
       const style = {
         left: `${Math.random() * 100}%`,
         animationDuration: `${Math.random() * 1 + 3}s`,
@@ -103,11 +104,13 @@ const Gallery = () => {
             alt={`Enlarged capture`}
             className="enlarged-image"
           />
-          <button onClick={() => setEnlargedImageIndex(null)}>&lt;</button>
+          <button onClick={() => setEnlargedImageIndex(null)}><img src={backBtn} alt="back button" className="enlarged-back-btn"></img>Gallery</button>
         </div>
       )}
       <div className={`gallery images ${enlargedImageIndex !== null ? 'blur' : ''}`}>
-        <div className="bubble-container">{renderBubbles()}</div>
+        <div className="bubble-container">
+          {/* {renderBubbles()} */}
+          </div>
         {photos.map((photo, index) => (
           <div className="gallery-item" key={index}>
             <img

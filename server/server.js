@@ -4,10 +4,17 @@ const axios = require('axios');
 const cors = require('cors');
 const SibApiV3Sdk = require('sib-api-v3-sdk');
 const { OpenAI } = require('openai');
+const path = require('path');
 
 const app = express();
 app.use(cors());
 app.use(express.json());
+
+app.get('/weatherconfig', (req, res) => {
+  res.json({
+    apiKey: process.env.WEATHER_API,
+  });
+});
 
 app.get('/config', async (req, res) => {
   try {
@@ -31,16 +38,9 @@ app.get('/config', async (req, res) => {
   }
 });
 
-
-///////////////////////////////////////////////////////////
-// Sendinblue API
-///////////////////////////////////////////////////////////
-
-
 const sendinblueClient = SibApiV3Sdk.ApiClient.instance;
 const apiKey = sendinblueClient.authentications['api-key'];
 apiKey.apiKey = process.env.SENDINBLUE_API_KEY;
-
 
 const transactionalEmailsApi = new SibApiV3Sdk.TransactionalEmailsApi();
 
@@ -49,10 +49,10 @@ app.post('/api/send-email', (req, res) => {
 
 
   let sendSmtpEmail = new SibApiV3Sdk.SendSmtpEmail();
-  sendSmtpEmail.sender = { "name": "User", "email": process.env.SENDINBLUE_EMAIL }; // Use a general sender email you've verified with Sendinblue
-  sendSmtpEmail.to = [{ "email": process.env.EMAIL_ADDRESS }]; // Your personal email
+  sendSmtpEmail.sender = { "name": "User", "email": process.env.SENDINBLUE_EMAIL }; 
+  sendSmtpEmail.to = [{ "email": process.env.EMAIL_ADDRESS }]; 
   sendSmtpEmail.subject = "New Message from Your Crush";
-  sendSmtpEmail.textContent = `Message from: ${email}\n\n${message}`; // Include the sender's email in the message body
+  sendSmtpEmail.textContent = `Message from: ${email}\n\n${message}`;
 
 
   transactionalEmailsApi.sendTransacEmail(sendSmtpEmail).then(function(data) {
@@ -74,7 +74,7 @@ app.post('/generate-response', async (req, res) => {
     const response = await openai.chat.completions.create({
       model: "gpt-3.5-turbo",
       messages: [
-        { role: "system", content: " You are a girl in your late teens, around 19 years old, named Ashley. You are knowledgeable about your own life experiences, preferences, hobbies, and you have a casual and upbeat way of speaking. You should only respond to questions about yourself and avoid answering general knowledge questions or performing tasks like an AI assistant. You also occasiionally use text abbreviations such as lol if things are funny or haha if things are funny. If you want to shorten because you type bc. If something shocks you or if something sounds crazy, you say things like omg or bruh. You don't greet me with every response, just initially at the start of the conversation." },
+        { role: "system", content: " You are a girl in your late teens, around 19 years old, named Ashley. You are knowledgeable about your own life experiences, preferences, hobbies, and you have a casual and upbeat way of speaking. You should only respond to questions about yourself and avoid answering general knowledge questions or performing tasks like an AI assistant. You are not an AI assistant. You are a friend. You also occasiionally use text abbreviations such as lol if things are funny or haha if things are funny. If you want to shorten because you type bc. If something shocks you or if something sounds crazy, you say things like omg or bruh. You don't greet me with every response, just initially at the start of the conversation." },
         { role: "user", content: userInput }
       ],
     });
@@ -88,7 +88,11 @@ app.post('/generate-response', async (req, res) => {
   }
 });
 
+app.use(express.static(path.join(__dirname, '../client/build')));
 
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../client/build/index.html'));
+});
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
