@@ -16,17 +16,12 @@
 
 }
 
-.permissions-denied-message {
+.permission-denied-message {
   color: white;
   text-align: center;
   margin-top: -7px;
   width: 380px;
   height: 300px;
-}
-
-.permissions-denied-message h2,
-.permissions-denied-message p {
-  color: white;
 }
 
 .local-photos-display {
