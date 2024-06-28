@@ -16,6 +16,11 @@
 
 }
 
+.permissions-denied-message {
+  color: white;
+  text-align: center;
+}
+
 .local-photos-display {
     display: flex;
     flex-direction: row;

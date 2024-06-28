@@ -134,12 +134,12 @@ const Camera = ({ setPhotos }) => {
 
   return (
     <div className="camera-container">
-      {permissionDenied ? (
-        <div className="permission-denied-message">
-          You must give camera access for this component to work properly.
-        </div>
-      ) : (
-        <>
+      <div className="video-container">
+        {permissionDenied ? (
+          <div className="permission-denied-message">
+            You must give camera access for this component to work properly.
+          </div>
+        ) : (
           <video
             style={{ filter: filter }}
             ref={videoRef}
@@ -148,38 +148,38 @@ const Camera = ({ setPhotos }) => {
             width="380"
             height="300"
           />
-          <button onClick={takePhoto} className="take-photo-btn">
-            📷
-          </button>
-          <FilterNavigator filters={filters} setFilter={setFilter} selectedFilter={filter} />
-          <canvas ref={canvasRef} width="380" height="300" style={{ display: "none" }} />
-          <div className="local-photos-display">
-            {localPhotos.map((photo, index) => (
-              <div key={index} className="local-photo-item">
-                <img
-                  src={photo}
-                  alt={`Captured ${index}`}
-                  width="100"
-                  onClick={() => handleImageClick(index)}
-                />
-                {selectedForDeletion === index && (
-                  <div className="local-photo-delete-confirmation">
-                    Delete?
-                    <div className="confirmation-buttons">
-                      <button onClick={() => confirmDeletion(true, index)} className="yes-pic-delete">
-                        Yes
-                      </button>
-                      <button onClick={() => confirmDeletion(false, index)} className="no-pic-delete">
-                        No
-                      </button>
-                    </div>
-                  </div>
-                )}
+        )}
+      </div>
+      <button onClick={takePhoto} className="take-photo-btn">
+        📷
+      </button>
+      <FilterNavigator filters={filters} setFilter={setFilter} selectedFilter={filter} />
+      <canvas ref={canvasRef} width="380" height="300" style={{ display: "none" }} />
+      <div className="local-photos-display">
+        {localPhotos.map((photo, index) => (
+          <div key={index} className="local-photo-item">
+            <img
+              src={photo}
+              alt={`Captured ${index}`}
+              width="100"
+              onClick={() => handleImageClick(index)}
+            />
+            {selectedForDeletion === index && (
+              <div className="local-photo-delete-confirmation">
+                Delete?
+                <div className="confirmation-buttons">
+                  <button onClick={() => confirmDeletion(true, index)} className="yes-pic-delete">
+                    Yes
+                  </button>
+                  <button onClick={() => confirmDeletion(false, index)} className="no-pic-delete">
+                    No
+                  </button>
+                </div>
               </div>
-            ))}
+            )}
           </div>
-        </>
-      )}
+        ))}
+      </div>
     </div>
   );
 };
