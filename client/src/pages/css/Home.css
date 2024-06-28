@@ -171,6 +171,13 @@
     box-shadow: -4px 2px 3px 3px rgba(0, 0, 0, 0.711);
 }
 
+.certificate,
+.cert-enlarged {
+    image-rendering: -webkit-optimize-contrast; /* Safari */
+    image-rendering: crisp-edges;               /* Chrome */
+}
+
+
 .certificate {
     width: 200px;
     height: auto;
@@ -198,6 +205,16 @@
 
 .is-enlarged {
     display: block;
+}
+
+.pin, 
+.photo, 
+.photo-enlarged, 
+.photo-frame1, 
+.photo-frame2 {  
+    image-rendering: -webkit-optimize-contrast; /* Safari */
+    image-rendering: crisp-edges;               /* Chrome */
+    
 }
 
 .photo-frame-container {
