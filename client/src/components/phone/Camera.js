@@ -137,7 +137,11 @@ const Camera = ({ setPhotos }) => {
       <div className="video-container">
         {permissionDenied ? (
           <div className="permission-denied-message">
+            <h2>Permission Denied</h2>
+            <hr />
+            <p>
             You must give camera access for this component to work properly.
+            </p>
           </div>
         ) : (
           <video
