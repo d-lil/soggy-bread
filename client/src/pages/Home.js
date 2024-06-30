@@ -112,6 +112,16 @@ const Home = () => {
             alt="coding certificate"
             onClick={handleEnlarge}
           />
+                <div>
+          <div className={`enlargeable ${isEnlargedPhoto1 ? 'photo-frame-enlarged' : 'hidden'}`}>
+            <img src={pinkPin} alt="pink pin" className={`${isEnlargedPhoto1 ? 'pin-enlarged' : 'hidden'}`}/>
+            <img  onClick={handleEnlargePhoto} src={photo1} alt="photo1" className={`${isEnlargedPhoto1 ? 'photo-enlarged' : 'hidden'}`}/>
+          </div>
+          <div className={`enlargeable ${isEnlargedPhoto2 ? 'photo-frame-enlarged' : 'hidden '}`}>
+            <img src={purplePin} alt="purple pin" className={`${isEnlargedPhoto2 ? 'pin-enlarged' : 'hidden '}`}/>
+            <img onClick={handleEnlargePhoto} src={photo2} alt="photo2"className={`${isEnlargedPhoto2 ? 'photo-enlarged' : 'hidden '}`}/>
+          </div>
+        </div>
         </div>
         <div className={`enlarged-placeholder  enlargeable ${isEnlarged ? 'is-enlarged' : ''}`}></div>
         <div className="window-container">
@@ -132,13 +142,13 @@ const Home = () => {
 
       </div>
       <div className="photo-frame-container">
-          <div className={`photo-frame1 enlargeable ${isEnlargedPhoto1 ? 'photo-frame-enlarged' : ''}`}>
-            <img src={pinkPin} alt="pink pin" className={`pin ${isEnlargedPhoto1 ? 'pin-enlarged' : ''}`}/>
-            <img src={photo1} alt="photo1" onClick={handleEnlargePhoto} className={`photo ${isEnlargedPhoto1 ? 'photo-enlarged' : ''}`}/>
+          <div className={`photo-frame1 ${isEnlargedPhoto1 ? 'hidden' : ''}`}>
+            <img src={pinkPin} alt="pink pin" className={`pin ${isEnlargedPhoto1 ? 'hidden' : ''}`}/>
+            <img src={photo1} alt="photo1" onClick={handleEnlargePhoto} className={`photo ${isEnlargedPhoto1 ? 'hidden' : ''}`}/>
           </div>
-          <div className={`photo-frame2 enlargeable ${isEnlargedPhoto2 ? 'photo-frame-enlarged' : ''}`}>
-            <img src={purplePin} alt="purple pin" className={`pin ${isEnlargedPhoto2 ? 'pin-enlarged' : ''}`}/>
-            <img src={photo2} alt="photo2" onClick={handleEnlargePhoto} className={`photo ${isEnlargedPhoto2 ? 'photo-enlarged' : ''}`}/>
+          <div className={`photo-frame2 ${isEnlargedPhoto2 ? 'hidden' : ''} ${isEnlargedPhoto1 ? 'hidden' : ''}`}>
+            <img src={purplePin} alt="purple pin" className={`pin ${isEnlargedPhoto2 ? 'hidden' : ''}`}/>
+            <img src={photo2} alt="photo2" onClick={handleEnlargePhoto} className={`photo ${isEnlargedPhoto2 ? 'hidden' : ''}`}/>
           </div>
         </div>
       <div className="lower-room-container">

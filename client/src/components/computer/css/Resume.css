@@ -1,14 +1,15 @@
 .resume-container {
     display: flex;
     flex-direction: column;
-    width: 80%;
+    width: 90%;
     margin-left: auto;
     margin-right: auto;
-    margin-top: 10%;
+    margin-top: 2%;
     background-color: black;
     border: 4px solid #0077ff;
     border-radius: 10px;
-    height: calc(60vh - 4px); /* Adjusted height */
+    height: 75vh; /* Adjusted height */
+    max-height: 650px;
     overflow: hidden; /* Changed to hidden to avoid double scrollbars */
 }
 
