@@ -120,7 +120,10 @@
     position: relative;
     width: 100%;
     height: 100%;
+    
   }
+
+
   
   .window-video-wrapper::before {
     content: "";
@@ -178,6 +181,18 @@
 }
 
 
+
+
+.cert-enlarged {
+    z-index: 99;
+    width: 525px;
+    height: 380px;
+    position: absolute;
+    top: 100px;
+    left: 200px;
+    background-color: rgba(0, 0, 0, 0.388);
+}
+
 .certificate {
     width: 200px;
     height: auto;
@@ -185,14 +200,17 @@
     cursor: pointer;
 }
 
-.cert-enlarged {
-    z-index: 99;
-    transform: scale(2.5);
+.certificate-enlarged {
+  
+    width: 490px;
+    height: auto;
+    padding: 10px;
+    cursor: pointer;
     z-index: 99;
     position: absolute;
-    top: 40%;
-    left: 35%;
-    background-color: rgba(0, 0, 0, 0.388);
+    top: 10;
+    left: 10;
+    
 }
 
 .enlarged-placeholder {
@@ -244,12 +262,6 @@
     filter: drop-shadow(0rem 0.15rem 0.1rem rgba(2, 2, 2, 0.81));
 }
 
-/* .photo-frame1:hover {
-    transform: scale(1.1);
-    transition: transform 0.2s;
-    filter: drop-shadow(0rem 0.35rem 0.4rem rgba(255, 174, 0, 0.722));
-} */
-
 .photo-frame2 {
     position: absolute;
     left: 200px;
@@ -268,25 +280,34 @@
 
 }
 
-/* .photo-frame2:hover {
-    transform: scale(1.1);
-    transition: transform 0.2s;
-    filter: drop-shadow(0rem 0.35rem 0.4rem rgba(255, 174, 0, 0.722));
-} */
-
-.photo-enlarged {
-    transform: scale(5.5);
+.photo-frame-enlarged {
+    width: 460px;
+    height: 540px;
     z-index: 99;
     position: absolute;
-    top: 0;
-    left: 35%;
+    top: -400px;
+    left: 200px;
+    transform: rotate(0);
+    border-bottom: 2px solid grey;
+    border-left: 2px solid grey;
+   
 }
+
 
 .pin {
     position: absolute;
     width: 10px;
     height: 10px;
     top: 0px;
+}
+
+.pin-enlarged {
+    position: absolute;
+    width: 40px;
+    height: 45px;
+    top: 0px;
+    z-index: 100;
+    filter: drop-shadow(0rem 0.15rem 0.1rem rgba(2, 2, 2, 0.81));
 }
 
 .photo {
@@ -296,6 +317,16 @@
     padding: 10px;
     cursor: pointer;
 }
+
+.photo-enlarged {
+    width: 420px;
+    height: auto;
+    z-index: 99;
+    top: 10px;
+    position: absolute;
+   
+}
+
 
 .lower-room-container {
     position: relative;

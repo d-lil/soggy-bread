@@ -13,21 +13,7 @@ import photo2 from "./assets/photo2.jpg";
 import pinkPin from "./assets/pink_pin.png";
 import purplePin from "./assets/purple_pin.png";
 
-// const Toast = ({ message, onClose }) => {
-//   useEffect(() => {
-//     const timer = setTimeout(() => {
-//       onClose();
-//     }, 3000); // Toast will auto-close after 3 seconds
 
-//     return () => clearTimeout(timer);
-//   }, [onClose]);
-
-//   return (
-//     <div className="toast">
-//       {message}
-//     </div>
-//   );
-// };
 
 const Home = () => {
   const [isEnlarged, setIsEnlarged] = useState(false);
@@ -122,7 +108,7 @@ const Home = () => {
         <div className={`cert-container  enlargeable ${isEnlarged ? 'cert-enlarged' : ''}`}>
           <img
             src={certificate}
-            className={`certificate`}
+            className={`certificate ${isEnlarged ? 'certificate-enlarged' : ''}`}
             alt="coding certificate"
             onClick={handleEnlarge}
           />
@@ -132,7 +118,7 @@ const Home = () => {
           <div className="window-frame">
             <div className="window">
               <div className="window-video-wrapper">
-                <video autoPlay loop muted>
+                <video autoPlay loop muted playsInline>
                   <source src={rain} type="video/mp4" />
                 </video>
               </div>
@@ -146,13 +132,13 @@ const Home = () => {
 
       </div>
       <div className="photo-frame-container">
-          <div className={`photo-frame1 enlargeable ${isEnlargedPhoto1 ? 'photo-enlarged' : ''}`}>
-            <img src={pinkPin} alt="pink pin" className="pin" />
-            <img src={photo1} alt="photo1" onClick={handleEnlargePhoto} className="photo" />
+          <div className={`photo-frame1 enlargeable ${isEnlargedPhoto1 ? 'photo-frame-enlarged' : ''}`}>
+            <img src={pinkPin} alt="pink pin" className={`pin ${isEnlargedPhoto1 ? 'pin-enlarged' : ''}`}/>
+            <img src={photo1} alt="photo1" onClick={handleEnlargePhoto} className={`photo ${isEnlargedPhoto1 ? 'photo-enlarged' : ''}`}/>
           </div>
-          <div className={`photo-frame2 enlargeable ${isEnlargedPhoto2 ? 'photo-enlarged' : ''}`}>
-            <img src={purplePin} alt="purple pin" className="pin" />
-            <img src={photo2} alt="photo2" onClick={handleEnlargePhoto} className="photo" />
+          <div className={`photo-frame2 enlargeable ${isEnlargedPhoto2 ? 'photo-frame-enlarged' : ''}`}>
+            <img src={purplePin} alt="purple pin" className={`pin ${isEnlargedPhoto2 ? 'pin-enlarged' : ''}`}/>
+            <img src={photo2} alt="photo2" onClick={handleEnlargePhoto} className={`photo ${isEnlargedPhoto2 ? 'photo-enlarged' : ''}`}/>
           </div>
         </div>
       <div className="lower-room-container">

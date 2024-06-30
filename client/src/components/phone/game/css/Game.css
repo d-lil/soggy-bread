@@ -48,7 +48,8 @@
 }
 
 .start-game-button {
-  margin-bottom: 40px;
+  position: absolute;
+  bottom: 45px;
   width: 200px;
   height: 50px;
   background: linear-gradient(to right, rgba(7, 197, 255, 0.947),  rgba(249, 0, 212, 0.875));
