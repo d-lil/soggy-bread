@@ -246,3 +246,24 @@ a {
         max-height: 400px;
     }
 }
+
+@media (max-height: 400px) {
+    .character-tooltip {
+        top: 80%;
+        right: 100%;
+        height: fit-content
+    }
+
+    .contract-container {
+        height: 250px;
+    }
+
+    .contract-body {
+        height: 250px;
+    }
+    .contract-content {
+        margin-top: 60px;
+        max-height: 400px;
+        right: 10%;
+    }
+}

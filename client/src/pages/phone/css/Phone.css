@@ -360,6 +360,7 @@
   }
 
 @media (max-height: 450px) {
+
   .phone-page {
     transform: rotate(90deg);
     transform-origin: center center;
@@ -369,9 +370,27 @@
     min-height: fit-content;
     position: absolute;
     top: 50%;
-    left: 75%;
+    left: 50%;
     transform: translate(-50%, -50%) rotate(90deg);
   }
+
+  .phone-landscape {
+
+    transform-origin: center center;
+    width: 100vh;
+    height: 620px;
+    position: absolute;
+    top: 50%;
+
+
+  }
+
+  .game-instructions.show-instructions{
+    display: none;
+
+  }
+
+
   .phone-weather-app, .phone-camera-app, .phone-gallery-app, .phone-game-app, .phone-telephone-app, .phone-instagram-app {
     transform: rotate(270deg);
   }
