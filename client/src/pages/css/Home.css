@@ -26,9 +26,9 @@
 
 .room-container {
   display: flex;
-  justify-content: flex-start;
-  align-items: center;
   flex-direction: column;
+  padding-left: 5px;
+  padding-right: 5px;
   min-height: 100vh;
   background-color: rgb(27, 26, 29);
 }
@@ -42,6 +42,7 @@
   /* justify-content: center; */
   align-items: center;
   flex-direction: column;
+  margin: 0 auto;
 }
 
 .room::before {
@@ -630,13 +631,3 @@
 .hidden {
   display: none;
 }
-
-/* .mirror {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 20vh;
-    background: linear-gradient(to right, rgb(0, 255, 255), rgb(0, 0, 255));
-    color: white;
-    font-family: "Righteous", cursive;
-} */

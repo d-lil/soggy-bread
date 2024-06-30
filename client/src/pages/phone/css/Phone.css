@@ -356,10 +356,11 @@
       width: auto;
       height: auto;
     }
+
   }
 
-@media (max-width: 450px) {
-  /* .phone-page {
+@media (max-height: 450px) {
+  .phone-page {
     transform: rotate(90deg);
     transform-origin: center center;
     width: 100vh;
@@ -370,7 +371,7 @@
     top: 50%;
     left: 75%;
     transform: translate(-50%, -50%) rotate(90deg);
-  } */
+  }
   .phone-weather-app, .phone-camera-app, .phone-gallery-app, .phone-game-app, .phone-telephone-app, .phone-instagram-app {
     transform: rotate(270deg);
   }
