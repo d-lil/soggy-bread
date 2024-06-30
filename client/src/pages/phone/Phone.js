@@ -1,6 +1,5 @@
 import React from "react";
 import { Route, Routes, Link, useLocation } from "react-router-dom";
-// import { useRef, useCallback } from "react";
 import { useState, useEffect } from "react";
 import Weather from "../../components/phone/Weather";
 import Camera from "../../components/phone/Camera";
@@ -99,8 +98,34 @@ const Phone = () => {
     localStorage.setItem("photos", JSON.stringify(photos));
   }, [photos]);
 
+  const handleButtonPress = (key) => {
+    const event = new KeyboardEvent('keydown', { key });
+    window.dispatchEvent(event);
+  };
+
+  const handleButtonRelease = (key) => {
+    const event = new KeyboardEvent('keyup', { key });
+    window.dispatchEvent(event);
+  };
+
   return (
     <div className={`phone-page ${isGameRoute ? "phone-landscape" : ""}`}>
+      <div className="game-buttons-right">
+        <button 
+          className="game-button"
+          onTouchStart={() => handleButtonPress("ArrowLeft")}
+          onTouchEnd={() => handleButtonRelease("ArrowLeft")}
+        >
+          LEFT
+        </button>
+        <button 
+          className="game-button"
+          onTouchStart={() => handleButtonPress("ArrowRight")}
+          onTouchEnd={() => handleButtonRelease("ArrowRight")}
+        >
+          RIGHT
+        </button>
+      </div>
       <div className="phone-container">
         <Link to="/">
           <div className="phone-power-button"> </div>
@@ -172,9 +197,13 @@ const Phone = () => {
 
               <div className="phone-telephone-app">
                 <Link to="telephone">
-                <div className="phone-telephone-app-img">
-                  <img src={phoneIcon} alt="email logo" className="email-logo-phone" />
-                </div>
+                  <div className="phone-telephone-app-img">
+                    <img
+                      src={phoneIcon}
+                      alt="email logo"
+                      className="email-logo-phone"
+                    />
+                  </div>
                   <br />
                   Phone
                 </Link>
@@ -278,15 +307,40 @@ const Phone = () => {
       >
         <h2>Instructions</h2>
         <div className="instructions-container">
-        <div className="left-instructions">
-          <p>"D" Key = Punch</p>
-          <p>"A" Key = Kick</p>
+          <div className="left-instructions">
+            <p>"D" Key = Punch</p>
+            <p>"A" Key = Kick</p>
+          </div>
+          <div className="right-instructions">
+            <p>Space Bar = Jump</p>
+            <p>
+              Use the arrow keys to move <br /> the player left and right
+            </p>
+          </div>
         </div>
-        <div className="right-instructions">
-          <p>Space Bar = Jump</p>
-          <p>Use the arrow keys to move <br /> the player left and right</p>
-        </div>
-        </div>
+      </div>
+      <div className="game-buttons-left">
+        <button 
+          className="game-button"
+          onTouchStart={() => handleButtonPress("d")}
+          onTouchEnd={() => handleButtonRelease("d")}
+        >
+          PUNCH
+        </button>
+        <button 
+          className="game-button"
+          onTouchStart={() => handleButtonPress("a")}
+          onTouchEnd={() => handleButtonRelease("a")}
+        >
+          KICK
+        </button>
+        <button 
+          className="game-button"
+          onTouchStart={() => handleButtonPress(" ")}
+          onTouchEnd={() => handleButtonRelease(" ")}
+        >
+          JUMP
+        </button>
       </div>
     </div>
   );

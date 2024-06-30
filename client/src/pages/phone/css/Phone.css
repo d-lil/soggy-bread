@@ -369,9 +369,47 @@
     padding: 20px;
     min-height: fit-content;
     position: absolute;
-    top: 50%;
+    top: 60%;
     left: 50%;
     transform: translate(-50%, -50%) rotate(90deg);
+  }
+
+  .phone-page.phone-landscape {
+    display: flex;
+    flex-direction: column;
+  }
+  .game-buttons-right {
+    position: relative;
+    transform: rotate(270deg);
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 5px;
+    width: 50px;
+    height: 50px;
+  }
+
+  .game-buttons-left {
+    position: relative;
+    transform: rotate(270deg);
+    display: flex;
+    flex-direction: column;
+    height: 50px;
+    margin-top: 3px;
+    width: 50px;
+  }
+
+
+  .game-buttons-right button{
+    height: 150px;
+    width: 50px;
+    padding: 10px;
+  } 
+  .game-buttons-left button {
+    height: 150px;
+    width: 50px;
+    padding: 10px;
+
+
   }
 
   .phone-landscape {
@@ -380,7 +418,7 @@
     width: 100vh;
     height: 620px;
     position: absolute;
-    top: 50%;
+    top: 60%;
 
 
   }
