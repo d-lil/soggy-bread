@@ -110,20 +110,23 @@ const Phone = () => {
 
   return (
     <div className={`phone-page ${isGameRoute ? "phone-landscape" : ""}`}>
-      <div className="game-buttons-right">
+      <div className={`${isGameRoute ? "game-buttons-right" : "hidden"}`}>
+        <div className="game-button-info">
+          <p><b>If you are on desktop</b><hr/> make window wider for keyboard controls</p>
+        </div>
         <button 
           className="game-button"
           onTouchStart={() => handleButtonPress("ArrowLeft")}
           onTouchEnd={() => handleButtonRelease("ArrowLeft")}
         >
-          LEFT
+          <h3>L<br/>E<br/>F<br/>T</h3>
         </button>
         <button 
           className="game-button"
           onTouchStart={() => handleButtonPress("ArrowRight")}
           onTouchEnd={() => handleButtonRelease("ArrowRight")}
         >
-          RIGHT
+          <h3>R<br/>I<br/>G<br/>H<br/>T</h3>
         </button>
       </div>
       <div className="phone-container">
@@ -325,21 +328,21 @@ const Phone = () => {
           onTouchStart={() => handleButtonPress("d")}
           onTouchEnd={() => handleButtonRelease("d")}
         >
-          PUNCH
+          <h3>P<br/>U<br/>N<br/>C<br/>H</h3>
         </button>
         <button 
           className="game-button"
           onTouchStart={() => handleButtonPress("a")}
           onTouchEnd={() => handleButtonRelease("a")}
         >
-          KICK
+          <h3>K<br/>I<br/>C<br/>K</h3>
         </button>
         <button 
           className="game-button"
           onTouchStart={() => handleButtonPress(" ")}
           onTouchEnd={() => handleButtonRelease(" ")}
         >
-          JUMP
+          <h3>J<br/>U<br/>M<br/>P</h3>
         </button>
       </div>
     </div>

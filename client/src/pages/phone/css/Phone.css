@@ -16,7 +16,7 @@
     width: 100vh;
     height: 100vw;
     position: absolute;
-    top: 50%;
+    top: 60%;
     left: 50%;
     transform: translate(-50%, -50%) rotate(90deg);
     
@@ -348,6 +348,14 @@
     margin-left: 10px;
   }
 
+  .game-buttons-right {
+    display: none;
+  }
+
+  .game-buttons-left {
+    display: none;
+  }
+
 
 @media (max-width: 600px) {
     .phone-landscape {
@@ -357,6 +365,86 @@
       height: auto;
     }
 
+    .game-buttons-left, .game-buttons-right {
+      display: block;
+    }
+
+  }
+
+  @media only screen and (min-width: 600px) and (max-width: 1200px) {
+    .phone-landscape {
+
+      transform-origin: center center;
+      width: 100vh;
+      height: 620px;
+      position: absolute;
+      top: 60%;
+  
+  
+    }
+
+    .phone-page.phone-landscape {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .game-buttons-right {
+      position: relative;
+      transform: rotate(270deg);
+      display: block;
+      flex-direction: column;
+      height: 50px;
+      right: 25%;
+      width: 50px;
+    }
+  
+    .game-buttons-left {
+      position: relative;
+      transform: rotate(270deg);
+      display: block;
+      flex-direction: column;
+      height: 50px;
+      right: 25%;
+      width: 50px;
+    }
+  
+    .game-button-info{
+      background-color: rgb(182, 180, 180);
+      height: 125px;
+      padding: 2px;
+      border: 2px solid red;
+    }
+
+    .game-button-info p {
+      font-size: 10px;
+      font-weight: normal;
+    }
+  
+    .game-buttons-right button{
+      height: 120px;
+      width: 50px;
+      padding: 0px;
+      background: linear-gradient(white, rgb(86, 203, 232));
+      border: 3px solid rgb(221, 255, 0);
+      border-radius: 3px;
+    } 
+    .game-buttons-left button {
+      height: 120px;
+      width: 50px;
+      padding: 10px;
+      background: linear-gradient(white, rgb(199, 113, 227));
+      border: 3px solid rgb(221, 255, 0);
+      border-radius: 3px;
+    }
+  
+    .game-buttons-left h3 {
+      font-size: 14px;
+    }
+
+    .game-instructions.show-instructions{
+      display: none;
+  
+    }
   }
 
 @media (max-height: 450px) {
@@ -381,35 +469,54 @@
   .game-buttons-right {
     position: relative;
     transform: rotate(270deg);
-    display: flex;
+    display: block;
     flex-direction: column;
-    margin-bottom: 5px;
-    width: 50px;
     height: 50px;
+    right: 40%;
+    width: 50px;
   }
 
   .game-buttons-left {
     position: relative;
     transform: rotate(270deg);
-    display: flex;
+    display: block;
     flex-direction: column;
     height: 50px;
-    margin-top: 3px;
+    right: 38%;
     width: 50px;
   }
 
+  .game-button-info{
+    background-color: rgb(182, 180, 180);
+    height: 125px;
+    padding: 2px;
+    border: 2px solid red;
+  }
+
+  .game-button-info p {
+    font-size: 10px;
+    font-weight: normal;
+  }
 
   .game-buttons-right button{
-    height: 150px;
+    height: 120px;
     width: 50px;
-    padding: 10px;
+    padding: 0px;
+    background: linear-gradient(white, rgb(86, 203, 232));
+    border: 3px solid rgb(221, 255, 0);
+    border-radius: 3px;
   } 
   .game-buttons-left button {
-    height: 150px;
+    height: 120px;
     width: 50px;
     padding: 10px;
+    background: linear-gradient(white, rgb(199, 113, 227));
+    border: 3px solid rgb(221, 255, 0);
+    border-radius: 3px;
+  }
 
-
+  .game-buttons-left h3 {
+    font-size: 14px;
   }
 
   .phone-landscape {
