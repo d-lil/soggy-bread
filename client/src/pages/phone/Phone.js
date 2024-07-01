@@ -322,7 +322,7 @@ const Phone = () => {
           </div>
         </div>
       </div>
-      <div className="game-buttons-left">
+      <div className={`${isGameRoute ? "game-buttons-left" : "hidden"}`}>
         <button 
           className="game-button"
           onTouchStart={() => handleButtonPress("d")}
