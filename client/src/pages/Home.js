@@ -12,7 +12,7 @@ import photo1 from "./assets/photo1.jpg";
 import photo2 from "./assets/photo2.jpg";
 import pinkPin from "./assets/pink_pin.png";
 import purplePin from "./assets/purple_pin.png";
-
+import rotate from "./assets/rotate.gif";
 
 
 const Home = () => {
@@ -21,19 +21,8 @@ const Home = () => {
   const [isEnlargedPhoto2, setIsEnlargedPhoto2] = useState(false);
   const [showScreenSaver, setShowScreenSaver] = useState(true);
   const [computerHover, setComputerHover] = useState(false);
-  const [showToast, setShowToast] = useState(false);
 
-  useEffect(() => {
-    const isToastShown = localStorage.getItem("isToastShown");
-    if (!isToastShown) {
-      setShowToast(true);
-      localStorage.setItem("isToastShown", "true");
 
-      setTimeout(() => {
-        setShowToast(false);
-      }, 2500); 
-    }
-  }, []);
 
   const handleMouseOver = () => {
     setShowScreenSaver(false);
@@ -100,8 +89,8 @@ const Home = () => {
 
   return (
     <div className="room-container">
-      <div className={`toast ${!showToast ? "toast-hide" : ""}`}>
-        <p>Please Note - This page and its contents are designed for desktop users</p>
+      <div className="rotate-phone">
+        {/* <image src={rotate} alt="rotate phone" /> */}
       </div>
     <div className="room">
       <div className={`upper-room-container ${isEnlarged ? 'upper-room-container2' : ''}`}>

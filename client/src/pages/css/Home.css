@@ -1,30 +1,6 @@
-/* Toast.css */
-.toast {
-  display: block;
-  position: fixed;
-  top: 10px;
-  left: 50%;
-  height: 30px;
-  transform: translateX(-50%);
-  background-color: #83fdc4;
-  color: black;
-  font-weight: bold;
-  padding: 10px 20px;
-  font-size: 30px;
-  border-radius: 5px;
-  border: 4px solid white;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
-  visibility: visible;
-  transition: opacity 1s ease-out, visibility 0s linear 1s;
-  z-index: 1000;
-}
-
-.toast-hide {
-  opacity: 0;
-  visibility: hidden;
-}
 
 .room-container {
+  position: relative;
   display: flex;
   flex-direction: column;
   padding-left: 5px;
@@ -630,4 +606,41 @@
 
 .hidden {
   display: none;
+}
+
+.rotate-phone {
+  display: none;
+}
+
+@media only screen and (max-width: 400px) {
+  .rotate-phone {
+    display: block;
+    position: absolute;
+    z-index: 1000;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+    background: url("../assets/rotate.gif") no-repeat center center;
+    transform: rotate(180deg);
+    border-radius: 10px;
+  }
+
+  .room::before {
+    z-index: 999;
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.755);
+  }
+
+
+  /* .rotate-phone img {
+    width: 100%;
+    height: 100%;
+    transform: rotate(270deg);
+  } */
 }

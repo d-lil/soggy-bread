@@ -366,7 +366,7 @@
     }
 
     .game-buttons-left, .game-buttons-right {
-      display: block;
+      display: none;
     }
 
   }
