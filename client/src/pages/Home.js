@@ -12,7 +12,7 @@ import photo1 from "./assets/photo1.jpg";
 import photo2 from "./assets/photo2.jpg";
 import pinkPin from "./assets/pink_pin.png";
 import purplePin from "./assets/purple_pin.png";
-import rotate from "./assets/rotate.gif";
+
 
 
 const Home = () => {
@@ -90,7 +90,7 @@ const Home = () => {
   return (
     <div className="room-container">
       <div className="rotate-phone">
-        {/* <image src={rotate} alt="rotate phone" /> */}
+        
       </div>
     <div className="room">
       <div className={`upper-room-container ${isEnlarged ? 'upper-room-container2' : ''}`}>
