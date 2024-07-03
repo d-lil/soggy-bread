@@ -141,28 +141,33 @@ const Internet = ({
   const [showDialup, setShowDialup] = useState(false);
 
   useEffect(() => {
-    const audio = new Audio(dialUp);
-    audio.volume = 0.03;
+    const dialupShown = localStorage.getItem("dialupShown");
 
-    const playAudio = async () => {
-      setShowDialup(true);
-      try {
-        await audio.play();
-        audio.addEventListener("ended", () => {
-          setShowDialup(false);
-        });
-      } catch (error) {
-        console.error("Failed to play audio:", error);
-      }
-    };
+    if (!dialupShown) {
+      const audio = new Audio(dialUp);
+      audio.volume = 0.03;
 
-    playAudio();
+      const playAudio = async () => {
+        setShowDialup(true);
+        try {
+          await audio.play();
+          audio.addEventListener("ended", () => {
+            setShowDialup(false);
+            localStorage.setItem("dialupShown", "true");
+          });
+        } catch (error) {
+          console.error("Failed to play audio:", error);
+        }
+      };
 
-    return () => {
-      audio.pause();
-      audio.currentTime = 0; // Reset the audio to the start
-      setShowDialup(false);
-    };
+      playAudio();
+
+      return () => {
+        audio.pause();
+        audio.currentTime = 0;
+        setShowDialup(false);
+      };
+    }
   }, []);
 
   return (

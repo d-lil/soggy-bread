@@ -168,9 +168,13 @@ const Computer = () => {
   }, []);
 
   const handleCloseComponent = useCallback((componentName) => {
+    if (componentName === "internet") {
+      localStorage.removeItem("dialupShown");
+    }
     setOpenComponents((prevComponents) =>
       prevComponents.filter((component) => component.name !== componentName)
     );
+
   }, []);
 
   useEffect(() => {

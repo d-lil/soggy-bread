@@ -20,6 +20,18 @@
   100% {background-position: 50% 0, 60% 50%}
 }
 
+@media (max-width: 768px) {
+  .email-page {
+    background-size: cover; /* Ensure the background covers smaller screens */
+  }
+}
+
+@media (max-width: 480px) {
+  .email-page {
+    background-size: cover; /* Ensure the background covers smaller screens */
+  }
+}
+
 .email-page::before {
   content: '';
   position: absolute;
