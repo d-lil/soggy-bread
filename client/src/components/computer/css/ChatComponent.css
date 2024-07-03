@@ -10,6 +10,7 @@
   border: 4px solid #0077ff;
   border-radius: 10px;
   height: calc(68vh - 4px);
+  min-height: 400px;
 }
 
 .chat-header {
@@ -223,8 +224,3 @@ a {
   color: rgb(255, 0, 0);
 }
 
-@media screen and (max-width: 480px) {
-  .chat-container {
-    width: 200px;
-  }
-}

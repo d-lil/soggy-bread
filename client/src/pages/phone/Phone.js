@@ -112,7 +112,7 @@ const Phone = () => {
     <div className={`phone-page ${isGameRoute ? "phone-landscape" : ""}`}>
       <div className={`${isGameRoute ? "game-buttons-right" : "hidden"}`}>
         <div className="game-button-info">
-          <p><b>If you are on desktop</b><hr/> make window wider for keyboard controls</p>
+          <p><b>If you are on desktop</b></p><hr/><p> make window wider for keyboard controls</p>
         </div>
         <button 
           className="game-button"

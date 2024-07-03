@@ -496,6 +496,7 @@
   .game-button-info p {
     font-size: 10px;
     font-weight: normal;
+    text-align: center;
   }
 
   .game-buttons-right button{
