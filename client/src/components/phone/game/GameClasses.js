@@ -531,7 +531,7 @@ class Bomb extends Sprite {
     this.attackBox = {
       position: { x: this.position.x, y: this.position.y },
       offset: { x: -10, y: -10 }, 
-      width: this.width * scale + 25, 
+      width: this.width * scale + 45, 
       height: this.height * scale + 25,
     };
   }
