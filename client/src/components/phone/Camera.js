@@ -115,7 +115,30 @@ const Camera = ({ setPhotos }) => {
     if (canvas && video) {
       const context = canvas.getContext("2d");
       applyFilterToCanvas(context);
-      context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+      const videoWidth = video.videoWidth;
+      const videoHeight = video.videoHeight;
+      const canvasWidth = canvas.width;
+      const canvasHeight = canvas.height;
+
+      // Calculate the aspect ratio
+      const videoAspectRatio = videoWidth / videoHeight;
+      const canvasAspectRatio = canvasWidth / canvasHeight;
+
+      let drawWidth = canvasWidth;
+      let drawHeight = canvasHeight;
+      let drawX = 0;
+      let drawY = 0;
+
+      if (videoAspectRatio > canvasAspectRatio) {
+        drawWidth = canvasHeight * videoAspectRatio;
+        drawX = (canvasWidth - drawWidth) / 2;
+      } else {
+        drawHeight = canvasWidth / videoAspectRatio;
+        drawY = (canvasHeight - drawHeight) / 2;
+      }
+
+      context.drawImage(video, drawX, drawY, drawWidth, drawHeight);
       const imageUrl = canvas.toDataURL("image/png");
       addPhoto(imageUrl);
       setLocalPhotos((prev) => [...prev, imageUrl]);
@@ -140,7 +163,7 @@ const Camera = ({ setPhotos }) => {
             <h2>Permission Denied</h2>
             <hr />
             <p>
-            You must give camera access for this component to work properly.
+              You must give camera access for this component to work properly.
             </p>
           </div>
         ) : (

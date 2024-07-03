@@ -733,6 +733,7 @@
     border: 4px outset rgb(145, 214, 221);
     background-color: white;
     cursor: crosshair;
+    touch-action: none;
   }
   
   .paint-instructions {
