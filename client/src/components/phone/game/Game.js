@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect, useCallback } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import "./css/Game.css";
 import { Sprite, Bomb, Fighter } from "./GameClasses";
 import { rectangularCollision } from "./utils/RectangularCollision";
@@ -129,6 +129,7 @@ const Game = () => {
         kickSrc: fighterKick,
         stunnedSrc: fighterStunned,
         controlFreeze: null,
+        framesHold: 5 // Adjust frame hold for faster animations
       });
 
       const enemy = new Fighter({
@@ -149,6 +150,7 @@ const Game = () => {
         flashEffect: flashEffect,
         takeHitSrc: enemyTakeHit,
         target: player,
+        framesHold: 5 // Adjust frame hold for faster animations
       });
 
       playerRef.current = player;
