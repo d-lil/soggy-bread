@@ -16,21 +16,24 @@
   animation: noise .3s infinite alternate;
 }
 
-@keyframes noise{
-  100% {background-position: 50% 0, 60% 50%}
+@keyframes noise {
+  100% {
+    background-position: 50% 0, 60% 50%;
+  }
 }
 
 @media (max-width: 768px) {
   .email-page {
-    background-size: cover; /* Ensure the background covers smaller screens */
+    background-size: 1500px 1500px;
   }
 }
 
 @media (max-width: 480px) {
   .email-page {
-    background-size: cover; /* Ensure the background covers smaller screens */
+    background-size: 1000px 1000px;
   }
 }
+
 
 .email-page::before {
   content: '';
