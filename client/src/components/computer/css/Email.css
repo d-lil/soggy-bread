@@ -16,24 +16,6 @@
   animation: noise .3s infinite alternate;
 }
 
-@keyframes noise {
-  100% {
-    background-position: 50% 0, 60% 50%;
-  }
-}
-
-@media (max-width: 768px) {
-  .email-page {
-    background-size: 1500px 1500px;
-  }
-}
-
-@media (max-width: 480px) {
-  .email-page {
-    background-size: 1000px 1000px;
-  }
-}
-
 
 .email-page::before {
   content: '';
@@ -45,6 +27,46 @@
   background-color: rgba(137, 136, 136, 0.114);
   z-index: 1;
 }
+
+@keyframes noise {
+  100% {
+    background-position: 50% 0, 60% 50%;
+  }
+}
+
+@media (max-width: 768px) {
+  .email-page {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 0;
+    padding-top: 20px;
+    text-align: center;
+    flex-direction: column;
+    flex-grow: 1;
+    width: 100%;
+    background: url("../assets/tv-static.gif");
+    background-repeat: repeat;
+    
+    animation: none;
+    z-index: 0;
+  }
+
+  .email-page::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(235, 235, 235, 0.471);
+    filter: brightness(.2) contrast(1.5)  invert(1);
+    z-index: 2;
+  }
+}
+
+
 
 .email-upper {
   background-color: white;
