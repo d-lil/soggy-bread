@@ -4,10 +4,9 @@
     position: relative;
     display: flex;
     flex-direction: column;
-    padding-left: 80px;
-    padding-right: 80px;
+
     min-height: 100vh;
-    min-width: 100vw;
+    width: 100vw;
     cursor: none;
     background-color: rgb(47, 46, 51);
 }

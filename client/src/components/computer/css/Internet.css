@@ -10,7 +10,7 @@
     flex-grow: 1;
     height: calc(78vh - 4px);
     box-sizing: border-box;
-    overflow: hidden;
+    overflow: auto;
 }
 
 .internet-window {
@@ -756,3 +756,15 @@
     height: auto;
     box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
+
+@media screen and (max-height: 450px) {
+  .internet-window-border {
+    height: 450px;
+  }
+
+  .showNo {
+    top: 25%;
+    left: 25%;
+}
+}
+  
